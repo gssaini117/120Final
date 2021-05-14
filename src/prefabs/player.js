@@ -80,14 +80,14 @@ class Player extends Phaser.GameObjects.Sprite {
         let Temp = this.x + this.Direction.X;
         //console.log(this.X);
         //console.log(this.Direction.X);
-        if(Temp < game.config.width &&
-        Temp > 0) {
+        if(Temp < game.config.width - this.width/2 &&
+        Temp > this.width/2) {
             this.x = Temp;
         }
         // Moving Y
         Temp = this.y + this.Direction.Y;
-        if(Temp < game.config.height &&
-        Temp > 0) {
+        if(Temp < game.config.height - this.height/2&&
+        Temp > this.height/2) {
             this.y = Temp;
         }
         //Adjusting Animation;
