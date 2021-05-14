@@ -2,7 +2,10 @@ let config = {
     type: Phaser.AUTO,
     width: 1024 , //Same as background dimensions.
     height: 576, //Same as background dimensions.
-    scene: [Menu, Play, HowTo, Credits, GameOver],
+    scene: [
+        Menu_Main, Menu_GameOver, Menu_Main,
+        Room_Main, Room_North, Room_South, Room_East, Room_West
+    ],
     scale: {
       parent: 'mygame',
       mode: Phaser.Scale.FIT,
