@@ -12,6 +12,6 @@ class Menu_Main extends Phaser.Scene {
     }
 
     update() {
-        
+        this.scene.start('Room_Main');
     }
 }
