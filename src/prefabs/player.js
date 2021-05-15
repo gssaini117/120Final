@@ -12,7 +12,7 @@ class Player extends Phaser.GameObjects.Sprite {
         //Class fields
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
         this.IsMoving = false; //Used to update animation
-        this.Anim_Curr = null; //Current Animation
+        this.Anim_Curr = this.Anim_Down; //Current Animation
         this.Direction = { //Movement Direction
             "X": 0,
             "Y": 0
@@ -92,12 +92,48 @@ class Player extends Phaser.GameObjects.Sprite {
         Temp > this.height/2) {
             this.y = Temp;
         }
-        //Adjusting Animation;
-        //Implement later
-        if(!this.Flag) {
-            this.Flag = true;
-            this.play(this.Anim_Left);
-            //this.stop(this.Anim_Left);
+        //Adjusting Animation (X direction has more priority over Y direction)
+        if (this.Direction.X != 0) {
+            if(this.Direction.X > 0 &&
+            this.Anim_Curr != this.Anim_Right) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Right;
+                this.play(this.Anim_Right);
+            } else if(this.Direction.X < 0 &&
+            this.Anim_Curr != this.Anim_Left) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Left;
+                this.play(this.Anim_Left);
+            }
+        } else if(this.Direction.Y != 0) {
+            if(this.Direction.Y > 0 &&
+            this.Anim_Curr != this.Anim_Down) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Down;
+                this.play(this.Anim_Down);
+            } else if(this.Direction.Y < 0 &&
+            this.Anim_Curr != this.Anim_Up) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Up;
+                this.play(this.Anim_Up);
+            }
+        } else {
+            this.stop();
+            switch(this.Anim_Curr) {
+                case this.Anim_Up: 
+                    this.setFrame(0);
+                    break;
+                case this.Anim_Down: 
+                    this.setFrame(4);
+                    break;
+                case this.Anim_Left:
+                    this.setFrame(8); 
+                    break;
+                case this.Anim_Right: 
+                    this.setFrame(12);
+                    break;
+            }
+            this.Anim_Curr = null;
         }
     }
 

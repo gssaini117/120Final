@@ -16,7 +16,7 @@ class Room_Main extends Phaser.Scene {
         //=========================================================
         // Animation Setup
         //=========================================================
-        let Anims = {
+        let Anims = { // Convinient for referencing/changing player anim names
             "Up":       "Player_Up",
             "Down":     "Player_Down",
             "Left":     "Player_Left",
