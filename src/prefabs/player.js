@@ -1,5 +1,5 @@
 class Player extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame, Animations) {
+    constructor(scene, x, y, texture, frame, Animations, Boundries) {
         super(scene, x, y, texture, frame);
 
         //Procedural fields
@@ -8,6 +8,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.Anim_Down = Animations.Down;
         this.Anim_Left = Animations.Left;
         this.Anim_Right = Animations.Right;
+        this.Bounds = Boundries;
 
         //Class fields
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
@@ -82,14 +83,14 @@ class Player extends Phaser.GameObjects.Sprite {
         let Temp = this.x + this.Direction.X;
         //console.log(this.X);
         //console.log(this.Direction.X);
-        if(Temp < game.config.width - this.width/3 &&
-        Temp > this.width/3) {
+        if(Temp < game.config.width - this.width/3 - this.Bounds.Right &&
+        Temp > this.width/3 + this.Bounds.Left) {
             this.x = Temp;
         }
         // Moving Y
         Temp = this.y + this.Direction.Y;
-        if(Temp < game.config.height - this.height/2&&
-        Temp > this.height/2) {
+        if(Temp < game.config.height - this.height/2 - this.Bounds.Down&&
+        Temp > this.height/2 + this.Bounds.Up) {
             this.y = Temp;
         }
         //Adjusting Animation (X direction has more priority over Y direction)
@@ -136,7 +137,4 @@ class Player extends Phaser.GameObjects.Sprite {
             this.Anim_Curr = null;
         }
     }
-
-
-
 }
