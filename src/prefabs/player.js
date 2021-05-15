@@ -3,13 +3,14 @@ class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
 
         //Procedural fields
+        this.Scene = scene;
         this.Anim_Up = Animations.Up;
         this.Anim_Down = Animations.Down;
         this.Anim_Left = Animations.Left;
         this.Anim_Right = Animations.Right;
 
         //Class fields
-        this.MOVEMENT_SPEED = 2; //Pixels per update
+        this.MOVEMENT_SPEED = 1.5; //Pixels per update
         this.IsMoving = false; //Used to update animation
         this.Anim_Curr = null; //Current Animation
         this.Direction = { //Movement Direction
@@ -22,6 +23,7 @@ class Player extends Phaser.GameObjects.Sprite {
             "S": false,
             "D": false
         }
+        this.Flag = false;
 
         //Adding object to scene.
         scene.add.existing(this);
@@ -92,6 +94,11 @@ class Player extends Phaser.GameObjects.Sprite {
         }
         //Adjusting Animation;
         //Implement later
+        if(!this.Flag) {
+            this.Flag = true;
+            this.play(this.Anim_Left);
+            //this.stop(this.Anim_Left);
+        }
     }
 
 
