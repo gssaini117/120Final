@@ -9,7 +9,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.Anim_Right = Animations.Right;
 
         //Class fields
-        this.MOVEMENT_SPEED = 3; //Pixels per update
+        this.MOVEMENT_SPEED = 2; //Pixels per update
         this.IsMoving = false; //Used to update animation
         this.Anim_Curr = null; //Current Animation
         this.Direction = { //Movement Direction
@@ -80,8 +80,8 @@ class Player extends Phaser.GameObjects.Sprite {
         let Temp = this.x + this.Direction.X;
         //console.log(this.X);
         //console.log(this.Direction.X);
-        if(Temp < game.config.width - this.width/2 &&
-        Temp > this.width/2) {
+        if(Temp < game.config.width - this.width/3 &&
+        Temp > this.width/3) {
             this.x = Temp;
         }
         // Moving Y

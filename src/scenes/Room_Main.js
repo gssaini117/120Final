@@ -4,7 +4,9 @@ class Room_Main extends Phaser.Scene {
     }
 
     preload() {
-
+        this.load.spritesheet('Player', './assets/Player.png',
+            {frameWidth: 70, frameHeight: 75, startFrame: 0, endFrame: 15}
+        );
     }
 
     create() {
@@ -18,7 +20,7 @@ class Room_Main extends Phaser.Scene {
             this, 
             game.config.width /2,
             game.config.height/2, 
-            'Player', 0,
+            'Player', 4,
             Anims
         ).setOrigin(0.5, 0.5);
 
