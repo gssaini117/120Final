@@ -24,7 +24,6 @@ class Player extends Phaser.GameObjects.Sprite {
             "S": false,
             "D": false
         }
-        this.Flag = false;
 
         //Adding object to scene.
         scene.add.existing(this);

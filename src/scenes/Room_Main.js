@@ -23,7 +23,7 @@ class Room_Main extends Phaser.Scene {
             "Up":       "Player_Up",
             "Down":     "Player_Down",
             "Left":     "Player_Left",
-            "Right":    "Player_Right",
+            "Right":    "Player_Right"
         };
         this.anims.create({ //Player Up
             key: Anims.Up, frameRate: 8, repeat: -1,
@@ -45,7 +45,6 @@ class Room_Main extends Phaser.Scene {
         // Technical
         //=========================================================
         // Defining keys.
-        console.log("Keys Defined");
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -83,19 +82,19 @@ class Room_Main extends Phaser.Scene {
     update() {
         this.Player.update();
         if (this.WestDoor.checkCollision(this.Player)) {
-            //this.scene.start(this.WestDoor.nextScene);
+            this.scene.start(this.WestDoor.nextScene);
             console.log("west");
         }
         if (this.EastDoor.checkCollision(this.Player)) {
-            //this.scene.start(this.EastDoor.nextScene);
+            this.scene.start(this.EastDoor.nextScene);
             console.log("east");
         }
         if (this.NorthDoor.checkCollision(this.Player)) {
-            //this.scene.start(this.NorthDoor.nextScene);
+            this.scene.start(this.NorthDoor.nextScene);
             console.log("north");
         }
         if (this.SouthDoor.checkCollision(this.Player)) {
-            //this.scene.start(this.SouthDoor.nextScene);
+            this.scene.start(this.SouthDoor.nextScene);
             console.log("south");
         }
     }
