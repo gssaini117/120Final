@@ -12,6 +12,7 @@ class Room_Main extends Phaser.Scene {
         );
         this.load.image('Background1', './assets/Background_Main1-1.png');
         this.load.image('Background2', './assets/Background_Main1-2.png');
+        this.load.image('Door', './assets/Temp_Door.png');
     }
 
     create() {
@@ -72,9 +73,30 @@ class Room_Main extends Phaser.Scene {
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'Background2'
         ).setOrigin(0, 0).setDepth(2);
+        //Doors
+        this.WestDoor = new Door(this, 36, game.config.height/2, 'Door', 0, "Room_West");
+        this.EastDoor = new Door(this, game.config.width-36, game.config.height/2, 'Door', 0, "Room_East");
+        this.NorthDoor = new Door(this, game.config.width/2, 70, 'Door', 0, "Room_North");
+        this.SouthDoor = new Door(this, game.config.width/2, game.config.height-60, 'Door', 0, "Room_South");
     }
 
     update() {
         this.Player.update();
+        if (this.WestDoor.checkCollision(this.Player)) {
+            this.scene.start(this.WestDoor.nextScene);
+            console.log("west");
+        }
+        if (this.EastDoor.checkCollision(this.Player)) {
+            this.scene.start(this.EastDoor.nextScene);
+            console.log("east");
+        }
+        if (this.NorthDoor.checkCollision(this.Player)) {
+            this.scene.start(this.NorthDoor.nextScene);
+            console.log("north");
+        }
+        if (this.SouthDoor.checkCollision(this.Player)) {
+            this.scene.start(this.SouthDoor.nextScene);
+            console.log("south");
+        }
     }
 }
