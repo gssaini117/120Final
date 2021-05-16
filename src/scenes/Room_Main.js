@@ -10,6 +10,9 @@ class Room_Main extends Phaser.Scene {
         this.load.spritesheet('Player', './assets/Player.png',
             {frameWidth: 70, frameHeight: 75, startFrame: 0, endFrame: 15}
         );
+        this.load.spritesheet('Pylon', './assets/Pylon_Placeholder.png',
+            {frameWidth: 128, frameHeight: 128, startFrame: 0, endFrame: 4}
+        );
         this.load.image('Background1', './assets/Background_Main1-1.png');
         this.load.image('Background2', './assets/Background_Main1-2.png');
         this.load.image('Door', './assets/Temp_Door.png');
@@ -64,19 +67,22 @@ class Room_Main extends Phaser.Scene {
             this, game.config.width /2, game.config.height/2, 'Player', 4,
             Anims,
             boundries
-        ).setOrigin(0.5, 0.5).setDepth(1);
+        ).setOrigin(0.5, 0.5).setDepth(2);
         //Background
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'Background1'
         ).setOrigin(0, 0).setDepth(0);
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'Background2'
-        ).setOrigin(0, 0).setDepth(2);
+        ).setOrigin(0, 0).setDepth(4);
         //Doors
         this.WestDoor = new Door(this, 36, game.config.height/2, 'Door', 0, "Room_West");
         this.EastDoor = new Door(this, game.config.width-36, game.config.height/2, 'Door', 0, "Room_East");
         this.NorthDoor = new Door(this, game.config.width/2, 70, 'Door', 0, "Room_North");
         this.SouthDoor = new Door(this, game.config.width/2, game.config.height-60, 'Door', 0, "Room_South");
+        //Pylon
+        console.log('Shard Count: ' + Shard_Count);
+        this.Pylon = new Pylon(this, game.config.width/2, game.config.height/2, 'Pylon', Shard_Count).setOrigin(0.5, 1);
     }
 
     update() {
@@ -96,6 +102,11 @@ class Room_Main extends Phaser.Scene {
         if (this.SouthDoor.checkCollision(this.Player)) {
             this.scene.start(this.SouthDoor.nextScene);
             console.log("south");
+        }
+        if(this.Player.y > game.config.height/2) {
+            this.Pylon.setDepth(1);
+        } else {
+            this.Pylon.setDepth(3);
         }
     }
 }

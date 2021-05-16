@@ -12,6 +12,7 @@ class Room_South extends Phaser.Scene {
         );
         this.load.image('Background', './assets/Background_Placeholder.png');
         this.load.image('Door', './assets/Temp_Door.png');
+        this.load.image('Shard', './assets/Shard_Placeholder.png');
     }
 
     create() {
@@ -70,6 +71,9 @@ class Room_South extends Phaser.Scene {
         ).setOrigin(0, 0).setDepth(0);
         //Doors
         this.Door_Main = new Door(this, game.config.width/2, 36, 'Door', 0, "Room_Main");
+        if(!Obtained_Shard.South) {
+            this.Shard = new Shard(this, game.config.width/2, game.config.height - 36, 'Shard', 0)
+        }
     }
 
     update() {
@@ -78,5 +82,13 @@ class Room_South extends Phaser.Scene {
             this.scene.start(this.Door_Main.nextScene);
             console.log("Main")
         }
+        //Shard collision
+        if(!Obtained_Shard.South &&
+            this.Shard.checkCollision(this.Player)) 
+            {
+                Shard_Count++;
+                Obtained_Shard.South = true;
+                this.Shard.destroy();
+            }
     }
 }
