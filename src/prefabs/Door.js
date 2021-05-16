@@ -1,12 +1,10 @@
-class Pylon extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame) {
+class Door extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, texture, frame, nextscene) {
         super(scene, x, y, texture, frame)
 
         // Procedural Fields
-        // None at the moment.
-
-        // Class Fields
-        // None at the moment
+        this.Scene = scene;
+        this.nextScene = nextscene;
 
         //Adding object to scene.
         scene.add.existing(this);
