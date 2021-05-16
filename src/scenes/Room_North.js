@@ -49,7 +49,7 @@ class Room_North extends Phaser.Scene {
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         // Defining map boundries
-        let boundries = {
+        let boundries = { 
             "Up": 0,
             "Down": 0,
             "Left": 0,
