@@ -1,4 +1,149 @@
-class Temp extends Phaser.GameObjects.Sprite {
+PLAYER
+class Player extends Phaser.GameObjects.Sprite {
+    constructor(scene, x, y, texture, frame, Animations, Boundries) {
+        super(scene, x, y, texture, frame);
+
+        //Procedural fields
+        this.Scene = scene;
+        this.Anim_Up = Animations.Up;
+        this.Anim_Down = Animations.Down;
+        this.Anim_Left = Animations.Left;
+        this.Anim_Right = Animations.Right;
+        this.Bounds = Boundries;
+
+        //Class fields
+        this.MOVEMENT_SPEED = 1.5; //Pixels per update
+        this.IsMoving = false; //Used to update animation
+        this.Anim_Curr = this.Anim_Down; //Current Animation
+        this.Direction = { //Movement Direction
+            "X": 0,
+            "Y": 0
+        }
+        this.Pressed = { //Checks if pressed before release
+            "W": false,
+            "A": false,
+            "S": false,
+            "D": false
+        }
+
+        //Adding object to scene.
+        scene.add.existing(this);
+    }
+
+    update() {
+        //=========================================================
+        // Detecting input
+        //=========================================================
+        //KeyDown
+        if(Phaser.Input.Keyboard.JustDown(keyW) &&
+        !this.Pressed.W) {   
+            this.Pressed.W = true;
+            this.Direction.Y -= this.MOVEMENT_SPEED;
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyA) &&
+        !this.Pressed.A) {
+            this.Pressed.A = true;
+            this.Direction.X -= this.MOVEMENT_SPEED;
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyS) &&
+        !this.Pressed.S) {
+            this.Pressed.S = true;
+            this.Direction.Y += this.MOVEMENT_SPEED;
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyD) &&
+        !this.Pressed.D) {
+            this.Pressed.D = true;
+            this.Direction.X += this.MOVEMENT_SPEED;
+        }
+        //KeyUp
+        if(Phaser.Input.Keyboard.JustUp(keyW) &&
+        this.Pressed.W) {   
+            this.Pressed.W = false;
+            this.Direction.Y += this.MOVEMENT_SPEED;
+        }
+        if(Phaser.Input.Keyboard.JustUp(keyA) &&
+        this.Pressed.A) {
+            this.Pressed.A = false;
+            this.Direction.X += this.MOVEMENT_SPEED;
+        }
+        if(Phaser.Input.Keyboard.JustUp(keyS) &&
+        this.Pressed.S) {
+            this.Pressed.S = false;
+            this.Direction.Y -= this.MOVEMENT_SPEED;
+        }
+        if(Phaser.Input.Keyboard.JustUp(keyD) &&
+        this.Pressed.D) {
+            this.Pressed.D = false;
+            this.Direction.X -= this.MOVEMENT_SPEED;
+        }
+        //=========================================================
+        // Updating Position and Animation
+        //=========================================================
+        // Moving X
+        let Temp = this.x + this.Direction.X;
+        //console.log(this.X);
+        //console.log(this.Direction.X);
+        if(Temp < game.config.width - this.width/3 - this.Bounds.Right &&
+        Temp > this.width/3 + this.Bounds.Left) {
+            this.x = Temp;
+        }
+        // Moving Y
+        Temp = this.y + this.Direction.Y;
+        if(Temp < game.config.height - this.height/2 - this.Bounds.Down&&
+        Temp > this.height/2 + this.Bounds.Up) {
+            this.y = Temp;
+        }
+        //Adjusting Animation (X direction has more priority over Y direction)
+        if (this.Direction.X != 0) {
+            if(this.Direction.X > 0 &&
+            this.Anim_Curr != this.Anim_Right) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Right;
+                this.play(this.Anim_Right);
+            } else if(this.Direction.X < 0 &&
+            this.Anim_Curr != this.Anim_Left) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Left;
+                this.play(this.Anim_Left);
+            }
+        } else if(this.Direction.Y != 0) {
+            if(this.Direction.Y > 0 &&
+            this.Anim_Curr != this.Anim_Down) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Down;
+                this.play(this.Anim_Down);
+            } else if(this.Direction.Y < 0 &&
+            this.Anim_Curr != this.Anim_Up) {
+                this.stop();
+                this.Anim_Curr = this.Anim_Up;
+                this.play(this.Anim_Up);
+            }
+        } else {
+            this.stop();
+            switch(this.Anim_Curr) {
+                case this.Anim_Up: 
+                    this.setFrame(0);
+                    break;
+                case this.Anim_Down: 
+                    this.setFrame(4);
+                    break;
+                case this.Anim_Left:
+                    this.setFrame(8); 
+                    break;
+                case this.Anim_Right: 
+                    this.setFrame(12);
+                    break;
+            }
+            this.Anim_Curr = null;
+        }
+    }
+}
+
+
+
+
+DOOR
+class Door extends Phaser.GameObjects.Sprite {
     constructor(scene, x, y, texture, frame, nextscene) {
         super(scene, x, y, texture, frame)
 
@@ -10,87 +155,12 @@ class Temp extends Phaser.GameObjects.Sprite {
         scene.add.existing(this);
     }
 
-    preload() {
-        //=========================================================
-        // Loading Assets
-        //=========================================================
-        this.load.spritesheet('Player', './assets/Player.png',
-            {frameWidth: 70, frameHeight: 75, startFrame: 0, endFrame: 15}
-        );
-        this.load.image('Background1', './assets/Background_Main1-1.png');
-        this.load.image('Background2', './assets/Background_Main1-2.png');
-        this.load.image('Mover', './assets/Mover.png');
-    }
-    create() {
-        //=========================================================
-        // Animation Setup
-        //=========================================================
-        let Anims = { // Convinient for referencing/changing player anim names
-            "Up":       "Player_Up",
-            "Down":     "Player_Down",
-            "Left":     "Player_Left",
-            "Right":    "Player_Right",
-        };
-        this.anims.create({ //Player Up
-            key: Anims.Up, frameRate: 8, repeat: -1,
-            frames: this.anims.generateFrameNumbers('Player', { start: 0, end: 3, first: 0}),
-        });
-        this.anims.create({ //Player Down
-            key: Anims.Down, frameRate: 8, repeat: -1,
-            frames: this.anims.generateFrameNumbers('Player', { start: 4, end: 7, first: 0}),
-        });
-        this.anims.create({ //Player Left
-            key: Anims.Left, frameRate: 8, repeat: -1,
-            frames: this.anims.generateFrameNumbers('Player', { start: 8, end: 11, first: 0}),
-        });
-        this.anims.create({ //Player Right
-            key: Anims.Right, frameRate: 8, repeat: -1,
-            frames: this.anims.generateFrameNumbers('Player', { start: 12, end: 15, first: 0}),
-        });
-        //=========================================================
-        // Technical
-        //=========================================================
-        // Defining keys.
-        console.log("Keys Defined");
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        
-        // Defining map boundries
-        let boundries = {
-            "Up":       64,
-            "Down":     50,
-            "Left":     35,
-            "Right":    35
-        };
-
-        // Defining room transition hitboxes.
-        this.Movers = {
-            "Up":       new Mover(this, game.config.width/2, 0, "Mover", 0, ""),
-            "Down":     new Mover(this, game.config.width/2, 0, "Mover", 0, ""),
-            "Left":     new Mover(this, game.config.width/2, 0, "Mover", 0, ""),
-            "Right":    new Mover(this, game.config.width/2, 0, "Mover", 0, "")
-        };
-        //=========================================================
-        // Loading visuals
-        //=========================================================
-        //Player
-        this.Player = new Player(
-            this, game.config.width /2, game.config.height/2, 'Player', 4,
-            Anims,
-            boundries
-        ).setOrigin(0.5, 0.5).setDepth(1);
-        //Background
-        this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'Background1'
-        ).setOrigin(0, 0).setDepth(0);
-        this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'Background2'
-        ).setOrigin(0, 0).setDepth(2);
-    }
-
-    update() {
-        this.Player.update();
+    checkCollision(player) {
+        if(Math.abs(this.x - player.x) < (this.width/2 + player.width/2) &&
+        Math.abs(this.y - player.y) < (this.height/2 + player.height/2)) {
+            return true; 
+        } else {
+            return false;
+        }
     }
 }
