@@ -11,10 +11,12 @@ class Door extends Phaser.GameObjects.Sprite {
     }
 
     checkCollision(player) {
-        
-    }
-    
-    openDoor() {
-        this.scene.start(nextScene);
+        if(Math.abs(this.x - player.x) < (this.width/2 + player.width/2)) {
+            return true;
+        } else if(Math.abs(this.y - player.y) < (this.height/2 + player.height/2)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
