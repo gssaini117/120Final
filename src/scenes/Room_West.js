@@ -16,21 +16,23 @@ class Room_West extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        // Defining map boundries
-        let boundries = {
-            "Up": 0,
-            "Down": 0,
-            "Left": 0,
-            "Right": 0,
+        // Defining Room Hitboxes
+        let Dim = game.config;
+        this.Hitboxes = {
+            //Map Boundries
+            "Up":     new Boundry(this, Dim.width/2, 0, Dim.width, 0, "Top").setOrigin(0.5, 0),
+            "Down":   new Boundry(this, Dim.width/2, Dim.height, Dim.width, 0, "Bot").setOrigin(0.5, 1),
+            "Left":   new Boundry(this, 0, Dim.height/2, 0, Dim.height, "Left").setOrigin(0, 0.5),
+            "Right":  new Boundry(this, Dim.width, Dim.height/2, 0, Dim.height, "Right").setOrigin(1, 0.5),
         };
         //=========================================================
         // Loading visuals
         //=========================================================
         //Player
         this.Player = new Player(
-            this, game.config.width /2, game.config.height/2, 'Player', 4,
+            this, game.config.width*3/4, game.config.height/2, 'Player', 4,
             AnimationIDs.Player,
-            boundries
+            this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
         //Background
         this.background = this.add.tileSprite(

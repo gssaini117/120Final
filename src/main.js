@@ -19,6 +19,9 @@ let game = new Phaser.Game(config);
 // Declaring keyboard vars
 let keyW, keyA, keyS, keyD
 
+// Room Transition management
+let Prev_Room = "Room_Main";
+
 // Declaring shard management vars
 let Shard_Count = 0;
 let Obtained_Shard = {

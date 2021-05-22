@@ -1,5 +1,5 @@
 class Player extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame, Animations, Boundries) {
+    constructor(scene, x, y, texture, frame, Animations, Obstacles) {
         super(scene, x, y, texture, frame);
 
         //Procedural fields
@@ -8,11 +8,11 @@ class Player extends Phaser.GameObjects.Sprite {
         this.Anim_Down = Animations.Down;
         this.Anim_Left = Animations.Left;
         this.Anim_Right = Animations.Right;
-        this.Bounds = Boundries;
+        this.Bounds = Obstacles; //Areas that can't be accessed (Walls and item stuff)
+                                //Dictionary of transparent rectangle gameobjects.
 
         //Class fields
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
-        this.IsMoving = false; //Used to update animation
         this.Anim_Curr = this.Anim_Down; //Current Animation
         this.Direction = { //Movement Direction
             "X": 0,
@@ -80,16 +80,13 @@ class Player extends Phaser.GameObjects.Sprite {
         //=========================================================
         // Moving X
         let Temp = this.x + this.Direction.X;
-        //console.log(this.X);
-        //console.log(this.Direction.X);
-        if(Temp < game.config.width - this.width/3 - this.Bounds.Right &&
-        Temp > this.width/3 + this.Bounds.Left) {
+        if(!this.checkCollision(Temp, this.y)) {
             this.x = Temp;
         }
         // Moving Y
+        //console.log(this.checkCollision(this.x, Temp));
         Temp = this.y + this.Direction.Y;
-        if(Temp < game.config.height - this.height/2 - this.Bounds.Down&&
-        Temp > this.height/2 + this.Bounds.Up) {
+        if(!this.checkCollision(this.x, Temp)) {
             this.y = Temp;
         }
         //Adjusting Animation (X direction has more priority over Y direction)
@@ -136,4 +133,25 @@ class Player extends Phaser.GameObjects.Sprite {
             this.Anim_Curr = null;
         }
     }
+
+    //Function to help with hitbox detection (walls and such).
+    //Returns true if any are intersecting, and false otherwise.
+    checkCollision(newX, newY) {
+        let Data = {
+            'x': newX,
+            'y': newY,
+            'width': this.width,
+            'height': this.height
+        };
+        let ret = false;
+        Object.values(this.Bounds).forEach(function(Obstacle){
+            if(Obstacle != null && 
+            Obstacle.checkCollision(Data)) {
+                ret = true;
+                return;
+            }
+        });
+        return ret;
+    }
+
 }
