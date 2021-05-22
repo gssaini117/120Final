@@ -59,11 +59,28 @@ class Preload extends Phaser.Scene {
         //Completion Event
         this.load.once(Phaser.Loader.Events.COMPLETE, () => {
             console.log("Image Loading Complete!");
-            this.loadAnimations();
+            this.LoadAudio();
         })
     }
 
-    loadAnimations() {
+    LoadAudio() {
+        console.log('Loading Audio!');
+        
+        //Sfx
+        this.load.audio('Sfx_Select', './assets/menu_option_click.wav');
+        this.load.audio('Sfx_Walk', './assets/steps_sound.wav');
+
+        // Music
+        // None atm
+
+        this.load.start();
+        this.load.once(Phaser.Loader.Events.COMPLETE, () => {
+            console.log("Audio Loading Complete!");
+            this.LoadAnimations();
+        })
+    }
+
+    LoadAnimations() {
         console.log("Setting up animations!");
         this.anims.create({ //Player Up
             key: AnimationIDs.Player.Up, frameRate: 8, repeat: -1,
