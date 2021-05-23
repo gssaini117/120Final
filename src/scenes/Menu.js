@@ -4,11 +4,7 @@ class Menu_Main extends Phaser.Scene {
     }
 
     preload() {
-        // load background
-        this.preload.image('menuBackground', './assets/menu_main_noname.png');
 
-        // load audio
-        this.preload.audio('Sfx_Select', './assets/menu_option_click.wav');
     }
 
     create() {

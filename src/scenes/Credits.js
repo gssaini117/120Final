@@ -4,8 +4,7 @@ class Menu_Credits extends Phaser.Scene {
     }
 
     preload() {
-        // load background
-        this.load.image('creditsBackground', './assets/menu_credits.png');
+
     }
 
     create() {

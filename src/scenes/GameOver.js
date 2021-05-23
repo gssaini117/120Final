@@ -4,8 +4,7 @@ class Menu_GameOver extends Phaser.Scene {
     }
 
     preload() {
-        // load background
-        this.load.image('end', './assets/menu_ending.png');
+
     }
 
     create() {

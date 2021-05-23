@@ -4,8 +4,7 @@ class Menu_HowTo extends Phaser.Scene {
     }
 
     preload() {
-        // load background
-        this.load.image('howToBackground', './assets/Menu_howtoplay.png');
+
     }
 
     create() {

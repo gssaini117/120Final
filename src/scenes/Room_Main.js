@@ -4,6 +4,7 @@ class Room_Main extends Phaser.Scene {
     }
 
     preload() {
+        
     }
 
     create() {
