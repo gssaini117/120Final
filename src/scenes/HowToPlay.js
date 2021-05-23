@@ -1,19 +1,19 @@
-class Menu_GameOver extends Phaser.Scene {
+class Menu_HowTo extends Phaser.Scene {
     constructor() {
-        super("Menu_GameOver");
+        super("Menu_HowTo");
     }
 
     preload() {
         // load background
-        this.load.image('end', './assets/menu_ending.png');
+        this.load.image('howToBackground', './assets/Menu_howtoplay.png');
     }
 
     create() {
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'endBackground'
+            0, 0, 1024, 576, 'howToBackground'
         ).setOrigin(0, 0).setDepth(0);
 
-        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         //Sound config
         this.Select = this.sound.add('Sfx_Select');
@@ -23,7 +23,6 @@ class Menu_GameOver extends Phaser.Scene {
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyEsc)) {
             this.Select.play(this.Select_Config);
-            this.Gameover.stop();
             this.scene.start('Menu_Main');
         }
     }

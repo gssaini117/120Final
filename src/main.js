@@ -17,7 +17,8 @@ let config = {
 let game = new Phaser.Game(config);
 
 // Declaring keyboard vars
-let keyW, keyA, keyS, keyD
+let keyW, keyA, keyS, keyD;
+let keyH, keyC, keySPACE, keyESC;
 
 // Room Transition management
 let Prev_Room = "Room_Main";
