@@ -4,7 +4,7 @@ let config = {
     height: 576, //Same as background dimensions.
     scene: [
         Preload,
-        Menu_Main, Menu_GameOver, Menu_Credits,
+        Menu_Main, Menu_GameOver, Menu_Credits, Menu_HowTo,
         Room_Main, Room_North, Room_South, Room_East, Room_West
     ],
     scale: {

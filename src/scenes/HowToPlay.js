@@ -8,11 +8,12 @@ class Menu_HowTo extends Phaser.Scene {
     }
 
     create() {
+        console.log('hello');
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'howToBackground'
         ).setOrigin(0, 0).setDepth(0);
 
-        keyEsc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
+        keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         //Sound config
         this.Select = this.sound.add('Sfx_Select');
@@ -20,7 +21,7 @@ class Menu_HowTo extends Phaser.Scene {
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyEsc)) {
+        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.Select.play(this.Select_Config);
             this.scene.start('Menu_Main');
         }

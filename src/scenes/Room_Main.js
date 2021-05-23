@@ -4,7 +4,7 @@ class Room_Main extends Phaser.Scene {
     }
 
     preload() {
-        
+
     }
 
     create() {
@@ -16,6 +16,7 @@ class Room_Main extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Defining Room Hitboxes
         let Dim = game.config;
@@ -59,6 +60,9 @@ class Room_Main extends Phaser.Scene {
 
     update() {
         this.Player.update();
+        if(Phaser.Input.Keyboard.JustDown(keyR)) {
+            this.scene.start("Room_Main")
+        }
         if (this.WestDoor.checkCollision(this.Player)) {
             this.scene.start(this.WestDoor.nextScene);
             console.log("west");

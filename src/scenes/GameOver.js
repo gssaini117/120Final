@@ -20,9 +20,8 @@ class Menu_GameOver extends Phaser.Scene {
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keyEsc)) {
+        if (Phaser.Input.Keyboard.JustDown(keyESC)) {
             this.Select.play(this.Select_Config);
-            this.Gameover.stop();
             this.scene.start('Menu_Main');
         }
     }

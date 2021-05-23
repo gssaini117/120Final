@@ -23,9 +23,9 @@ class Menu_Main extends Phaser.Scene {
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keySpace)) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.Select.play(this.Select_Config);
-            this.scene.start('Preload');
+            this.scene.start('Room_Main');
         }
         if (Phaser.Input.Keyboard.JustDown(keyH)) {
             this.Select.play(this.Select_Config);
