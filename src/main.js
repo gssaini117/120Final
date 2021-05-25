@@ -22,6 +22,7 @@ let keyH, keyC, keySPACE, keyESC, keyR;
 
 // Room Transition management
 let Prev_Room = "Room_Main";
+let isMoving = false; //Prevents repeated movement call.
 
 // Declaring shard management vars
 let Shard_Count = 0;
@@ -53,4 +54,17 @@ function Debug_Hitbox(Scene, Hitboxes) {
       ).setDepth(100).setOrigin(0.5, 0.5);
       Scene.add.existing(Rect);
   };
+}
+
+// Transition for moving inbetween rooms.
+// Blackscreen is a phaser3 rectangle object.
+// Returns the transition Time (Int).
+let TRANSITION_TIME = 800; // Delay length in milliseconds.
+function FadeOut(Scene, Blackscreen) {
+  Scene.tweens.add({ //Alpha from 0 to 1
+    targets: Blackscreen,
+    alpha: 1,
+    duration: TRANSITION_TIME
+  });
+  return TRANSITION_TIME;
 }

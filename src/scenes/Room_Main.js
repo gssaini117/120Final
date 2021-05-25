@@ -4,7 +4,7 @@ class Room_Main extends Phaser.Scene {
     }
 
     preload() {
-
+        isMoving = false;
     }
 
     create() {
@@ -48,6 +48,13 @@ class Room_Main extends Phaser.Scene {
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'BG_Main1-2'
         ).setOrigin(0, 0).setDepth(4);
+
+        //Blackscreen
+        this.Blackscreen = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
+        ).setOrigin(0,0).setDepth(101).setAlpha(0);
+        this.add.existing(this.Blackscreen);
+
         //Doors
         this.WestDoor = new Door(this, 36, game.config.height/2, 'Door', 0, "Room_West");
         this.EastDoor = new Door(this, game.config.width-36, game.config.height/2, 'Door', 0, "Room_East");
@@ -63,21 +70,41 @@ class Room_Main extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.start("Room_Main")
         }
-        if (this.WestDoor.checkCollision(this.Player)) {
-            this.scene.start(this.WestDoor.nextScene);
-            console.log("west");
+        if (this.WestDoor.checkCollision(this.Player) &&
+        !isMoving) {
+            isMoving = true;
+            let WaitTime = FadeOut(this, this.Blackscreen);
+            setTimeout(() => {
+                this.scene.start(this.WestDoor.nextScene);
+                console.log("west"); 
+            }, WaitTime);
         }
-        if (this.EastDoor.checkCollision(this.Player)) {
-            this.scene.start(this.EastDoor.nextScene);
-            console.log("east");
+        if (this.EastDoor.checkCollision(this.Player) &&
+        !isMoving) {
+            isMoving = true;
+            let WaitTime = FadeOut(this, this.Blackscreen);
+            setTimeout(() => {
+                this.scene.start(this.EastDoor.nextScene);
+                console.log("east"); 
+            }, WaitTime);
         }
-        if (this.NorthDoor.checkCollision(this.Player)) {
-            this.scene.start(this.NorthDoor.nextScene);
-            console.log("north");
+        if (this.NorthDoor.checkCollision(this.Player) &&
+        !isMoving) {
+            isMoving = true;
+            let WaitTime = FadeOut(this, this.Blackscreen);
+            setTimeout(() => {
+                this.scene.start(this.NorthDoor.nextScene);
+                console.log("north"); 
+            }, WaitTime);
         }
-        if (this.SouthDoor.checkCollision(this.Player)) {
-            this.scene.start(this.SouthDoor.nextScene);
-            console.log("south");
+        if (this.SouthDoor.checkCollision(this.Player) &&
+        !isMoving) {
+            isMoving = true;
+            let WaitTime = FadeOut(this, this.Blackscreen);
+            setTimeout(() => {
+                this.scene.start(this.SouthDoor.nextScene);
+                console.log("south"); 
+            }, WaitTime);
         }
         if(this.Player.y > game.config.height/2) {
             this.Pylon.setDepth(1);

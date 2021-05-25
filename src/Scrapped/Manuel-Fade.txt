@@ -1,0 +1,25 @@
+// Transition for moving inbetween rooms.
+// Blackscreen is a phaser3 rectangle object.
+// Returns the transition Time (Double).
+let TRANSITION_TIME = 0.8; // Delay length in seconds.
+let TRANSITION_INTERVAL = 0.02; // The smaller the interval compared to time the smoother the transition.
+function FadeOut(Blackscreen) {
+  console.log("Begin Fadeout");
+  return FadeOut_Helper(Blackscreen, 0);
+}
+
+//Recursive helper for FadeOut
+function FadeOut_Helper(Blackscreen, Curr) {
+  if(Curr <= TRANSITION_TIME) {
+    let newCurr = Curr + TRANSITION_INTERVAL;
+    let Transparency = newCurr / TRANSITION_TIME;
+    Blackscreen.setAlpha(Transparency);
+    console.log(Blackscreen.alpha);
+    setTimeout(() => { 
+      FadeOut_Helper(Blackscreen, newCurr);
+    }, TRANSITION_INTERVAL * 1000);
+  } else {
+    console.log("Completed");
+    return TRANSITION_TIME;
+  }
+}
