@@ -1,6 +1,6 @@
-class Menu_GameOver extends Phaser.Scene {
+class Menu_HowTo extends Phaser.Scene {
     constructor() {
-        super("Menu_GameOver");
+        super("Menu_HowTo");
     }
 
     preload() {
@@ -8,8 +8,9 @@ class Menu_GameOver extends Phaser.Scene {
     }
 
     create() {
+        console.log('hello');
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'endBackground'
+            0, 0, 1024, 576, 'howToBackground'
         ).setOrigin(0, 0).setDepth(0);
 
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
