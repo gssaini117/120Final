@@ -22,14 +22,14 @@ class Room_Main extends Phaser.Scene {
         let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
-            "Up":     new Boundry(this, Dim.width/2, 0, Dim.width, 64, "Top").setOrigin(0.5, 0),
-            "Down":   new Boundry(this, Dim.width/2, Dim.height, Dim.width, 50, "Bot").setOrigin(0.5, 1),
-            "Left":   new Boundry(this, 0, Dim.height/2, 35, Dim.height, "Left").setOrigin(0, 0.5),
-            "Right":  new Boundry(this, Dim.width, Dim.height/2, 35, Dim.height, "Right").setOrigin(1, 0.5),
+            "Up":     new Boundry(Dim.width/2, 0, Dim.width, 64, "Top"),
+            "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 50, "Bot"),
+            "Left":   new Boundry(0, Dim.height/2, 35, Dim.height, "Left"),
+            "Right":  new Boundry(Dim.width, Dim.height/2, 35, Dim.height, "Right")
         };
         
         // Comment the next line to make hitboxes invisible.
-        //this.Debug_Hitbox();
+        Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Loading visuals
@@ -84,13 +84,5 @@ class Room_Main extends Phaser.Scene {
         } else {
             this.Pylon.setDepth(3);
         }
-    }
-
-    Debug_Hitbox() {
-        Object.values(this.Hitboxes).forEach(function(Obstacle){
-            if(Obstacle != null) {
-                Obstacle.setDepth(100);
-            }
-        });
     }
 }

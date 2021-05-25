@@ -42,3 +42,15 @@ let AnimationIDs = {
     "Right":    "Player_Right"
   },
 };
+
+// Function for hitbox visual debug.
+// Spawns a rectangle in the provided scene for each hitbox(boundry) object.
+function Debug_Hitbox(Scene, Hitboxes) {
+  for(var key in Hitboxes){
+      let Obstacle = Hitboxes[key].getStats();
+      let Rect = new Phaser.GameObjects.Rectangle(
+          Scene, Obstacle.x, Obstacle.y, Obstacle.width, Obstacle.height, 0xff0000, 1, 
+      ).setDepth(100).setOrigin(0.5, 0.5);
+      Scene.add.existing(Rect);
+  };
+}

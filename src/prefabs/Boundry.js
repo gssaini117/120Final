@@ -1,61 +1,72 @@
-class Boundry extends Phaser.GameObjects.Rectangle {
+class Boundry{
     //Color defaults to red
-    constructor(scene, x, y, width, height, origin, name = "Default") {
-        super(scene, x, y, width, height, 0xff0000, 1);
+    constructor(x, y, width, height, origin, name = "Default") {
 
         // Procedural Fields
+        this.Height = height;
+        this.Width = width;
         this.Origin = origin;
         this.Name = name;
 
         // Class Fields
         this.isActive = true; // Does not collide if false;
-        switch(this.origin) { // Sets the x&y pos to the object's center;
+        switch(this.Origin) { // Sets the x&y pos to the object's center;
             case "Top":
-                this.posX = this.x;
-                this.posY = this.y + this.height/2;
+                this.PosX = x;
+                this.PosY = y + height/2;
                 break;
             case "Bot":
-                this.posX = this.x;
-                this.posY = this.y - this.height/2;
+                this.PosX = x;
+                this.PosY = y - height/2;
                 break;
             case "Left":
-                this.posX = this.x + this.width/2;
-                this.posY = this.y;
+                this.PosX = x + width/2;
+                this.PosY = y;
                 break;
             case "Right":
-                this.posX = this.x - this.width/2;
-                this.posY = this.y;
+                this.PosX = x - width/2;
+                this.PosY = y;
                 break;
             case "TopR":
-                this.posX = this.x - this.width/2;
-                this.posY = this.y + this.height/2;
+                this.PosX = x - width/2;
+                this.PosY = y + height/2;
                 break;
             case "TopL": 
-            this.posX = this.x + this.width/2;
-                this.posY = this.y + this.height/2;
+                this.PosX = x + width/2;
+                this.PosY = y + height/2;
                 break;
             case "BotR":
-                this.posX = this.x - this.width/2;
-                this.posY = this.y - this.height/2;
+                this.PosX = x - width/2;
+                this.PosY = y - height/2;
                 break;
             case "BotL":
-                this.posX = this.x + this.width/2;
-                this.posY = this.y - this.height/2;
+                this.PosX = x + width/2;
+                this.PosY = y - height/2;
                 break;
         }
-
-        //Adding object to scene.
-        scene.add.existing(this);
     }
 
     checkCollision(Player) {
         if(!this.isActive) { return false; };
-        if(Math.abs(this.posX - Player.x) < (this.width/2 + Player.width/4) &&
-        Math.abs(this.posY - Player.y) < (this.height/2 + Player.height/2)) {
+        if(Math.abs(this.PosX - Player.x) < (this.Width/2 + Player.width/4) &&
+        Math.abs(this.PosY - Player.y) < (this.Height/2 + Player.height/2)) {
+            console.log("Hit!");
             return true; 
         } else {
             return false;
         }
+    }
+
+    getStats() {
+        let Stats = {
+            "name":     this.Name,
+            "x":        this.PosX,
+            "y":        this.PosY,
+            "width":    this.Width,
+            "height":   this.Height,
+            "origin":   this.Origin
+        };
+        return Stats;
     }
 
     setActive(newState) {

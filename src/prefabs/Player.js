@@ -141,7 +141,7 @@ class Player extends Phaser.GameObjects.Sprite {
             'x': newX,
             'y': newY,
             'width': this.width,
-            'height': this.height
+            'height': this.height,
         };
         let ret = false;
         Object.values(this.Bounds).forEach(function(Obstacle){
