@@ -37,6 +37,7 @@ class Preload extends Phaser.Scene {
         this.load.image('end', './assets/menu_ending.png');
         this.load.image('creditsBackground', './assets/menu_credits.png');
         this.load.image('howToBackground', './assets/menu_howtoplay.png');
+        this.load.image('endBackground', './assets/menu_ending.png');
 
         //Begin Loading
         this.load.start();

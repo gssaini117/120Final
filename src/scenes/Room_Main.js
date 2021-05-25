@@ -25,7 +25,8 @@ class Room_Main extends Phaser.Scene {
             "Up":     new Boundry(Dim.width/2, 0, Dim.width, 64, "Top"),
             "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 50, "Bot"),
             "Left":   new Boundry(0, Dim.height/2, 35, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 35, Dim.height, "Right")
+            "Right":  new Boundry(Dim.width, Dim.height/2, 35, Dim.height, "Right"),
+            "Pylon":  new Boundry(Dim.width/2, Dim.height/2 - 10, 60, 20, "Center")
         };
         
         // Comment the next line to make hitboxes invisible.
@@ -36,7 +37,7 @@ class Room_Main extends Phaser.Scene {
         //=========================================================
         //Player
         this.Player = new Player(
-            this, game.config.width /2, game.config.height/2, 'Player', 4,
+            this, game.config.width /2, game.config.height*2/3, 'Player', 4,
             AnimationIDs.Player,
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
@@ -106,6 +107,17 @@ class Room_Main extends Phaser.Scene {
                 console.log("south"); 
             }, WaitTime);
         }
+        if(
+        Shard_Count == 4 &&
+        !isMoving) {
+            isMoving = true;
+            let WaitTime = FadeOut(this, this.Blackscreen);
+            setTimeout(() => {
+                this.scene.start("Menu_GameOver");
+                console.log("ending"); 
+            }, WaitTime);
+        }
+
         if(this.Player.y > game.config.height/2) {
             this.Pylon.setDepth(1);
         } else {

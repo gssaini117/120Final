@@ -11,6 +11,10 @@ class Boundry{
         // Class Fields
         this.isActive = true; // Does not collide if false;
         switch(this.Origin) { // Sets the x&y pos to the object's center;
+            case "Center":
+                this.PosX = x;
+                this.PosY = y;
+                break;
             case "Top":
                 this.PosX = x;
                 this.PosY = y + height/2;
