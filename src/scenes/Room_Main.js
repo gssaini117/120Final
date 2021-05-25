@@ -27,7 +27,7 @@ class Room_Main extends Phaser.Scene {
         };
         
         // Comment the next line to make hitboxes invisible.
-        this.Debug_Hitbox();
+        //this.Debug_Hitbox();
 
         //=========================================================
         // Loading visuals
