@@ -54,8 +54,8 @@ class Room_NorthWest extends Phaser.Scene {
             console.log("Main")
         }
         //Shard collision
-        if(!Obtained_Shard.North &&
-        this.Shard.checkCollision(this.Player)) 
+        if(!Obtained_Shard.NorthWest &&
+        this.Shard.checkCollision(this.Player))
         {
             this.Shard.destroy();
             Shard_Count++;

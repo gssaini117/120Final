@@ -54,7 +54,7 @@ class Room_NorthEast extends Phaser.Scene {
             console.log("Main")
         }
         //Shard collision
-        if(!Obtained_Shard.North &&
+        if(!Obtained_Shard.NorthEast &&
         this.Shard.checkCollision(this.Player)) 
         {
             this.Shard.destroy();

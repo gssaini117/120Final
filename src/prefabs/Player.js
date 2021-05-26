@@ -9,7 +9,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.Anim_Left = Animations.Left;
         this.Anim_Right = Animations.Right;
         this.Bounds = Obstacles; //Areas that can't be accessed (Walls and item stuff)
-                                //Dictionary of transparent rectangle gameobjects.
+                                 //Dictionary of transparent rectangle gameobjects.
 
         //Class fields
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
@@ -80,13 +80,13 @@ class Player extends Phaser.GameObjects.Sprite {
         //=========================================================
         // Moving X
         let Temp = this.x + this.Direction.X;
-        if(!this.checkCollision(Temp, this.y)) {
+        if(this.checkCanMove(Temp, this.y)) {
             this.x = Temp;
         }
         // Moving Y
         //console.log(this.checkCollision(this.x, Temp));
         Temp = this.y + this.Direction.Y;
-        if(!this.checkCollision(this.x, Temp)) {
+        if(this.checkCanMove(this.x, Temp)) {
             this.y = Temp;
         }
         //Adjusting Animation (X direction has more priority over Y direction)
@@ -136,18 +136,19 @@ class Player extends Phaser.GameObjects.Sprite {
 
     //Function to help with hitbox detection (walls and such).
     //Returns true if any are intersecting, and false otherwise.
-    checkCollision(newX, newY) {
+    checkCanMove(newX, newY) {
+        if(isMoving) {return false;};
         let Data = {
             'x': newX,
             'y': newY,
             'width': this.width,
             'height': this.height,
         };
-        let ret = false;
+        let ret = true;
         Object.values(this.Bounds).forEach(function(Obstacle){
             if(Obstacle != null && 
             Obstacle.checkCollision(Data)) {
-                ret = true;
+                ret = false;
                 return;
             }
         });

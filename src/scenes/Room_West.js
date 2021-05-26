@@ -43,6 +43,10 @@ class Room_West extends Phaser.Scene {
         if(!Obtained_Shard.West) {
             this.Shard = new Shard(this, 36, game.config.height/2, 'Shard', 0)
         }
+        //Darkness
+        this.Darkness = this.add.sprite(
+            this.Player.x, this.Player.y, "Darkness"
+        ).setOrigin(0.5, 0.5).setDepth(10).setAlpha(0.95);
     }
 
     update() {
@@ -53,11 +57,14 @@ class Room_West extends Phaser.Scene {
         }
         //Shard collision
         if(!Obtained_Shard.West &&
-            this.Shard.checkCollision(this.Player)) 
-            {
-                Shard_Count++;
-                Obtained_Shard.West = true;
-                this.Shard.destroy();
-            }
+        this.Shard.checkCollision(this.Player)) 
+        {
+            Shard_Count++;
+            Obtained_Shard.West = true;
+            this.Shard.destroy();
+        }
+        //Darkscreen
+        this.Darkness.x = this.Player.x;
+        this.Darkness.y = this.Player.y;
     }
 }

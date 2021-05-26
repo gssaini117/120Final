@@ -28,9 +28,9 @@ class Preload extends Phaser.Scene {
 
     LoadImages() {
         console.log("Loading Images!");
-        this.load.image('BG_Temp', './assets/Background_Placeholder.png');
-        this.load.image('BG_Main1-1', './assets/Background_Main1-1.png');
-        this.load.image('BG_Main1-2', './assets/Background_Main1-2.png');
+        this.load.image('BG_Temp', './assets/BG_Placeholder.png');
+        this.load.image('BG_Main1-1', './assets/BG_Main1-1.png');
+        this.load.image('BG_Main1-2', './assets/BG_Main1-2.png');
         this.load.image('Door', './assets/Temp_Door.png');
         this.load.image('Shard', './assets/Shard_Placeholder.png');
         this.load.image('menuBackground', './assets/menu_main_noname.png');
@@ -38,6 +38,7 @@ class Preload extends Phaser.Scene {
         this.load.image('creditsBackground', './assets/menu_credits.png');
         this.load.image('howToBackground', './assets/menu_howtoplay.png');
         this.load.image('endBackground', './assets/menu_ending.png');
+        this.load.image('Darkness', './assets/Darkness.png');
 
         //Begin Loading
         this.load.start();

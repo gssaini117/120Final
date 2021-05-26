@@ -66,7 +66,6 @@ class Room_Main extends Phaser.Scene {
         ).setOrigin(0,0).setDepth(101).setAlpha(0);
         this.add.existing(this.Blackscreen);
 
-        //Doors
         //Pylon
         console.log('Shard Count: ' + Shard_Count);
         this.Pylon = new Pylon(this, game.config.width/2, game.config.height/2, 'Pylon', Shard_Count).setOrigin(0.5, 1);
