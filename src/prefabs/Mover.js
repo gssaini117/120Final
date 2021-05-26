@@ -1,5 +1,5 @@
-class Mover extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, texture, frame, targetScene) {
+class Mover extends Phaser.GameObjects.Sprite{
+    constructor(scene, x, y, texture, frame, targetScene, origin = "Center") {
         super(scene, x, y, texture, frame);
 
         //Procedural fields
@@ -8,21 +8,42 @@ class Mover extends Phaser.GameObjects.Sprite {
         //Class fields
         //None
 
+        //Adjusting Position
+        adjustPos(this, origin);
+
         //Adding object to scene.
         scene.add.existing(this);
     }
 
-    //Returns true if colliding with object 2
-    //Assumes object2 is another sprite
-    checkCollision(object2) {
-        if(Math.abs(this.x - object2.x) < (this.width/2 + object2.width/2)) {
-            return true;
-        } else if(Math.abs(this.y - object2.y) < (this.height/2 + object2.height/2)) {
-            return true;
-        }
-        return false;
+    //=========================================================
+    // Class Functions
+    //=========================================================
+    //Should only be called by main adjustPos().
+    adjustPos(XOffset, YOffset) {
+        this.x += XOffset;
+        this.y += YOffset;
     }
+
+    //Returns true if colliding with the Player
+    //Assumes object2 is another sprite
+    checkCollision(Player) {
+        if(Math.abs(this.x - Player.x) < (this.width/2 + Player.width/4) &&
+        Math.abs(this.y - Player.y) < (this.height/2 + Player.height/2)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //=========================================================
+    // Getters and Setters
+    //=========================================================
+    //Helps the game indicate that the object is a mover.
+    getType() { return "Mover"; }
 
     //Returns the target scene *String*
     getTarget() { return this.Target; }
+
+    //Returns the position.
+    getSize() {return{"width": this.width, "height": this.height};}
 }

@@ -1,3 +1,6 @@
+//===================================================================================
+// Phaser3 Setup
+//===================================================================================
 let config = {
     type: Phaser.AUTO,
     width: 1024 , //Same as background dimensions.
@@ -5,7 +8,7 @@ let config = {
     scene: [
         Preload,
         Menu_Main, Menu_GameOver, Menu_Credits, Menu_HowTo,
-        Room_Main, Room_North, Room_South, Room_East, Room_West
+        Room_Main, Room_NorthEast, Room_NorthWest, Room_East, Room_West
     ],
     scale: {
       parent: 'mygame',
@@ -16,6 +19,9 @@ let config = {
 
 let game = new Phaser.Game(config);
 
+//===================================================================================
+// GLOBAL VARIABLES
+//===================================================================================
 // Declaring keyboard vars
 let keyW, keyA, keyS, keyD;
 let keyH, keyC, keySPACE, keyESC, keyR;
@@ -27,8 +33,8 @@ let isMoving = false; //Prevents repeated movement call.
 // Declaring shard management vars
 let Shard_Count = 0;
 let Obtained_Shard = {
-  "North": false,
-  "South": false,
+  "NorthEast": false,
+  "NorthWest": false,
   "East": false,
   "West": false,
 };
@@ -36,14 +42,20 @@ let Obtained_Shard = {
 // Declaring AnimationID vars
 // Convinient for referencing/changing player anim names
 let AnimationIDs = {
-  "Player": {
-    "Up":       "Player_Up",
-    "Down":     "Player_Down",
-    "Left":     "Player_Left",
-    "Right":    "Player_Right"
-  },
+    "Player": {
+        "Up":       "Player_Up",
+        "Down":     "Player_Down",
+        "Left":     "Player_Left",
+        "Right":    "Player_Right"
+    },
 };
 
+//===================================================================================
+// GLOBAL FUNCTIONS
+//===================================================================================
+//
+// Debug_Hitbox(Scene[Phaser3 Scene], Hitboxes[Dictionary<String, Boundry>])
+//
 // Function for hitbox visual debug.
 // Spawns a rectangle in the provided scene for each hitbox(boundry) object.
 function Debug_Hitbox(Scene, Hitboxes) {
@@ -55,10 +67,12 @@ function Debug_Hitbox(Scene, Hitboxes) {
       Scene.add.existing(Rect);
   };
 }
-
+//
+// FadeOut(Scene[Phaser3 Scene], Blackscreen[Phaser3 Rectangle])
+//
 // Transition for moving inbetween rooms.
 // Blackscreen is a phaser3 rectangle object.
-// Returns the transition Time (Int).
+// Returns the transition Time in milliseconds (Int).
 let TRANSITION_TIME = 800; // Delay length in milliseconds.
 function FadeOut(Scene, Blackscreen) {
   Scene.tweens.add({ //Alpha from 0 to 1
@@ -67,4 +81,38 @@ function FadeOut(Scene, Blackscreen) {
     duration: TRANSITION_TIME
   });
   return TRANSITION_TIME;
+}
+//
+// AdjustPos(Object, Origin[String])
+//
+// Adjusts the X and Y positions of an object so it references the center.
+// ASSUMPTION: Object has function adjustPos().
+function adjustPos(Object, Origin) {
+  let size = Object.getSize();
+  switch(Origin) { // Sets the x&y pos to the object's center;
+    case "Top":
+      Object.adjustPos(0, size.height/2);
+      break;
+    case "Bot":
+      Object.adjustPos(0, -size.height/2);
+      break;
+    case "Left":
+      Object.adjustPos(size.width/2, 0);
+      break;
+    case "Right":
+      Object.adjustPos(-size.width/2, 0);
+      break;
+    case "TopR":
+      Object.adjustPos(-size.width/2, size.height/2);
+      break;
+    case "TopL": 
+      Object.adjustPos(size.width/2, size.height/2);
+      break;
+    case "BotR":
+      Object.adjustPos(-size.width/2, -size.height/2);
+      break;
+    case "BotL":
+      Object.adjustPos(size.width/2, -size.height/2);
+      break;
+  }
 }

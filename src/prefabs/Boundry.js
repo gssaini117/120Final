@@ -1,78 +1,58 @@
 class Boundry{
     //Color defaults to red
-    constructor(x, y, width, height, origin, name = "Default") {
+    constructor(xPos, yPos, Width, Height, Origin, Name = "Default") {
+        
+        //Procedural Fields
+        this.height = Height;
+        this.width = Width;
+        this.name = Name;
+        this.x = xPos;
+        this.y = yPos;
 
-        // Procedural Fields
-        this.Height = height;
-        this.Width = width;
-        this.Origin = origin;
-        this.Name = name;
-
-        // Class Fields
+        //Class Fields
         this.isActive = true; // Does not collide if false;
-        switch(this.Origin) { // Sets the x&y pos to the object's center;
-            case "Center":
-                this.PosX = x;
-                this.PosY = y;
-                break;
-            case "Top":
-                this.PosX = x;
-                this.PosY = y + height/2;
-                break;
-            case "Bot":
-                this.PosX = x;
-                this.PosY = y - height/2;
-                break;
-            case "Left":
-                this.PosX = x + width/2;
-                this.PosY = y;
-                break;
-            case "Right":
-                this.PosX = x - width/2;
-                this.PosY = y;
-                break;
-            case "TopR":
-                this.PosX = x - width/2;
-                this.PosY = y + height/2;
-                break;
-            case "TopL": 
-                this.PosX = x + width/2;
-                this.PosY = y + height/2;
-                break;
-            case "BotR":
-                this.PosX = x - width/2;
-                this.PosY = y - height/2;
-                break;
-            case "BotL":
-                this.PosX = x + width/2;
-                this.PosY = y - height/2;
-                break;
-        }
+
+        //Adjusting Position
+        adjustPos(this, Origin);
     }
 
+    //=========================================================
+    // Class Functions
+    //=========================================================
+    //Should only be called by main adjustPos().
+    adjustPos(XOffset, YOffset) {
+        this.x += XOffset;
+        this.y += YOffset;
+    }
+
+    //Used to check for player collision.
     checkCollision(Player) {
         if(!this.isActive) { return false; };
-        if(Math.abs(this.PosX - Player.x) < (this.Width/2 + Player.width/4) &&
-        Math.abs(this.PosY - Player.y) < (this.Height/2 + Player.height/2)) {
-            console.log("Hit!");
+        if(Math.abs(this.x - Player.x) < (this.width/2 + Player.width/4) &&
+        Math.abs(this.y - Player.y) < (this.height/2 + Player.height/2)) {
             return true; 
         } else {
             return false;
         }
     }
-
+    //=========================================================
+    // Getters and Setters
+    //=========================================================
+    //Used for debug purposes.
     getStats() {
         let Stats = {
-            "name":     this.Name,
-            "x":        this.PosX,
-            "y":        this.PosY,
-            "width":    this.Width,
-            "height":   this.Height,
-            "origin":   this.Origin
+            "name":     this.name,
+            "x":        this.x,
+            "y":        this.y,
+            "width":    this.width,
+            "height":   this.height
         };
         return Stats;
     }
+    //Returns the position.
+    getSize() {return{"width": this.width, "height": this.height};}
 
+    //Toggles if the the boundry is ignored.
     setActive(newState) {
         this.isActive = newState;
     }

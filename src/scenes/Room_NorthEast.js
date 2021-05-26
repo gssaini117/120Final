@@ -1,6 +1,6 @@
-class Room_North extends Phaser.Scene {
+class Room_NorthEast extends Phaser.Scene {
     constructor() {
-        super("Room_North");
+        super("Room_NorthEast");
     }
 
     preload() {
@@ -59,7 +59,7 @@ class Room_North extends Phaser.Scene {
         {
             this.Shard.destroy();
             Shard_Count++;
-            Obtained_Shard.North = true;
+            Obtained_Shard.NorthEast = true;
         }
     }
 }

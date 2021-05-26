@@ -18,7 +18,7 @@ class Room_Main extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
-        // Defining Room Hitboxes
+        // Defining Room Hitboxes.
         let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
@@ -29,8 +29,18 @@ class Room_Main extends Phaser.Scene {
             "Pylon":  new Boundry(Dim.width/2, Dim.height/2 - 10, 60, 20, "Center")
         };
         
+        // Defining interactable movement objects.
+        this.Objects = {
+            //Movers
+            "NorthEast":    new Mover(this, 233, 60, "Door", 0, "Room_NorthEast").setDepth(10),
+            "NorthWest":    new Mover(this, 791, 60, "Door", 0, "Room_NorthWest").setDepth(10),
+            "East":         new Mover(this, 984, 288, "Door", 0, "Room_East").setDepth(10),
+            "West":         new Mover(this, 40, 288, "Door", 0, "Room_West").setDepth(10),
+            "South":        new Mover(this, 512, 516, "Door", 0, "Menu_GameOver").setDepth(10)
+        };
+
         // Comment the next line to make hitboxes invisible.
-        Debug_Hitbox(this, this.Hitboxes);
+        //Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Loading visuals
@@ -57,10 +67,6 @@ class Room_Main extends Phaser.Scene {
         this.add.existing(this.Blackscreen);
 
         //Doors
-        this.WestDoor = new Door(this, 36, game.config.height/2, 'Door', 0, "Room_West");
-        this.EastDoor = new Door(this, game.config.width-36, game.config.height/2, 'Door', 0, "Room_East");
-        this.NorthDoor = new Door(this, game.config.width/2, 70, 'Door', 0, "Room_North");
-        this.SouthDoor = new Door(this, game.config.width/2, game.config.height-60, 'Door', 0, "Room_South");
         //Pylon
         console.log('Shard Count: ' + Shard_Count);
         this.Pylon = new Pylon(this, game.config.width/2, game.config.height/2, 'Pylon', Shard_Count).setOrigin(0.5, 1);
@@ -71,52 +77,16 @@ class Room_Main extends Phaser.Scene {
         if(Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.start("Room_Main")
         }
-        if (this.WestDoor.checkCollision(this.Player) &&
-        !isMoving) {
-            isMoving = true;
-            let WaitTime = FadeOut(this, this.Blackscreen);
-            setTimeout(() => {
-                this.scene.start(this.WestDoor.nextScene);
-                console.log("west"); 
-            }, WaitTime);
-        }
-        if (this.EastDoor.checkCollision(this.Player) &&
-        !isMoving) {
-            isMoving = true;
-            let WaitTime = FadeOut(this, this.Blackscreen);
-            setTimeout(() => {
-                this.scene.start(this.EastDoor.nextScene);
-                console.log("east"); 
-            }, WaitTime);
-        }
-        if (this.NorthDoor.checkCollision(this.Player) &&
-        !isMoving) {
-            isMoving = true;
-            let WaitTime = FadeOut(this, this.Blackscreen);
-            setTimeout(() => {
-                this.scene.start(this.NorthDoor.nextScene);
-                console.log("north"); 
-            }, WaitTime);
-        }
-        if (this.SouthDoor.checkCollision(this.Player) &&
-        !isMoving) {
-            isMoving = true;
-            let WaitTime = FadeOut(this, this.Blackscreen);
-            setTimeout(() => {
-                this.scene.start(this.SouthDoor.nextScene);
-                console.log("south"); 
-            }, WaitTime);
-        }
-        if(
-        Shard_Count == 4 &&
-        !isMoving) {
-            isMoving = true;
-            let WaitTime = FadeOut(this, this.Blackscreen);
-            setTimeout(() => {
-                this.scene.start("Menu_GameOver");
-                console.log("ending"); 
-            }, WaitTime);
-        }
+
+        //Checking object collision
+        let Temp = this;
+        Object.values(this.Objects).forEach(function(Object){
+            if(Object != null && 
+                Object.checkCollision(Temp.Player)) {
+                Temp.scene.start(Object.getTarget());
+                return;
+            }
+        });
 
         if(this.Player.y > game.config.height/2) {
             this.Pylon.setDepth(1);
