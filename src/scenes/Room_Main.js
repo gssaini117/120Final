@@ -55,11 +55,23 @@ class Room_Main extends Phaser.Scene {
         // Loading visuals
         //=========================================================
         //Player
-        this.Player = new Player(
-            this, game.config.width /2, game.config.height*2/3, 'Player', 4,
-            AnimationIDs.Player,
-            this.Hitboxes
-        ).setDepth(2);
+        switch(Prev_Room) {
+            case "Room_East":
+                this.SpawnPlayer(864, 288, 8);
+                break;
+            case "Room_West":
+                this.SpawnPlayer(160, 288, 12);
+                break;
+            case "Room_NorthEast":
+                this.SpawnPlayer(791, 180, 4);
+                break;
+            case "Room_NorthWest":
+                this.SpawnPlayer(233, 180, 4);
+                break;
+            case "Room_Main":
+                this.SpawnPlayer(game.config.width /2, game.config.height*2/3);
+        }
+        Prev_Room = "Room_Main"
         
         //Background
         this.background = this.add.tileSprite(
@@ -111,5 +123,13 @@ class Room_Main extends Phaser.Scene {
         } else {
             this.Pylon.setDepth(3);
         }
+    }
+
+    SpawnPlayer(PosX, PosY, Frame) {
+        this.Player = new Player(
+            this, PosX, PosY, 'Player', Frame,
+            AnimationIDs.Player,
+            this.Hitboxes
+        ).setDepth(2);
     }
 }

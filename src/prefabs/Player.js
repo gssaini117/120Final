@@ -13,7 +13,16 @@ class Player extends Phaser.GameObjects.Sprite {
 
         //Class fields
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
-        this.Anim_Curr = this.Anim_Down; //Current Animation
+        switch(frame) {
+            case 4:
+                this.Anim_Curr = this.Anim_Down;
+                break;
+            case 8:
+                this.Anim_Curr = this.Anim_Left;
+                break;
+            case 12:
+                this.Anim_Curr = this.Anim_Right;
+        }
         this.Direction = { //Movement Direction
             "X": 0,
             "Y": 0
