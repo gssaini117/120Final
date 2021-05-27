@@ -41,7 +41,10 @@ class Preload extends Phaser.Scene {
         this.load.image('Menu_HowTo', './assets/Art/Menu_HowTo.png');
         //Assets
         this.load.image('Door', './assets/Art/Temp_Door.png');
-        this.load.image('Shard', './assets/Art/Shard_Placeholder.png');
+        this.load.image('Shard1', './assets/Art/Shard1.png');
+        this.load.image('Shard2', './assets/Art/Shard2.png');
+        this.load.image('Shard3', './assets/Art/Shard3.png');
+        this.load.image('Shard4', './assets/Art/Shard4.png');
         this.load.image('Darkness', './assets/Art/Darkness.png');
 
         //Begin Loading

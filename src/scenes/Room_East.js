@@ -42,7 +42,7 @@ class Room_East extends Phaser.Scene {
         //Doors
         this.Door_Main = new Door(this, 36, game.config.height/2, 'Door', 0, "Room_Main");
         if(!Obtained_Shard.East) {
-            this.Shard = new Shard(this, game.config.width - 36, game.config.height/2, 'Shard', 0)
+            this.Shard = new Shard(this, game.config.width - 36, game.config.height/2, 'Shard1', 0)
         }
     }
 

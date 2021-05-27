@@ -41,7 +41,7 @@ class Room_West extends Phaser.Scene {
         //Doors
         this.Door_Main = new Door(this, game.config.width - 36, game.config.height/2, 'Door', 0, "Room_Main");
         if(!Obtained_Shard.West) {
-            this.Shard = new Shard(this, 36, game.config.height/2, 'Shard', 0)
+            this.Shard = new Shard(this, 36, game.config.height/2, 'Shard3', 0)
         }
         //Darkness
         this.Darkness = this.add.sprite(

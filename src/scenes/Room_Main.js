@@ -66,12 +66,6 @@ class Room_Main extends Phaser.Scene {
             0, 0, 1024, 576, 'BG_Main2'
         ).setOrigin(0, 0).setDepth(4);
 
-        //Blackscreen
-        this.Blackscreen = new Phaser.GameObjects.Rectangle(
-            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
-        ).setOrigin(0,0).setDepth(101).setAlpha(0);
-        this.add.existing(this.Blackscreen);
-
         //Pylon
         console.log('Shard Count: ' + Shard_Count);
         this.Pylon = new Pylon(this, game.config.width/2, game.config.height/2.5, 'Pylon', Shard_Count).setOrigin(0.5, 1);

@@ -5,6 +5,15 @@ class Shard extends Phaser.GameObjects.Sprite {
         // Procedural Fields
         // None at the moment.
 
+        // Class Fields
+        // None
+
+        //Postload adjustments
+        this.setOrigin(0.5, 0.5);
+        this.height = this.height/2;
+        this.width = this.width/2;
+        this.setScale(0.5);
+
         //Adding object to scene.
         scene.add.existing(this);
     }
