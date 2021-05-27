@@ -24,6 +24,8 @@ class Player extends Phaser.GameObjects.Sprite {
             "S": false,
             "D": false
         }
+        
+        this.setOrigin(0.5, 0.5); //Adjusting origin
 
         //Adding object to scene.
         scene.add.existing(this);
@@ -140,9 +142,9 @@ class Player extends Phaser.GameObjects.Sprite {
         if(isMoving) {return false;};
         let Data = {
             'x': newX,
-            'y': newY,
+            'y': newY + this.height/2,
             'width': this.width,
-            'height': this.height,
+            'height': this.height/2,
         };
         let ret = true;
         Object.values(this.Bounds).forEach(function(Obstacle){

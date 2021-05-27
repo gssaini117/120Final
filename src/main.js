@@ -62,7 +62,7 @@ function Debug_Hitbox(Scene, Hitboxes) {
   for(var key in Hitboxes){
       let Obstacle = Hitboxes[key].getStats();
       let Rect = new Phaser.GameObjects.Rectangle(
-          Scene, Obstacle.x, Obstacle.y, Obstacle.width, Obstacle.height, 0xff0000, 1, 
+          Scene, Obstacle.x, Obstacle.y, Obstacle.width, Obstacle.height, 0xff0000, 0.8, 
       ).setDepth(100).setOrigin(0.5, 0.5);
       Scene.add.existing(Rect);
   };

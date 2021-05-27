@@ -37,7 +37,7 @@ class Room_East extends Phaser.Scene {
         ).setOrigin(0.5, 0.5).setDepth(2);
         //Background
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_Temp'
+            0, 0, 1024, 576, 'BG_East1'
         ).setOrigin(0, 0).setDepth(0);
         //Doors
         this.Door_Main = new Door(this, 36, game.config.height/2, 'Door', 0, "Room_Main");

@@ -36,12 +36,12 @@ class Room_NorthWest extends Phaser.Scene {
         ).setOrigin(0.5, 0.5).setDepth(2);
         //Background
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_Temp'
+            0, 0, 1024, 576, 'BG_NorthWest1'
         ).setOrigin(0, 0).setDepth(0);
         //Doors
         this.Door_Main = new Door(this, game.config.width/2, game.config.height - 36, 'Door', 0, "Room_Main");
         //Shard
-        if(!Obtained_Shard.North) {
+        if(!Obtained_Shard.NorthWest) {
             this.Shard = new Shard(this, game.config.width/2, 36, 'Shard', 0)
         }
     }

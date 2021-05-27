@@ -28,17 +28,21 @@ class Preload extends Phaser.Scene {
 
     LoadImages() {
         console.log("Loading Images!");
-        this.load.image('BG_Temp', './assets/BG_Placeholder.png');
-        this.load.image('BG_Main1-1', './assets/BG_Main1-1.png');
-        this.load.image('BG_Main1-2', './assets/BG_Main1-2.png');
-        this.load.image('Door', './assets/Temp_Door.png');
-        this.load.image('Shard', './assets/Shard_Placeholder.png');
-        this.load.image('menuBackground', './assets/menu_main_noname.png');
-        this.load.image('end', './assets/menu_ending.png');
-        this.load.image('creditsBackground', './assets/menu_credits.png');
-        this.load.image('howToBackground', './assets/menu_howtoplay.png');
-        this.load.image('endBackground', './assets/menu_ending.png');
-        this.load.image('Darkness', './assets/Darkness.png');
+        // Room Backgrounds
+        this.load.image('BG_Temp', './assets/Art/BG_Placeholder.png');
+        this.load.image('BG_Main1', './assets/Art/BG_Main1.png');
+        this.load.image('BG_Main2', './assets/Art/BG_Main2.png');
+        this.load.image('BG_NorthWest1', './assets/Art/BG_NorthWest1.png');
+        this.load.image('BG_East1', './assets/Art/BG_East1.png');
+        //Menus
+        this.load.image('Menu_Main', './assets/Art/Menu_Main.png');
+        this.load.image('Menu_End', './assets/Art/Menu_Ending.png');
+        this.load.image('Menu_Credits', './assets/Art/Menu_Credits.png');
+        this.load.image('Menu_HowTo', './assets/Art/Menu_HowTo.png');
+        //Assets
+        this.load.image('Door', './assets/Art/Temp_Door.png');
+        this.load.image('Shard', './assets/Art/Shard_Placeholder.png');
+        this.load.image('Darkness', './assets/Art/Darkness.png');
 
         //Begin Loading
         this.load.start();
@@ -52,10 +56,10 @@ class Preload extends Phaser.Scene {
 
     LoadSpritesheets() {
         console.log("Loading Spritesheets!");
-        this.load.spritesheet('Player', './assets/Player.png',
+        this.load.spritesheet('Player', './assets/Art/Player.png',
             {frameWidth: 70, frameHeight: 75, startFrame: 0, endFrame: 15}
         );
-        this.load.spritesheet('Pylon', './assets/Pylon.png',
+        this.load.spritesheet('Pylon', './assets/Art/Pylon.png',
             {frameWidth: 180, frameHeight: 192, startFrame: 0, endFrame: 4}
         );
 
@@ -73,8 +77,8 @@ class Preload extends Phaser.Scene {
         console.log('Loading Audio!');
         
         //Sfx
-        this.load.audio('Sfx_Select', './assets/menu_option_click.wav');
-        this.load.audio('Sfx_Walk', './assets/steps_sound.wav');
+        this.load.audio('Sfx_Select', './assets/Audio/menu_option_click.wav');
+        this.load.audio('Sfx_Walk', './assets/Audio/steps_sound.wav');
 
         // Music
         // None atm

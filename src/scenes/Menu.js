@@ -9,7 +9,7 @@ class Menu_Main extends Phaser.Scene {
 
     create() {
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'menuBackground'
+            0, 0, 1024, 576, 'Menu_Main'
         ).setOrigin(0, 0).setDepth(0);
 
         // Sound Config

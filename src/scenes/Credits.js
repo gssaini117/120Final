@@ -9,7 +9,7 @@ class Menu_Credits extends Phaser.Scene {
 
     create() {
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'creditsBackground'
+            0, 0, 1024, 576, 'Menu_Credits'
         ).setOrigin(0, 0).setDepth(0);
 
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);

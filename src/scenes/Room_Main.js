@@ -18,28 +18,35 @@ class Room_Main extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
-        // Defining Room Hitboxes.
+        // Defining static Room Hitboxes.
         let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
-            "Up":     new Boundry(Dim.width/2, 0, Dim.width, 64, "Top"),
-            "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 50, "Bot"),
-            "Left":   new Boundry(0, Dim.height/2, 35, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 35, Dim.height, "Right")
+            "Top":    new Boundry(512, 0, 455, 105, "Top"),
+            "TopR1":  new Boundry(0, 0, 176, 105, "TopL"),
+            "TopR2":  new Boundry(0, 105, 40, 180, "TopL"),
+            "TopL1":  new Boundry(1024, 0, 176, 105, "TopR"),
+            "TopL2":  new Boundry(1024, 105, 40, 180, "TopR"),
+            "DownL1": new Boundry(0, 576, 456, 50, "BotL"),
+            "DownL2": new Boundry(0, 526, 40, 160, "BotL"),
+            "DownR1": new Boundry(1024, 576, 456, 50, "BotR"),
+            "DownR2": new Boundry(1024, 526, 40, 160, "BotR"),
+            //Objects (Static)
+            "Pylon":  new Boundry(512, 205, 100, 25, "Center"),
         };
         
         // Defining interactable movement objects.
         this.Objects = {
             //Movers
-            "NorthEast":    new Mover(this, 233, 60, "Door", 0, "Room_NorthEast").setDepth(10),
-            "NorthWest":    new Mover(this, 791, 60, "Door", 0, "Room_NorthWest").setDepth(10),
+            "NorthEast":    new Mover(this, 791, 60, "Door", 0, "Room_NorthEast").setDepth(10),
+            "NorthWest":    new Mover(this, 233, 60, "Door", 0, "Room_NorthWest").setDepth(10),
             "East":         new Mover(this, 984, 288, "Door", 0, "Room_East").setDepth(10),
             "West":         new Mover(this, 40, 288, "Door", 0, "Room_West").setDepth(10),
             "South":        new Mover(this, 512, 516, "Door", 0, "Menu_GameOver").setDepth(10)
         };
 
         // Comment the next line to make hitboxes invisible.
-        //Debug_Hitbox(this, this.Hitboxes);
+        // Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Loading visuals
@@ -49,14 +56,14 @@ class Room_Main extends Phaser.Scene {
             this, game.config.width /2, game.config.height*2/3, 'Player', 4,
             AnimationIDs.Player,
             this.Hitboxes
-        ).setOrigin(0.5, 0.5).setDepth(2);
+        ).setDepth(2);
         
         //Background
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_Main1-1'
+            0, 0, 1024, 576, 'BG_Main1'
         ).setOrigin(0, 0).setDepth(0);
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_Main1-2'
+            0, 0, 1024, 576, 'BG_Main2'
         ).setOrigin(0, 0).setDepth(4);
 
         //Blackscreen
@@ -82,11 +89,11 @@ class Room_Main extends Phaser.Scene {
             if(Object != null && 
                 Object.checkCollision(Temp.Player)) {
                 Temp.scene.start(Object.getTarget());
-                return;
+                return; 
             }
         });
 
-        if(this.Player.y > game.config.height/2) {
+        if(this.Player.y > 190) {
             this.Pylon.setDepth(1);
         } else {
             this.Pylon.setDepth(3);

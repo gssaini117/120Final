@@ -10,7 +10,7 @@ class Menu_HowTo extends Phaser.Scene {
     create() {
         console.log('hello');
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'howToBackground'
+            0, 0, 1024, 576, 'Menu_HowTo'
         ).setOrigin(0, 0).setDepth(0);
 
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);

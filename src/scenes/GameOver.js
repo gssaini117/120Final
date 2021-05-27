@@ -9,7 +9,7 @@ class Menu_GameOver extends Phaser.Scene {
 
     create() {
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'endBackground'
+            0, 0, 1024, 576, 'Menu_End'
         ).setOrigin(0, 0).setDepth(0);
 
         keyESC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
