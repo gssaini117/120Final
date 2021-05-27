@@ -25,8 +25,7 @@ class Room_Main extends Phaser.Scene {
             "Up":     new Boundry(Dim.width/2, 0, Dim.width, 64, "Top"),
             "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 50, "Bot"),
             "Left":   new Boundry(0, Dim.height/2, 35, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 35, Dim.height, "Right"),
-            "Pylon":  new Boundry(Dim.width/2, Dim.height/2 - 10, 60, 20, "Center")
+            "Right":  new Boundry(Dim.width, Dim.height/2, 35, Dim.height, "Right")
         };
         
         // Defining interactable movement objects.
@@ -68,7 +67,7 @@ class Room_Main extends Phaser.Scene {
 
         //Pylon
         console.log('Shard Count: ' + Shard_Count);
-        this.Pylon = new Pylon(this, game.config.width/2, game.config.height/2, 'Pylon', Shard_Count).setOrigin(0.5, 1);
+        this.Pylon = new Pylon(this, game.config.width/2, game.config.height/2.5, 'Pylon', Shard_Count).setOrigin(0.5, 1);
     }
 
     update() {

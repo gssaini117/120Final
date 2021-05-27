@@ -55,8 +55,8 @@ class Preload extends Phaser.Scene {
         this.load.spritesheet('Player', './assets/Player.png',
             {frameWidth: 70, frameHeight: 75, startFrame: 0, endFrame: 15}
         );
-        this.load.spritesheet('Pylon', './assets/Pylon_Placeholder.png',
-            {frameWidth: 128, frameHeight: 128, startFrame: 0, endFrame: 4}
+        this.load.spritesheet('Pylon', './assets/Pylon.png',
+            {frameWidth: 180, frameHeight: 192, startFrame: 0, endFrame: 4}
         );
 
         //Begin Loading

@@ -23,12 +23,12 @@ class Room_West extends Phaser.Scene {
             "Up":     new Boundry(Dim.width/2, 0, Dim.width, 0, "Top"),
             "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 0, "Bot"),
             "Left":   new Boundry(0, Dim.height/2, 0, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 0, Dim.height, "Right"),
+            "Right":  new Boundry(Dim.width, Dim.height/2, 0, Dim.height, "Right")
         };
         //=========================================================
         // Loading visuals
         //=========================================================
-        //Player
+        // Player
         this.Player = new Player(
             this, game.config.width*3/4, game.config.height/2, 'Player', 4,
             AnimationIDs.Player,
