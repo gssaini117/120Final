@@ -80,66 +80,69 @@ class Player extends Phaser.GameObjects.Sprite {
         //=========================================================
         // Updating Position and Animation
         //=========================================================
-        // Moving X
-        let Temp = this.x + this.Direction.X;
-        if(this.checkCanMove(Temp, this.y)) {
-            this.x = Temp;
-        }
-        // Moving Y
-        //console.log(this.checkCollision(this.x, Temp));
-        Temp = this.y + this.Direction.Y;
-        if(this.checkCanMove(this.x, Temp)) {
-            this.y = Temp;
-        }
-        //Adjusting Animation (X direction has more priority over Y direction)
-        if (this.Direction.X != 0) {
-            if(this.Direction.X > 0 &&
-            this.Anim_Curr != this.Anim_Right) {
-                this.stop();
-                this.Anim_Curr = this.Anim_Right;
-                this.play(this.Anim_Right);
-            } else if(this.Direction.X < 0 &&
-            this.Anim_Curr != this.Anim_Left) {
-                this.stop();
-                this.Anim_Curr = this.Anim_Left;
-                this.play(this.Anim_Left);
+        if(!isMoving) {
+            // Moving X
+            let Temp = this.x + this.Direction.X;
+            if(this.checkCanMove(Temp, this.y)) {
+                this.x = Temp;
             }
-        } else if(this.Direction.Y != 0) {
-            if(this.Direction.Y > 0 &&
-            this.Anim_Curr != this.Anim_Down) {
+            // Moving Y
+            //console.log(this.checkCollision(this.x, Temp));
+            Temp = this.y + this.Direction.Y;
+            if(this.checkCanMove(this.x, Temp)) {
+                this.y = Temp;
+            }
+            //Adjusting Animation (X direction has more priority over Y direction)
+            if (this.Direction.X != 0) {
+                if(this.Direction.X > 0 &&
+                this.Anim_Curr != this.Anim_Right) {
+                    this.stop();
+                    this.Anim_Curr = this.Anim_Right;
+                    this.play(this.Anim_Right);
+                } else if(this.Direction.X < 0 &&
+                this.Anim_Curr != this.Anim_Left) {
+                    this.stop();
+                    this.Anim_Curr = this.Anim_Left;
+                    this.play(this.Anim_Left);
+                }
+            } else if(this.Direction.Y != 0) {
+                if(this.Direction.Y > 0 &&
+                this.Anim_Curr != this.Anim_Down) {
+                    this.stop();
+                    this.Anim_Curr = this.Anim_Down;
+                    this.play(this.Anim_Down);
+                } else if(this.Direction.Y < 0 &&
+                this.Anim_Curr != this.Anim_Up) {
+                    this.stop();
+                    this.Anim_Curr = this.Anim_Up;
+                    this.play(this.Anim_Up);
+                }
+            } else {
                 this.stop();
-                this.Anim_Curr = this.Anim_Down;
-                this.play(this.Anim_Down);
-            } else if(this.Direction.Y < 0 &&
-            this.Anim_Curr != this.Anim_Up) {
-                this.stop();
-                this.Anim_Curr = this.Anim_Up;
-                this.play(this.Anim_Up);
+                switch(this.Anim_Curr) {
+                    case this.Anim_Up: 
+                        this.setFrame(0);
+                        break;
+                    case this.Anim_Down: 
+                        this.setFrame(4);
+                        break;
+                    case this.Anim_Left:
+                        this.setFrame(8); 
+                        break;
+                    case this.Anim_Right: 
+                        this.setFrame(12);
+                        break;
+                }
+                this.Anim_Curr = null;
             }
         } else {
             this.stop();
-            switch(this.Anim_Curr) {
-                case this.Anim_Up: 
-                    this.setFrame(0);
-                    break;
-                case this.Anim_Down: 
-                    this.setFrame(4);
-                    break;
-                case this.Anim_Left:
-                    this.setFrame(8); 
-                    break;
-                case this.Anim_Right: 
-                    this.setFrame(12);
-                    break;
-            }
-            this.Anim_Curr = null;
         }
     }
 
     //Function to help with hitbox detection (walls and such).
     //Returns true if any are intersecting, and false otherwise.
     checkCanMove(newX, newY) {
-        if(isMoving) {return false;};
         let Data = {
             'x': newX,
             'y': newY + this.height/2,

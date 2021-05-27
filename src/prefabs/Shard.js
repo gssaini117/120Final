@@ -26,4 +26,7 @@ class Shard extends Phaser.GameObjects.Sprite {
             return false;
         }
     }
+
+    //Helps the game indicate that the object is a mover.
+    getType() { return "Shard"; }
 }

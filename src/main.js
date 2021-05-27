@@ -83,6 +83,20 @@ function FadeOut(Scene, Blackscreen) {
   return TRANSITION_TIME;
 }
 //
+// FadeIn(Scene[Phaser3 Scene], Blackscreen[Phaser3 Rectangle])
+//
+// Transition for moving inbetween rooms.
+// Blackscreen is a phaser3 rectangle object.
+// Returns the transition Time in milliseconds (Int).
+function FadeIn(Scene, Blackscreen) {
+  Scene.tweens.add({ //Alpha from 0 to 1
+    targets: Blackscreen,
+    alpha: 0,
+    duration: TRANSITION_TIME
+  });
+  return TRANSITION_TIME;
+}
+//
 // AdjustPos(Object, Origin[String])
 //
 // Adjusts the X and Y positions of an object so it references the center.

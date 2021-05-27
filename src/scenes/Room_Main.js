@@ -4,7 +4,11 @@ class Room_Main extends Phaser.Scene {
     }
 
     preload() {
-        isMoving = false;
+        //Blackscreen
+        this.Blackscreen = new Phaser.GameObjects.Rectangle(
+          this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
+        ).setOrigin(0,0).setDepth(101);
+        this.add.existing(this.Blackscreen);
     }
 
     create() {
@@ -19,7 +23,6 @@ class Room_Main extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Defining static Room Hitboxes.
-        let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
             "Top":    new Boundry(512, 0, 455, 105, "Top"),
@@ -69,6 +72,14 @@ class Room_Main extends Phaser.Scene {
         //Pylon
         console.log('Shard Count: ' + Shard_Count);
         this.Pylon = new Pylon(this, game.config.width/2, game.config.height/2.5, 'Pylon', Shard_Count).setOrigin(0.5, 1);
+        //=========================================================
+        // Starting Game
+        //=========================================================
+        let Delay = FadeIn(this, this.Blackscreen);
+        setTimeout(() => {
+            //Unlocks player movement
+            isMoving = false;
+        }, Delay);  
     }
 
     update() {
@@ -77,13 +88,21 @@ class Room_Main extends Phaser.Scene {
             this.scene.start("Room_Main")
         }
 
-        //Checking object collision
-        let Temp = this;
+        //Checking Object Collision
+        let Scene = this;
         Object.values(this.Objects).forEach(function(Object){
-            if(Object != null && 
-                Object.checkCollision(Temp.Player)) {
-                Temp.scene.start(Object.getTarget());
-                return; 
+            if(!isMoving && 
+            Object.checkCollision(Scene.Player)) 
+            {
+                switch(Object.getType()) {
+                    case "Mover":
+                        isMoving = true;
+                        let Delay = FadeOut(Scene, Scene.Blackscreen)
+                        setTimeout(() => {
+                            Scene.scene.start(Object.getTarget());
+                        }, Delay);       
+                }
+                return;
             }
         });
 

@@ -4,9 +4,12 @@ class Room_NorthEast extends Phaser.Scene {
     }
 
     preload() {
-
+        //Blackscreen
+        this.Blackscreen = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
+          ).setOrigin(0,0).setDepth(101);
+          this.add.existing(this.Blackscreen);
     }
-
     create() {
         //=========================================================
         // Technical
@@ -16,7 +19,8 @@ class Room_NorthEast extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        // Defining Room Hitboxes
+
+        // Defining static Room Hitboxes.
         let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
@@ -25,6 +29,15 @@ class Room_NorthEast extends Phaser.Scene {
             "Left":   new Boundry(0, Dim.height/2, 0, Dim.height, "Left"),
             "Right":  new Boundry(Dim.width, Dim.height/2, 0, Dim.height, "Right")
         };
+
+        // Defining interactable movement objects.
+        this.Objects = {
+            //Movers
+            "Main":    new Mover(this, 512, 540, "Door", 0, "Room_Main").setDepth(10)
+        };
+
+        // Comment the next line to make hitboxes invisible.
+        // Debug_Hitbox(this, this.Hitboxes);
         //=========================================================
         // Loading visuals
         //=========================================================
@@ -34,32 +47,53 @@ class Room_NorthEast extends Phaser.Scene {
             AnimationIDs.Player,
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
+
         //Background
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'BG_Temp'
         ).setOrigin(0, 0).setDepth(0);
-        //Doors
-        this.Door_Main = new Door(this, game.config.width/2, game.config.height - 36, 'Door', 0, "Room_Main");
+
         //Shard
         if(!Obtained_Shard.NorthEast) {
-            this.Shard = new Shard(this, game.config.width/2, 36, 'Shard4', 0)
+            this.Objects.Shard = new Shard(this, game.config.width/2, 36, 'Shard4', 0)
         }
+
+        //=========================================================
+        // Starting Scene
+        //=========================================================
+        let Delay = FadeIn(this, this.Blackscreen);
+        setTimeout(() => {
+            //Unlocks player movement
+            isMoving = false;
+        }, Delay);  
     }
 
     update() {
         this.Player.update();
-        //Door collision
-        if (this.Door_Main.checkCollision(this.Player)) {
-            this.scene.start(this.Door_Main.nextScene);
-            console.log("Main")
-        }
-        //Shard collision
-        if(!Obtained_Shard.NorthEast &&
-        this.Shard.checkCollision(this.Player)) 
-        {
-            this.Shard.destroy();
-            Shard_Count++;
-            Obtained_Shard.NorthEast = true;
-        }
+
+        //Checking Object Collision
+        let Scene = this;
+        Object.values(this.Objects).forEach(function(Object){
+            if(!isMoving && 
+            Object.checkCollision(Scene.Player)) 
+            {
+                switch(Object.getType()) {
+                    case "Mover":
+                        isMoving = true;
+                        Prev_Room = "Room_NorthEast";
+                        let Delay = FadeOut(Scene, Scene.Blackscreen);
+                        setTimeout(() => {
+                            Scene.scene.start(Object.getTarget());
+                        }, Delay);      
+                        break;
+                    case "Shard":
+                        Shard_Count++;
+                        Obtained_Shard.NorthEast = true;
+                        Scene.Objects.Shard.destroy();
+                        delete(Scene.Objects.Shard);
+                }
+                return;
+            }
+        });
     }
 }

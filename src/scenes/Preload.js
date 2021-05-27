@@ -79,10 +79,11 @@ class Preload extends Phaser.Scene {
     LoadAudio() {
         console.log('Loading Audio!');
         
-        //Sfx
+        //Sfx (Not Looped)
         this.load.audio('Sfx_Select', './assets/Audio/menu_option_click.wav');
         this.load.audio('Sfx_Walk', './assets/Audio/steps_sound.wav');
-
+        //Sfx (Looped)
+        this.load.audio('Sfx_Lava', './assets/Audio/fire_room.mp3');
         // Music
         // None atm
 
