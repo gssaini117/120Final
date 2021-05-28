@@ -22,19 +22,20 @@ class Room_NorthWest extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
         // Defining static Room Hitboxes.
-        let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
-            "Up":     new Boundry(Dim.width/2, 0, Dim.width, 0, "Top"),
-            "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 0, "Bot"),
-            "Left":   new Boundry(0, Dim.height/2, 0, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 0, Dim.height, "Right")
+            "Up":     new Boundry(512, 0, 1024, 100, "Top"),
+            "Down1":   new Boundry(0, 576, 798, 50, "BotL"),
+            "Down2":   new Boundry(855, 576, 114, 0, "Center"),
+            "Down3":   new Boundry(1024, 576, 112, 50, "BotR"),
+            "Left":   new Boundry(0, 100, 40, 426, "TopL"),
+            "Right":  new Boundry(1024, 100, 40, 426, "TopR")
         };
 
         // Defining interactable movement objects.
         this.Objects = {
             //Movers
-            "Main":    new Mover(this, 512, 540, "Door", 0, "Room_Main").setDepth(10)
+            "Main":    new Mover(this, 855, 540, "Door", 0, "Room_Main").setDepth(10)
         };
 
         // Comment the next line to make hitboxes invisible.
@@ -44,7 +45,7 @@ class Room_NorthWest extends Phaser.Scene {
         //=========================================================
         //Player
         this.Player = new Player(
-            this, game.config.width /2, game.config.height*3/4, 'Player', 4,
+            this, 855, 450, 'Player', 0,
             AnimationIDs.Player,
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
@@ -55,7 +56,7 @@ class Room_NorthWest extends Phaser.Scene {
 
         //Shard
         if(!Obtained_Shard.NorthWest) {
-            this.Objects.Shard = new Shard(this, game.config.width/2, 36, 'Shard2', 0)
+            this.Objects.Shard = new Shard(this, 145, 130, 'Shard2', 0)
         }
 
         //=========================================================

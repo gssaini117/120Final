@@ -53,7 +53,7 @@ class Room_East extends Phaser.Scene {
         //=========================================================
         //Player
         this.Player = new Player(
-            this, game.config.width /4, game.config.height/2, 'Player', 4,
+            this, 80, 270, 'Player', 12,
             AnimationIDs.Player,
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);

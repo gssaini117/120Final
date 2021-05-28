@@ -15,6 +15,9 @@ class Player extends Phaser.GameObjects.Sprite {
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
         this.HasMoved = false;
         switch(frame) {
+            case 0:
+                this.Anim_Curr = this.Anim_Up;
+                break;
             case 4:
                 this.Anim_Curr = this.Anim_Down;
                 break;
