@@ -13,6 +13,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
         //Class fields
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
+        this.HasMoved = false;
         switch(frame) {
             case 4:
                 this.Anim_Curr = this.Anim_Down;
@@ -33,8 +34,8 @@ class Player extends Phaser.GameObjects.Sprite {
             "S": false,
             "D": false
         }
-        
-        this.setOrigin(0.5, 0.5); //Adjusting origin
+
+        this.setOrigin(0.5, 0.5) //Setting origin
 
         //Adding object to scene.
         scene.add.existing(this);
@@ -154,9 +155,9 @@ class Player extends Phaser.GameObjects.Sprite {
     checkCanMove(newX, newY) {
         let Data = {
             'x': newX,
-            'y': newY + this.height/2,
+            'y': newY + this.height/2.8,
             'width': this.width,
-            'height': this.height/2,
+            'height': this.height/5,
         };
         let ret = true;
         Object.values(this.Bounds).forEach(function(Obstacle){

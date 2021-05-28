@@ -26,13 +26,17 @@ class Room_East extends Phaser.Scene {
         this.Lava_Config = {mute: false, volume: 0.2, loop: true, delay: 0};
 
          // Defining static Room Hitboxes.
-        let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
-            "Up":     new Boundry(Dim.width/2, 0, Dim.width, 0, "Top"),
-            "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 0, "Bot"),
-            "Left":   new Boundry(0, Dim.height/2, 0, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 0, Dim.height, "Right"),
+            "Up":     new Boundry(512, 0, 1024, 134, "Top"),
+            "Down":   new Boundry(512, 576, 1024, 135, "Bot"),
+            "Left1":  new Boundry(0, 134, 195, 111, "TopL"),
+            "Left2":  new Boundry(0, 245, 40, 42, "TopL"),
+            "Left3":  new Boundry(0, 441, 430, 115, "BotL"),
+            "Right":  new Boundry(1024, 134, 160, 307, "TopR"),
+            "Mid1":   new Boundry(289, 326, 141, 118, "BotL"),
+            "Mid2":   new Boundry(430, 208, 161, 79, "TopL"),
+            "Mid3":   new Boundry(591, 208, 178, 156, "TopL"),
         };
 
         // Defining interactable movement objects.
@@ -60,7 +64,7 @@ class Room_East extends Phaser.Scene {
 
         //Shard
         if(!Obtained_Shard.East) {
-            this.Objects.Shard = new Shard(this, game.config.width - 36, game.config.height/2, 'Shard1', 0)
+            this.Objects.Shard = new Shard(this, 512, 330, 'Shard1', 0)
         }
         //=========================================================
         // Starting Scene

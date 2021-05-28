@@ -61,7 +61,7 @@ class Room_West extends Phaser.Scene {
         //Darkness
         this.Darkness = this.add.sprite(
             this.Player.x, this.Player.y, "Darkness"
-        ).setOrigin(0.5, 0.5).setDepth(10).setAlpha(0.1);
+        ).setOrigin(0.5, 0.5).setDepth(10).setAlpha(0.5);
 
         //=========================================================
         // Starting Scene
