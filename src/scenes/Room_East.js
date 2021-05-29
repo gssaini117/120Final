@@ -135,6 +135,7 @@ class Room_East extends Phaser.Scene {
             this.On_Cooldown = true;
             if(Died) {
                 this.TIME = 0;
+                this.Lava.stop();
                 this.scene.start("Room_East");
             } else {
                 this.TIME+= 100;

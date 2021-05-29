@@ -70,7 +70,7 @@ class Room_NorthWest extends Phaser.Scene {
         ).setOrigin(0, 0).setDepth(0);
         this.background2 = this.add.tileSprite( //Temp
             0, 0, 1024, 576, 'BG_NorthWest2'
-        ).setOrigin(0, 0).setDepth(1).setAlpha(0.1);
+        ).setOrigin(0, 0).setDepth(1).setAlpha(0.15);
         //Shard
         if(!Obtained_Shard.NorthWest) {
             this.Objects.Shard = new Shard(this, 145, 130, 'Shard2', 0)

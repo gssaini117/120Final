@@ -146,9 +146,9 @@ class Player extends Phaser.GameObjects.Sprite {
     checkCanMove(newX, newY) {
         let Data = {
             'x': newX,
-            'y': newY + this.height/2.8,
-            'width': this.width,
-            'height': this.height/5,
+            'y': newY + this.height/3,
+            'width': this.width/3,
+            'height': this.height/4,
         };
         let ret = true;
         Object.values(this.Bounds).forEach(function(Obstacle){
@@ -167,7 +167,7 @@ class Player extends Phaser.GameObjects.Sprite {
             'x': this.x,
             'y': this.y + this.height/3,
             'width': this.width/3,
-            'height': this.height/5,
+            'height': this.height/4,
         };
     }
 

@@ -18,8 +18,8 @@ class Fire extends Phaser.GameObjects.Sprite {
 
     checkCollision(Player) {
         if(!this.isActive) {return false;};
-        if(Math.abs(this.x - Player.x) < (this.width/18 + Player.width/2) &&
-        Math.abs(this.y - Player.y) < (this.height/18 + Player.height/2)) {
+        if(Math.abs(this.x - Player.x) < (this.width/16 + Player.width/2) &&
+        Math.abs(this.y - Player.y) < (this.height/16 + Player.height/2)) {
             return true; 
         } else {
             return false;

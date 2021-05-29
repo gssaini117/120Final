@@ -26,10 +26,13 @@ class Room_Main extends Phaser.Scene {
         this.Hitboxes = {
             //Map Boundries
             "Top":    new Boundry(512, 0, 455, 105, "Top"),
+            "TopD1":  new Boundry(176, 0, 109, 0, "TopL"),
+            "TopD2":  new Boundry(848, 0, 109, 0, "TopR"),
             "TopR1":  new Boundry(0, 0, 176, 105, "TopL"),
             "TopR2":  new Boundry(0, 105, 40, 180, "TopL"),
             "TopL1":  new Boundry(1024, 0, 176, 105, "TopR"),
             "TopL2":  new Boundry(1024, 105, 40, 180, "TopR"),
+            "TopD":   new Boundry(512, 576, 108, 0, "Bot"),
             "DownL1": new Boundry(0, 576, 456, 50, "BotL"),
             "DownL2": new Boundry(0, 526, 40, 160, "BotL"),
             "DownR1": new Boundry(1024, 576, 456, 50, "BotR"),
@@ -49,7 +52,7 @@ class Room_Main extends Phaser.Scene {
         };
 
         // Comment the next line to make hitboxes invisible.
-        // Debug_Hitbox(this, this.Hitboxes);
+        Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Loading visuals
@@ -94,17 +97,23 @@ class Room_Main extends Phaser.Scene {
         }, Delay);  
     }
 
+    //=================================================================================
+    // UPDATE
+    //=================================================================================
     update() {
         this.Player.update();
         if(Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.start("Room_Main")
         }
 
-        //Checking Object Collision
+        //=========================================================
+        // Object Collision Detection
+        //=========================================================
         let Scene = this;
+        let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
-            Object.checkCollision(Scene.Player)) 
+            Object.checkCollision(Hitbox)) 
             {
                 switch(Object.getType()) {
                     case "Mover":

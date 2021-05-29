@@ -21,30 +21,43 @@ class Room_West extends Phaser.Scene {
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         // Defining Room Hitboxes
-        let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
-            "Up":     new Boundry(Dim.width/2, 0, Dim.width, 0, "Top"),
-            "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 0, "Bot"),
-            "Left":   new Boundry(0, Dim.height/2, 0, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 0, Dim.height, "Right")
+            "Top":     new Boundry(512, 0, 1024, 110, "Top"),
+            "Down":    new Boundry(512, 576, 1024, 50, "Bot"),
+            "Left":    new Boundry(0, 110, 38, 416, "TopL"),
+            "Right1":  new Boundry(1024, 110, 38, 264, "TopR"),
+            "Right2":  new Boundry(1024, 374, 0, 102, "TopR"),
+            "Right3":  new Boundry(1024, 476, 38, 50, "TopR"),
+            //Walls
+            "R1":      new Boundry(800, 110, 55, 264, "TopR"),
+            "R2":      new Boundry(800, 526, 55, 50, "BotR"),
+            "R3":      new Boundry(745, 324, 126, 50, "BotR"),
+            "L1":      new Boundry(224, 110, 55, 264, "TopL"),
+            "L2":      new Boundry(224, 526, 55, 50, "BotL"),
+            "L3":      new Boundry(279, 324, 126, 50, "BotL"),
+            //Doors
+            "TopR":    new Boundry(),
+            "BotR":    new Boundry(),
+            "TopL":    new Boundry(),
+            "BotL":    new Boundry(),
         };
 
         // Defining interactable movement objects.
         this.Objects = {
             //Movers
-            "Main":    new Mover(this, 982, 288, "Door", 0, "Room_Main").setDepth(10)
+            "Main":    new Mover(this, 1000, 420, "Door", 0, "Room_Main").setDepth(10)
         };
 
         // Comment the next line to make hitboxes invisible.
-        // Debug_Hitbox(this, this.Hitboxes);
+        Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Loading visuals
         //=========================================================
         // Player
         this.Player = new Player(
-            this, game.config.width*3/4, game.config.height/2, 'Player', 4,
+            this, 950, 400, 'Player', 8,
             AnimationIDs.Player,
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
@@ -56,7 +69,7 @@ class Room_West extends Phaser.Scene {
 
         //Shard
         if(!Obtained_Shard.West) {
-            this.Objects.Shard = new Shard(this, 36, game.config.height/2, 'Shard3', 0)
+            this.Objects.Shard = new Shard(this, 892, 140, 'Shard3', 0)
         }
 
         //=========================================================
@@ -73,9 +86,10 @@ class Room_West extends Phaser.Scene {
         this.Player.update();
         //Checking Object Collision
         let Scene = this;
+        let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
-            Object.checkCollision(Scene.Player)) 
+            Object.checkCollision(Hitbox)) 
             {
                 switch(Object.getType()) {
                     case "Mover":

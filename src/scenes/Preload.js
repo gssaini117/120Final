@@ -52,6 +52,11 @@ class Preload extends Phaser.Scene {
         this.load.image('Shard3', './assets/Art/Shard3.png');
         this.load.image('Shard4', './assets/Art/Shard4.png');
         this.load.image('Darkness', './assets/Art/Darkness.png');
+        this.load.image('Gate_Horz_Open', './assets/Art/Gate_Horizontal1.png');
+        this.load.image('Gate_Horz_Closed', './assets/Art/Gate_Horizontal2.png');
+        this.load.image('Gate_Vertical', './assets/Art/Gate_Vertical.png');
+        this.load.image('Gate_Center_Open', './assets/Art/Gate_Center1.png');
+        this.load.image('Gate_Center_Closed', './assets/Art/Gate_Center2.png');
 
         //Begin Loading
         this.load.start();

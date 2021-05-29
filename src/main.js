@@ -32,6 +32,11 @@ let Died = false; //Determines if the entry color is black or red.
 let isMoving = false; //Prevents repeated movement call.
 let RESET_TIME = 100; //Fields used to manage reset behavior.
 
+// Room Music management. Used to prevent overlapping music.
+let PlayingMusic = {
+
+};
+
 // Declaring shard management vars
 let Shard_Count = 0;
 let Obtained_Shard = {
