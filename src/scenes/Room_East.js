@@ -31,9 +31,6 @@ class Room_East extends Phaser.Scene {
         this.Firing = false; //Manages fire delay
         this.FireCount = 0; //Manages pattern
 
-        //Fields used to manage reset behavior.
-        this.RESET_TIME = 250;
-
          // Defining static Room Hitboxes.
         this.Hitboxes = {
             //Map Boundries
@@ -170,9 +167,10 @@ class Room_East extends Phaser.Scene {
         // Object Collision Detection
         //=========================================================
         let Scene = this;
+        let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
-            Object.checkCollision(Scene.Player)) 
+            Object.checkCollision(Hitbox)) 
             {
                 switch(Object.getType()) {
                     case "Mover":
@@ -270,11 +268,11 @@ class Room_East extends Phaser.Scene {
         this.tweens.add({ //Alpha from 0 to 1
             targets: this.Redscreen,
             alpha: 1,
-            duration: this.RESET_TIME
+            duration: RESET_TIME
         });
         setTimeout(() => {
             Died = true;
-        }, this.RESET_TIME);
+        }, RESET_TIME);
     }
 
     Generate_Screens(BlackAlpha, RedAlpha) {

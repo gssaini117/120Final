@@ -37,6 +37,7 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_Main1', './assets/Art/BG_Main1.png');
         this.load.image('BG_Main2', './assets/Art/BG_Main2.png');
         this.load.image('BG_NorthWest1', './assets/Art/BG_NorthWest1.png');
+        this.load.image('BG_NorthWest2', './assets/Art/BG_NorthWest2.png');
         this.load.image('BG_East1', './assets/Art/BG_East1.png');
         this.load.image('BG_West1', './assets/Art/BG_West1.png');
         //Menus

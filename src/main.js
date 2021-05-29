@@ -30,6 +30,7 @@ let keyH, keyC, keySPACE, keyESC, keyR;
 let Prev_Room = "Room_Main";
 let Died = false; //Determines if the entry color is black or red.
 let isMoving = false; //Prevents repeated movement call.
+let RESET_TIME = 100; //Fields used to manage reset behavior.
 
 // Declaring shard management vars
 let Shard_Count = 0;

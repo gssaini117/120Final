@@ -165,7 +165,7 @@ class Player extends Phaser.GameObjects.Sprite {
     getHitbox() {
         return {
             'x': this.x,
-            'y': this.y + this.height/0.8,
+            'y': this.y + this.height/3,
             'width': this.width/3,
             'height': this.height/5,
         };

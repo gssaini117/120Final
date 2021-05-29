@@ -56,4 +56,6 @@ class Boundry{
     setActive(newState) {
         this.isActive = newState;
     }
+
+    getType() { return "Boundry"; }
 }

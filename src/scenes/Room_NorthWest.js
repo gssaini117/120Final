@@ -4,22 +4,19 @@ class Room_NorthWest extends Phaser.Scene {
     }
 
     preload() {
-        //Blackscreen
-        this.Blackscreen = new Phaser.GameObjects.Rectangle(
-            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
-          ).setOrigin(0,0).setDepth(101);
-          this.add.existing(this.Blackscreen);
+        // Generating entry screens.
+        if(Died) {this.Generate_Screens(0, 1);} else {this.Generate_Screens(1, 0);};
     }
 
+    //=================================================================================
+    // CREATE
+    //=================================================================================
     create() {
         //=========================================================
         // Technical
         //=========================================================
         // Defining keys.
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        Define_Keys(this);
 
         // Defining static Room Hitboxes.
         this.Hitboxes = {
@@ -35,7 +32,25 @@ class Room_NorthWest extends Phaser.Scene {
         // Defining interactable movement objects.
         this.Objects = {
             //Movers
-            "Main":    new Mover(this, 855, 540, "Door", 0, "Room_Main").setDepth(10)
+            "Main":    new Mover(this, 855, 540, "Door", 0, "Room_Main").setDepth(10),
+            //Death Points
+            "Left1":    new Boundry(40, 186, 20, 86, "BotL"),
+            "Left2":    new Boundry(40, 275, 39, 89, "BotL"),
+            "Left3":    new Boundry(40, 444, 114, 169, "BotL"),
+            "Left4":    new Boundry(40, 526, 745, 82, "BotL"),
+            "Center1":  new Boundry(154, 275, 351, 20, "TopL"),
+            "Center2":  new Boundry(234, 295, 271, 65, "TopL"),
+            "Center3":  new Boundry(338, 275, 167, 87, "BotL"),
+            "Center4":  new Boundry(784, 298, 194, 60, "TopR"),
+            "Center5":  new Boundry(840, 298, 110, 100, "BotR"),
+            "Right1":   new Boundry(984, 526, 58, 190, "BotR"),
+            "Right2":   new Boundry(984, 336, 200, 38, "BotR"),
+            "Right3":   new Boundry(984, 298, 80, 198, "BotR"),
+            "Top1":     new Boundry(904, 100, 316, 40, "TopR"),
+            "Top2":     new Boundry(588, 100, 359, 17, "TopR"),
+            "Top3":     new Boundry(663, 140, 75, 88, "TopR"),
+            "Top4":     new Boundry(229, 117, 40, 99, "TopL"),
+            "Top5":     new Boundry(229, 187, 63, 29, "TopR"),
         };
 
         // Comment the next line to make hitboxes invisible.
@@ -53,7 +68,9 @@ class Room_NorthWest extends Phaser.Scene {
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'BG_NorthWest1'
         ).setOrigin(0, 0).setDepth(0);
-
+        this.background2 = this.add.tileSprite( //Temp
+            0, 0, 1024, 576, 'BG_NorthWest2'
+        ).setOrigin(0, 0).setDepth(1).setAlpha(0.1);
         //Shard
         if(!Obtained_Shard.NorthWest) {
             this.Objects.Shard = new Shard(this, 145, 130, 'Shard2', 0)
@@ -62,20 +79,37 @@ class Room_NorthWest extends Phaser.Scene {
         //=========================================================
         // Starting Scene
         //=========================================================
-        let Delay = FadeIn(this, this.Blackscreen);
+        let Delay;
+        if(Died) {
+            Delay = FadeIn(this, this.Redscreen);
+            Died = false;
+        } else {
+            Delay = FadeIn(this, this.Blackscreen);
+        };
         setTimeout(() => {
             //Unlocks player movement
             isMoving = false;
         }, Delay);  
     }
 
+    //=================================================================================
+    // UPDATE
+    //=================================================================================
     update() {
         this.Player.update();
-        //Checking Object Collision
+        //Restarting room if died.
+        if(Died) {
+            this.scene.start("Room_NorthWest");
+        }
+
+        //=========================================================
+        // Object Collision Detection
+        //=========================================================
         let Scene = this;
+        let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
-            Object.checkCollision(Scene.Player)) 
+            Object.checkCollision(Hitbox)) 
             {
                 switch(Object.getType()) {
                     case "Mover":
@@ -86,6 +120,9 @@ class Room_NorthWest extends Phaser.Scene {
                             Scene.scene.start(Object.getTarget());
                         }, Delay);      
                         break;
+                    case "Boundry":
+                        Scene.ResetRoom();
+                        break;
                     case "Shard":
                         Shard_Count++;
                         Obtained_Shard.NorthWest = true;
@@ -95,5 +132,33 @@ class Room_NorthWest extends Phaser.Scene {
                 return;
             }
         });
+    }
+
+    //=================================================================================
+    // SCENE FUNCTIONS
+    //=================================================================================
+    ResetRoom() {
+        isMoving = true;
+        this.tweens.add({ //Alpha from 0 to 1
+            targets: this.Redscreen,
+            alpha: 1,
+            duration: RESET_TIME
+        });
+        setTimeout(() => {
+            Died = true;
+        }, RESET_TIME);
+    }
+
+    Generate_Screens(BlackAlpha, RedAlpha) {
+        //Blackscreen
+        this.Blackscreen = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
+        ).setOrigin(0,0).setDepth(4).setAlpha(BlackAlpha);
+        this.add.existing(this.Blackscreen);
+        //Redscreen (On touching fire)
+        this.Redscreen = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0xff0000, 1, 
+        ).setOrigin(0,0).setDepth(4).setAlpha(RedAlpha);
+        this.add.existing(this.Redscreen);
     }
 }
