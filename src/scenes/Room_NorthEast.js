@@ -53,6 +53,11 @@ class Room_NorthEast extends Phaser.Scene {
             0, 0, 1024, 576, 'BG_Temp'
         ).setOrigin(0, 0).setDepth(0);
 
+        //Darkness
+        this.Darkness = this.add.sprite(
+            this.Player.x, this.Player.y, "Darkness"
+        ).setOrigin(0.5, 0.5).setDepth(10).setAlpha(0.5);
+
         //Shard
         if(!Obtained_Shard.NorthEast) {
             this.Objects.Shard = new Shard(this, game.config.width/2, 36, 'Shard4', 0)
@@ -95,5 +100,8 @@ class Room_NorthEast extends Phaser.Scene {
                 return;
             }
         });
+        //Dark Mist
+        this.Darkness.x = this.Player.x;
+        this.Darkness.y = this.Player.y;
     }
 }

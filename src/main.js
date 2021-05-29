@@ -28,6 +28,7 @@ let keyH, keyC, keySPACE, keyESC, keyR;
 
 // Room Transition management
 let Prev_Room = "Room_Main";
+let Died = false; //Determines if the entry color is black or red.
 let isMoving = false; //Prevents repeated movement call.
 
 // Declaring shard management vars
@@ -48,11 +49,22 @@ let AnimationIDs = {
         "Left":     "Player_Left",
         "Right":    "Player_Right"
     },
+    "Fire": "Fire_Loop"
 };
 
 //===================================================================================
 // GLOBAL FUNCTIONS
 //===================================================================================
+//
+// Define_Keys(Scene[Phaser3 Scene])
+//
+// Function for saving key definition lines.
+function Define_Keys(Scene) {
+  keyW = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+  keyA = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+  keyS = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+  keyD = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+}
 //
 // Debug_Hitbox(Scene[Phaser3 Scene], Hitboxes[Dictionary<String, Boundry>])
 //

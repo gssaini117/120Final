@@ -4,26 +4,35 @@ class Room_East extends Phaser.Scene {
     }
 
     preload() {
-        //Blackscreen
-        this.Blackscreen = new Phaser.GameObjects.Rectangle(
-          this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
-        ).setOrigin(0,0).setDepth(101);
-        this.add.existing(this.Blackscreen);
+        // Generating entry screens.
+        if(Died) {this.Generate_Screens(0, 1);} else {this.Generate_Screens(1, 0);};
     }
 
+    //=================================================================================
+    // CREATE
+    //=================================================================================
     create() {
         //=========================================================
         // Technical
         //=========================================================
         // Defining keys.
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        Define_Keys(this);
         
         //Adding Audio
         this.Lava = this.sound.add('Sfx_Lava');
         this.Lava_Config = {mute: false, volume: 0.2, loop: true, delay: 0};
+
+        //Fields used to manage fire behavior.
+        this.TIME = 0;
+        this.On_Cooldown = false;
+        this.FIRE_DURATION = 2000;
+        this.FIRE_TRANSITION_DELAY = 800;
+        this.Active_Time = 0;
+        this.Firing = false; //Manages fire delay
+        this.FireCount = 0; //Manages pattern
+
+        //Fields used to manage reset behavior.
+        this.RESET_TIME = 250;
 
          // Defining static Room Hitboxes.
         this.Hitboxes = {
@@ -42,7 +51,42 @@ class Room_East extends Phaser.Scene {
         // Defining interactable movement objects.
         this.Objects = {
             //Movers
-            "Main":    new Mover(this, 36, 288, "Door", 0, "Room_Main").setDepth(10)
+            "Main":     new Mover(this, 36, 288, "Door", 0, "Room_Main").setDepth(3),
+            //1st Fire Row (Single)
+            "Fire1-1":  new Fire(this, 210, 230, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire1-2":  new Fire(this, 244, 230, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire1-3":  new Fire(this, 278, 230, "Fire", 0, "Fire_Loop").setDepth(1),
+            //2nd Fire Row (Pair)
+            "Fire2-1":  new Fire(this, 310, 152, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire2-2":  new Fire(this, 310, 188, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire3-1":  new Fire(this, 350, 152, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire3-2":  new Fire(this, 350, 188, "Fire", 0, "Fire_Loop").setDepth(1),
+            //3th Fire Row (Pair)
+            "Fire4-1":  new Fire(this, 490, 152, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire4-2":  new Fire(this, 490, 188, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire5-1":  new Fire(this, 530, 152, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire5-2":  new Fire(this, 530, 188, "Fire", 0, "Fire_Loop").setDepth(1),
+            //4th Fire Row (Arrythmic)
+            "Fire6-1":  new Fire(this, 670, 152, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire6-2":  new Fire(this, 670, 188, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire7-1":  new Fire(this, 710, 152, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire7-2":  new Fire(this, 710, 188, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire8-1":  new Fire(this, 750, 152, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire8-2":  new Fire(this, 750, 188, "Fire", 0, "Fire_Loop").setDepth(1),
+            //5th Fire Row (Pair)
+            "Fire9-1":  new Fire(this, 784, 227, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire9-2":  new Fire(this, 818, 227, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire9-3":  new Fire(this, 852, 227, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire10-1":  new Fire(this, 784, 267, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire10-2":  new Fire(this, 818, 267, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire10-3":  new Fire(this, 852, 267, "Fire", 0, "Fire_Loop").setDepth(1),
+            //6th Fire Row (Pair)
+            "Fire11-1":  new Fire(this, 784, 307, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire11-2":  new Fire(this, 818, 307, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire11-3":  new Fire(this, 852, 307, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire12-1":  new Fire(this, 784, 347, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire12-2":  new Fire(this, 818, 347, "Fire", 0, "Fire_Loop").setDepth(1),
+            "Fire12-3":  new Fire(this, 852, 347, "Fire", 0, "Fire_Loop").setDepth(1),
         };
 
         // Comment the next line to make hitboxes invisible.
@@ -57,6 +101,7 @@ class Room_East extends Phaser.Scene {
             AnimationIDs.Player,
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
+
         //Background
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'BG_East1'
@@ -69,7 +114,13 @@ class Room_East extends Phaser.Scene {
         //=========================================================
         // Starting Scene
         //=========================================================
-        let Delay = FadeIn(this, this.Blackscreen);
+        let Delay;
+        if(Died) {
+            Delay = FadeIn(this, this.Redscreen);
+            Died = false;
+        } else {
+            Delay = FadeIn(this, this.Blackscreen);
+        };
         setTimeout(() => {
             //Unlocks player movement
             isMoving = false;
@@ -77,11 +128,47 @@ class Room_East extends Phaser.Scene {
         //Playing Audio
         this.Lava.play(this.Lava_Config);
     }
-
+        
+    //=================================================================================
+    // UPDATE
+    //=================================================================================
     update() {
-        this.Player.update();
+        this.Player.update(); //Updating Player
+        if(!this.On_Cooldown) { //Updating Time
+            this.On_Cooldown = true;
+            if(Died) {
+                this.TIME = 0;
+                this.scene.start("Room_East");
+            } else {
+                this.TIME+= 100;
+                setTimeout(() => {
+                    this.On_Cooldown = false;
+                }, 100);  
+            }
+            console.log(this.Player.getHitbox().width);
+            console.log(this.Objects["Fire1-1"].width);
+        };
 
-        //Checking Object Collision
+        //=========================================================
+        // Updating Fire behavior
+        //=========================================================
+        if(!this.Firing &&
+        this.TIME - this.Active_Time >= this.FIRE_TRANSITION_DELAY) {
+            this.Active_Time = this.TIME;
+            this.Firing = !this.Firing;
+            console.log("Activating Fire");
+            this.ActivateFire();
+        } else if(this.Firing &&
+        this.TIME - this.Active_Time >= this.FIRE_DURATION) {
+            this.Active_Time = this.TIME;
+            this.Firing = !this.Firing;
+            console.log("Deactivating Fire");
+            this.DisableFire();
+        }
+
+        //=========================================================
+        // Object Collision Detection
+        //=========================================================
         let Scene = this;
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
@@ -102,9 +189,104 @@ class Room_East extends Phaser.Scene {
                         Obtained_Shard.East = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        break;
+                    case "Fire":
+                        Scene.ResetRoom();
                 }
                 return;
             }
         });
+    }
+    
+    //=================================================================================
+    // SCENE FUNCTIONS
+    //=================================================================================
+    ActivateFire() {
+        this.Firing = true;
+        this.FireCount++;
+        // Single Fires
+        this.Objects["Fire1-1"].activate();
+        this.Objects["Fire1-2"].activate();
+        this.Objects["Fire1-3"].activate();
+
+        // Paired Alternating Fires
+        switch(this.FireCount % 2) {
+            case 0:
+                this.Objects["Fire2-1"].activate();
+                this.Objects["Fire2-2"].activate();
+                this.Objects["Fire5-1"].activate();
+                this.Objects["Fire5-2"].activate();
+                this.Objects["Fire10-1"].activate();
+                this.Objects["Fire10-2"].activate();
+                this.Objects["Fire10-3"].activate();
+                this.Objects["Fire12-1"].activate();
+                this.Objects["Fire12-2"].activate();
+                this.Objects["Fire12-3"].activate();
+                break;
+            case 1:
+                this.Objects["Fire3-1"].activate();
+                this.Objects["Fire3-2"].activate();
+                this.Objects["Fire4-1"].activate();
+                this.Objects["Fire4-2"].activate();
+                this.Objects["Fire9-1"].activate();
+                this.Objects["Fire9-2"].activate();
+                this.Objects["Fire9-3"].activate();
+                this.Objects["Fire11-1"].activate();
+                this.Objects["Fire11-2"].activate();
+                this.Objects["Fire11-3"].activate();
+        }
+
+        // Arrythmic Fire
+        switch(this.FireCount % 3) {
+            case 0:
+                this.Objects["Fire6-1"].activate();
+                this.Objects["Fire6-2"].activate();
+                this.Objects["Fire8-1"].activate();
+                this.Objects["Fire8-2"].activate();
+                break;
+            case 1:
+                this.Objects["Fire6-1"].activate();
+                this.Objects["Fire6-2"].activate();
+                this.Objects["Fire7-1"].activate();
+                this.Objects["Fire7-2"].activate();
+                break;
+            case 2:
+                this.Objects["Fire7-1"].activate();
+                this.Objects["Fire7-2"].activate();
+                this.Objects["Fire8-1"].activate();
+                this.Objects["Fire8-2"].activate();
+        }
+    }
+
+    DisableFire() {
+        Object.values(this.Objects).forEach(function(Object){
+            if(Object && Object.getType() == "Fire") {Object.deactivate();};
+        })
+    }
+
+    ResetRoom() {
+        isMoving = true;
+        this.DisableFire();
+        this.tweens.add({ //Alpha from 0 to 1
+            targets: this.Redscreen,
+            alpha: 1,
+            duration: this.RESET_TIME
+        });
+        setTimeout(() => {
+            Died = true;
+        }, this.RESET_TIME);
+    }
+
+    Generate_Screens(BlackAlpha, RedAlpha) {
+        //Blackscreen
+        this.Blackscreen = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
+        ).setOrigin(0,0).setDepth(4).setAlpha(BlackAlpha);
+        this.add.existing(this.Blackscreen);
+        //Redscreen (On touching fire)
+        this.Redscreen = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0xff0000, 1, 
+        ).setOrigin(0,0).setDepth(4).setAlpha(RedAlpha);
+        this.add.existing(this.Redscreen);
     }
 }

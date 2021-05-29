@@ -51,17 +51,13 @@ class Room_West extends Phaser.Scene {
         
         //Background
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_Temp'
+            0, 0, 1024, 576, 'BG_West1'
         ).setOrigin(0, 0).setDepth(0);
 
         //Shard
         if(!Obtained_Shard.West) {
             this.Objects.Shard = new Shard(this, 36, game.config.height/2, 'Shard3', 0)
         }
-        //Darkness
-        this.Darkness = this.add.sprite(
-            this.Player.x, this.Player.y, "Darkness"
-        ).setOrigin(0.5, 0.5).setDepth(10).setAlpha(0.5);
 
         //=========================================================
         // Starting Scene
@@ -99,8 +95,5 @@ class Room_West extends Phaser.Scene {
                 return;
             }
         });
-        //Darkscreen
-        this.Darkness.x = this.Player.x;
-        this.Darkness.y = this.Player.y;
     }
 }

@@ -9,6 +9,10 @@ class Preload extends Phaser.Scene {
 
     create() {
         //=========================================================
+        // Loading Bar Ui
+        //=========================================================
+
+        //=========================================================
         // Technical
         //=========================================================
         this.IsLoading = false;
@@ -34,6 +38,7 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_Main2', './assets/Art/BG_Main2.png');
         this.load.image('BG_NorthWest1', './assets/Art/BG_NorthWest1.png');
         this.load.image('BG_East1', './assets/Art/BG_East1.png');
+        this.load.image('BG_West1', './assets/Art/BG_West1.png');
         //Menus
         this.load.image('Menu_Main', './assets/Art/Menu_Main.png');
         this.load.image('Menu_End', './assets/Art/Menu_Ending.png');
@@ -65,7 +70,9 @@ class Preload extends Phaser.Scene {
         this.load.spritesheet('Pylon', './assets/Art/Pylon.png',
             {frameWidth: 180, frameHeight: 192, startFrame: 0, endFrame: 4}
         );
-
+        this.load.spritesheet('Fire', './assets/Art/fire.png',
+            {frameWidth: 90, frameHeight: 90, startFrame: 0, endFrame: 3}
+        );
         //Begin Loading
         this.load.start();
 
@@ -112,7 +119,10 @@ class Preload extends Phaser.Scene {
             key: AnimationIDs.Player.Right, frameRate: 8, repeat: -1,
             frames: this.anims.generateFrameNumbers('Player', { start: 12, end: 15, first: 0}),
         });
-        
+        this.anims.create({ //Fire effect
+            key: AnimationIDs.Fire, frameRate: 8, repeat: -1,
+            frames: this.anims.generateFrameNumbers('Fire', {start: 0, end: 3, first: 0}),
+        });
 
         console.log("Preload Complete!");
         this.scene.start("Menu_Main");

@@ -14,19 +14,7 @@ class Player extends Phaser.GameObjects.Sprite {
         //Class fields
         this.MOVEMENT_SPEED = 1.5; //Pixels per update
         this.HasMoved = false;
-        switch(frame) {
-            case 0:
-                this.Anim_Curr = this.Anim_Up;
-                break;
-            case 4:
-                this.Anim_Curr = this.Anim_Down;
-                break;
-            case 8:
-                this.Anim_Curr = this.Anim_Left;
-                break;
-            case 12:
-                this.Anim_Curr = this.Anim_Right;
-        }
+        this.Anim_Curr = "";
         this.Direction = { //Movement Direction
             "X": 0,
             "Y": 0
@@ -171,6 +159,16 @@ class Player extends Phaser.GameObjects.Sprite {
             }
         });
         return ret;
+    }
+
+    //Returns the player's hitbox coordinates
+    getHitbox() {
+        return {
+            'x': this.x,
+            'y': this.y + this.height/0.8,
+            'width': this.width/3,
+            'height': this.height/5,
+        };
     }
 
 }
