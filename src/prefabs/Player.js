@@ -12,7 +12,7 @@ class Player extends Phaser.GameObjects.Sprite {
                                  //Dictionary of transparent rectangle gameobjects.
 
         //Class fields
-        this.MOVEMENT_SPEED = 1.5; //Pixels per update
+        this.MOVEMENT_SPEED = 2; //Pixels per update
         this.HasMoved = false;
         this.Anim_Curr = "";
         this.Direction = { //Movement Direction

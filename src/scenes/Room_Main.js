@@ -46,13 +46,13 @@ class Room_Main extends Phaser.Scene {
             //Movers
             "NorthEast":    new Mover(this, 791, 60, "Door", 0, "Room_NorthEast").setDepth(10),
             "NorthWest":    new Mover(this, 233, 60, "Door", 0, "Room_NorthWest").setDepth(10),
-            "East":         new Mover(this, 984, 288, "Door", 0, "Room_East").setDepth(10),
-            "West":         new Mover(this, 40, 288, "Door", 0, "Room_West").setDepth(10),
+            "East":         new Mover(this, 1004, 288, "Door", 0, "Room_East").setDepth(10),
+            "West":         new Mover(this, 20, 288, "Door", 0, "Room_West").setDepth(10),
             "South":        new Mover(this, 512, 516, "Door", 0, "Menu_GameOver").setDepth(10)
         };
 
         // Comment the next line to make hitboxes invisible.
-        Debug_Hitbox(this, this.Hitboxes);
+        // Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Loading visuals

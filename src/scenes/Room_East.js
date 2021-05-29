@@ -48,7 +48,7 @@ class Room_East extends Phaser.Scene {
         // Defining interactable movement objects.
         this.Objects = {
             //Movers
-            "Main":     new Mover(this, 36, 288, "Door", 0, "Room_Main").setDepth(3),
+            "Main":     new Mover(this, 20, 288, "Door", 0, "Room_Main").setDepth(3),
             //1st Fire Row (Single)
             "Fire1-1":  new Fire(this, 210, 230, "Fire", 0, "Fire_Loop").setDepth(1),
             "Fire1-2":  new Fire(this, 244, 230, "Fire", 0, "Fire_Loop").setDepth(1),
@@ -154,13 +154,11 @@ class Room_East extends Phaser.Scene {
         this.TIME - this.Active_Time >= this.FIRE_TRANSITION_DELAY) {
             this.Active_Time = this.TIME;
             this.Firing = !this.Firing;
-            console.log("Activating Fire");
             this.ActivateFire();
         } else if(this.Firing &&
         this.TIME - this.Active_Time >= this.FIRE_DURATION) {
             this.Active_Time = this.TIME;
             this.Firing = !this.Firing;
-            console.log("Deactivating Fire");
             this.DisableFire();
         }
 

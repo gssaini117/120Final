@@ -6,7 +6,8 @@ class Mover extends Phaser.GameObjects.Sprite{
         this.Target = targetScene;
 
         //Class fields
-        //None
+        this.Width = 60;
+        this.Height = 60;
 
         //Adjusting Position
         adjustPos(this, origin);
@@ -27,8 +28,8 @@ class Mover extends Phaser.GameObjects.Sprite{
     //Returns true if colliding with the Player
     //Assumes object2 is another sprite
     checkCollision(Player) {
-        if(Math.abs(this.x - Player.x) < (this.width/2 + Player.width/4) &&
-        Math.abs(this.y - Player.y) < (this.height/2 + Player.height/2)) {
+        if(Math.abs(this.x - Player.x) < (this.Width/2 + Player.width/4) &&
+        Math.abs(this.y - Player.y) < (this.Height/2 + Player.height/2)) {
             return true;
         } else {
             return false;
