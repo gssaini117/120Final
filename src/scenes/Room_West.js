@@ -81,7 +81,7 @@ class Room_West extends Phaser.Scene {
         }
 
         // Comment the next line to make hitboxes invisible.
-        Debug_Hitbox(this, this.Hitboxes);
+        // Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Loading visuals
