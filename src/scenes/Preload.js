@@ -59,6 +59,7 @@ class Preload extends Phaser.Scene {
         this.load.image('Gate_Vertical', './assets/Art/Gate_Vertical.png');
         this.load.image('Gate_Center_Open', './assets/Art/Gate_Center1.png');
         this.load.image('Gate_Center_Closed', './assets/Art/Gate_Center2.png');
+        this.load.image('Rock', './assets/Art/Rock.png');
 
         //Begin Loading
         this.load.start();
@@ -81,6 +82,13 @@ class Preload extends Phaser.Scene {
         this.load.spritesheet('Fire', './assets/Art/fire.png',
             {frameWidth: 90, frameHeight: 90, startFrame: 0, endFrame: 3}
         );
+        this.load.spritesheet('Gate', './assets/Art/Temp_Gate.png',
+            {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 1}
+        );
+        this.load.spritesheet('Button', './assets/Art/Temp_Button.png',
+            {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 1}
+        );
+
         //Begin Loading
         this.load.start();
 

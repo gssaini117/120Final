@@ -53,7 +53,7 @@ class Boundry{
     getSize() {return{"width": this.width, "height": this.height};}
 
     //Toggles if the the boundry is ignored.
-    setActive(newState) {
+    setIsActive(newState) {
         this.isActive = newState;
     }
 

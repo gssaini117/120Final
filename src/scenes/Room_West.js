@@ -7,19 +7,21 @@ class Room_West extends Phaser.Scene {
         //Blackscreen
         this.Blackscreen = new Phaser.GameObjects.Rectangle(
             this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
-          ).setOrigin(0,0).setDepth(101);
+          ).setOrigin(0,0).setDepth(5);
           this.add.existing(this.Blackscreen);
     }
 
+    //=================================================================================
+    // CREATE
+    //=================================================================================
     create() {
         //=========================================================
         // Technical
         //=========================================================
         // Defining keys.
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        Define_Keys(this);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
         // Defining Room Hitboxes
         this.Hitboxes = {
             //Map Boundries
@@ -36,11 +38,13 @@ class Room_West extends Phaser.Scene {
             "L1":      new Boundry(224, 110, 55, 264, "TopL"),
             "L2":      new Boundry(224, 526, 55, 50, "BotL"),
             "L3":      new Boundry(279, 324, 126, 50, "BotL"),
-            //Doors
-            "TopR":    new Boundry(),
-            "BotR":    new Boundry(),
-            "TopL":    new Boundry(),
-            "BotL":    new Boundry(),
+            //Gates
+            "TopR":    new Boundry(986, 200, 186, 50, "TopR"),
+            "BotR":    new Boundry(800, 374, 55, 102, "TopR"),
+            "TopL":    new Boundry(38, 200, 186, 50, "TopL"),
+            "BotL":    new Boundry(224, 374, 55, 102, "TopL"),
+            "Center":  new Boundry(405, 324, 214, 50, "BotL"),
+            //Rocks
         };
 
         // Defining interactable movement objects.
@@ -48,6 +52,33 @@ class Room_West extends Phaser.Scene {
             //Movers
             "Main":    new Mover(this, 1000, 420, "Door", 0, "Room_Main").setDepth(10)
         };
+
+        // Managing Gate Placement
+        this.Gates = {
+            "TopR":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["TopR"]).setDepth(1),
+            "BotR":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["BotR"]).setDepth(1),
+            "TopL":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["TopL"]).setDepth(1),
+            "BotL":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["BotL"]).setDepth(1),
+            "Center":  new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["Center"]).setDepth(1),
+        }
+
+        // Managing Buttons
+        this.Buttons = {
+            "Right":        new Button(this, 893, 490, 'Button', 0, 'Center').setDepth(1),
+            "RightMid":     new Button(this, 650, 490, 'Button', 0, 'Center').setDepth(1),
+            "LeftMid":      new Button(this, 374, 490, 'Button', 0, 'Center').setDepth(1),
+            "Left":         new Button(this, 131, 490, 'Button', 0, 'Center').setDepth(1),
+            "LeftUpper":    new Button(this, 131, 310, 'Button', 0, 'Center').setDepth(1),
+            "Center":       new Button(this, 512, 160, 'Button', 0, 'Center').setDepth(1),
+        }
+
+        // Managing Rocks
+        this.Held_Rock = ""; // Can only hold one rock at a time.
+        this.Rocks = {
+            '1':  this.add.tileSprite(893, 300, 150, 150, 'Rock').setOrigin(0.5, 0.5).setDepth(2),
+            '2':  this.add.tileSprite(131, 490, 150, 150, 'Rock').setOrigin(0.5, 0.5).setDepth(2),
+            '3':  this.add.tileSprite(131, 130, 150, 150, 'Rock').setOrigin(0.5, 0.5).setDepth(2)
+        }
 
         // Comment the next line to make hitboxes invisible.
         Debug_Hitbox(this, this.Hitboxes);
@@ -81,10 +112,16 @@ class Room_West extends Phaser.Scene {
             isMoving = false;
         }, Delay);  
     }
-
+    
+    //=================================================================================
+    // UPDATE
+    //=================================================================================
     update() {
         this.Player.update();
-        //Checking Object Collision
+
+        //=========================================================
+        // Player Collision Detection
+        //=========================================================
         let Scene = this;
         let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
@@ -109,5 +146,140 @@ class Room_West extends Phaser.Scene {
                 return;
             }
         });
+
+        //=========================================================
+        // Buttons Collision Detection
+        //=========================================================
+        Object.values(this.Buttons).forEach(function(Button){
+            // Player
+            let Hitbox = Scene.Player.getHitbox();
+            if(Button.checkCollision(Hitbox)) {
+                Button.addObject("Player");
+            } else {
+                Button.removeObject("Player");
+            }
+            // Rocks
+            Object.keys(Scene.Rocks).forEach(function(Key){
+                let Rock = Scene.Rocks[Key];
+                if(Button.checkCollision(Rock)) {
+                    Button.addObject(Key);
+                } else {
+                    Button.removeObject(Key);
+                }
+            });
+        });
+
+        //=========================================================
+        // Updating gate states
+        //=========================================================
+        // BOTTOM RIGHT GATE
+        if(this.Buttons["Right"].isActive() ||
+        this.Buttons["RightMid"].isActive()) {
+            this.Gates["BotR"].open();
+        } else {
+            this.Gates["BotR"].close();
+        }
+        //BOTTOM LEFT GATE
+        if(this.Buttons["Left"].isActive() ||
+        this.Buttons["LeftMid"].isActive()) {
+            this.Gates["BotL"].open();
+        } else {
+            this.Gates["BotL"].close();
+        }
+        //TOP RIGHT GATE
+        if(this.Buttons["Center"].isActive()) {
+            this.Gates["TopR"].open();
+        } else {
+            this.Gates["TopR"].close();
+        }
+
+        //TOP LEFT GATE
+        if(this.Buttons["LeftUpper"].isActive()) {
+            this.Gates["TopL"].open();
+        } else {
+            this.Gates["TopL"].close();
+        }
+
+        //CENTER GATE
+        if(this.Buttons["LeftMid"].isActive() &&
+        this.Buttons["RightMid"].isActive()) {
+            this.Gates["Center"].open();
+        } else {
+            this.Gates["Center"].close();
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            if(this.Held_Rock != "") {
+                this.SetRock();
+            } else {
+                this.GetRock();
+            }
+        }
+    }
+
+    //=================================================================================
+    // SCENE FUNCTIONS
+    //=================================================================================
+    //Moving Rocks
+    GetRock() {
+        //Locating closest rock.
+        let Hitbox = this.Player.getHitbox();
+        let Scene = this;
+        let ClosestDist = 2000;
+        let ClosestKey = '1';
+        let Closest = this.Rocks[1];
+        Object.keys(this.Rocks).forEach(function(Key){
+            let Rock = Scene.Rocks[Key];
+            let DistX = Math.abs(Hitbox.x - Rock.x);
+            let DistY = Math.abs(Hitbox.y - Rock.y);
+            let Dist = Math.sqrt(Math.pow(DistX, 2) + Math.pow(DistY, 2));
+            if(Dist < ClosestDist) {
+                ClosestDist = Dist; 
+                Closest = Scene.Rocks[Key]
+                ClosestKey = Key;
+            }
+        });
+        if(this.Player.checkCollision(Closest)) {
+            this.Held_Rock = ClosestKey;
+            this.Rocks[ClosestKey].x = -50;
+            this.Rocks[ClosestKey].y = -50;
+            this.Rocks[ClosestKey].setAlpha(0); 
+        }
+    }
+
+    SetRock(){
+        let Offset = {};
+        let Hitbox = this.Player.getHitbox();
+        switch(this.Player.getDirection()) {
+            case "Up":
+                Offset.x = 0;
+                Offset.y = -40;
+                break;
+            case "Down":
+                Offset.x = 0;
+                Offset.y = 40;
+                break;
+            case "Left":
+                Offset.x = -40;
+                Offset.y = 0;
+                break;
+            case "Right":
+                Offset.x = 40;
+                Offset.y = 0;
+        }
+        let Success = true;
+        let Scene = this;
+        Object.values(this.Hitboxes).forEach(function(Object){
+            if(Object.checkCollision(Scene.Rocks[Scene.Held_Rock])) {
+                Success = false;
+                return false;
+            }
+        })
+        if(Success) {
+            this.Rocks[this.Held_Rock].x = Hitbox.x + Offset.x;
+            this.Rocks[this.Held_Rock].y = Hitbox.y + Offset.y;
+            this.Rocks[this.Held_Rock].setAlpha(1);
+            this.Held_Rock = "";
+        }
     }
 }

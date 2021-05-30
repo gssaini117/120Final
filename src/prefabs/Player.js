@@ -15,6 +15,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.MOVEMENT_SPEED = 2; //Pixels per update
         this.HasMoved = false;
         this.Anim_Curr = "";
+        this.Face = "";
         this.Direction = { //Movement Direction
             "X": 0,
             "Y": 0
@@ -99,11 +100,13 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.Anim_Curr != this.Anim_Right) {
                     this.stop();
                     this.Anim_Curr = this.Anim_Right;
+                    this.Face = "Right";
                     this.play(this.Anim_Right);
                 } else if(this.Direction.X < 0 &&
                 this.Anim_Curr != this.Anim_Left) {
                     this.stop();
                     this.Anim_Curr = this.Anim_Left;
+                    this.Face = "Left";
                     this.play(this.Anim_Left);
                 }
             } else if(this.Direction.Y != 0) {
@@ -111,11 +114,13 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.Anim_Curr != this.Anim_Down) {
                     this.stop();
                     this.Anim_Curr = this.Anim_Down;
+                    this.Face = "Down";
                     this.play(this.Anim_Down);
                 } else if(this.Direction.Y < 0 &&
                 this.Anim_Curr != this.Anim_Up) {
                     this.stop();
                     this.Anim_Curr = this.Anim_Up;
+                    this.Face = "Up";
                     this.play(this.Anim_Up);
                 }
             } else {
@@ -161,6 +166,16 @@ class Player extends Phaser.GameObjects.Sprite {
         return ret;
     }
 
+    checkCollision(Object) {
+        let Hitbox = this.getHitbox();
+        if(Math.abs(Hitbox.x - Object.x) < (Hitbox.width/2 + Object.width/2) &&
+        Math.abs(Hitbox.y - Object.y) < (Hitbox.height/2 + Object.height/2)) {
+            return true; 
+        } else {
+            return false;
+        }
+    }
+
     //Returns the player's hitbox coordinates
     getHitbox() {
         return {
@@ -169,6 +184,11 @@ class Player extends Phaser.GameObjects.Sprite {
             'width': this.width/3,
             'height': this.height/4,
         };
+    }
+
+    //Returns the direction that the player is facing.
+    getDirection() {
+        return this.Face;   
     }
 
 }
