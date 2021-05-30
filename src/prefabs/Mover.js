@@ -6,8 +6,8 @@ class Mover extends Phaser.GameObjects.Sprite{
         this.Target = targetScene;
 
         //Class fields
-        this.Width = 60;
-        this.Height = 60;
+        this.Width = 70;
+        this.Height = 70;
 
         //Adjusting Position
         adjustPos(this, origin);

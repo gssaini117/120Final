@@ -19,7 +19,7 @@ class Fire extends Phaser.GameObjects.Sprite {
     checkCollision(Player) {
         if(!this.isActive) {return false;};
         if(Math.abs(this.x - Player.x) < (this.width/16 + Player.width/2) &&
-        Math.abs(this.y - Player.y) < (this.height/16 + Player.height/2)) {
+        Math.abs(this.y - Player.y) < (this.height/12 + Player.height/2)) {
             return true; 
         } else {
             return false;
@@ -34,6 +34,7 @@ class Fire extends Phaser.GameObjects.Sprite {
     deactivate() {
         this.isActive = false;
         this.stop(this.Active_Animation);
+        this.setFrame(0);
     }
 
     getType() { return "Fire"; }

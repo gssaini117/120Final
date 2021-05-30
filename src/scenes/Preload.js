@@ -80,7 +80,7 @@ class Preload extends Phaser.Scene {
             {frameWidth: 180, frameHeight: 192, startFrame: 0, endFrame: 4}
         );
         this.load.spritesheet('Fire', './assets/Art/fire.png',
-            {frameWidth: 90, frameHeight: 90, startFrame: 0, endFrame: 3}
+            {frameWidth: 89, frameHeight: 90, startFrame: 0, endFrame: 8}
         );
         this.load.spritesheet('Gate', './assets/Art/Temp_Gate.png',
             {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 1}
@@ -136,8 +136,8 @@ class Preload extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('Player', { start: 12, end: 15, first: 0}),
         });
         this.anims.create({ //Fire effect
-            key: AnimationIDs.Fire, frameRate: 8, repeat: -1,
-            frames: this.anims.generateFrameNumbers('Fire', {start: 0, end: 3, first: 0}),
+            key: AnimationIDs.Fire, frameRate: 10, repeat: -1,
+            frames: this.anims.generateFrameNumbers('Fire', {start: 1, end: 6, first: 0}),
         });
 
         console.log("Preload Complete!");

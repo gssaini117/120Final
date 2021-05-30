@@ -150,6 +150,7 @@ class Room_East extends Phaser.Scene {
         //=========================================================
         // Updating Fire behavior
         //=========================================================
+        //Activation
         if(!this.Firing &&
         this.TIME - this.Active_Time >= this.FIRE_TRANSITION_DELAY) {
             this.Active_Time = this.TIME;
@@ -162,11 +163,20 @@ class Room_East extends Phaser.Scene {
             this.DisableFire();
         }
 
+        //Depth
+        let Hitbox = this.Player.getHitbox();
+        Object.values(this.Objects).forEach(function(Object){
+            if(Object.getType() == "Fire" && Hitbox.y < Object.y){
+                Object.setDepth(3);
+            } else {
+                Object.setDepth(1);
+            }
+        })
+
         //=========================================================
         // Object Collision Detection
         //=========================================================
         let Scene = this;
-        let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
             Object.checkCollision(Hitbox)) 
