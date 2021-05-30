@@ -1,5 +1,14 @@
 Scene Object depth management.
 ============================================================
+PRELOAD
+============================================================
+DEPTH 0:    Background1
+DEPTH 1:    Background2
+DEPTH 2:    BarBackground2, Text_Loading_Frame, Update_Background
+DEPTH 3:    BarBackground1, Text_Loading, Text_Update
+DEPTH 4:    Bar
+DEPTH 5:    Blackscreen
+============================================================
 ROOM EAST
 ============================================================
 DEPTH 0:    Room Background

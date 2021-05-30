@@ -4,18 +4,107 @@ class Preload extends Phaser.Scene {
     }
 
     preload() {
-        
+        //Blackscreen
+        this.Blackscreen = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
+        ).setOrigin(0,0).setDepth(5).setAlpha(0);
+        this.add.existing(this.Blackscreen);
     }
 
     create() {
         //=========================================================
-        // Loading Bar Ui
+        // Loading Ui
         //=========================================================
+        //Background
+        this.Background1 = new Phaser.GameObjects.Rectangle(
+            this, 0, 0, game.config.width, game.config.height, 0x000000, 1, 
+          ).setOrigin(0,0).setDepth(0);
+        this.add.existing(this.Background1);
+
+        this.Background2 = new Phaser.GameObjects.Rectangle(
+            this, 5, 5, game.config.width - 10, game.config.height - 10, 0x818181, 1, 
+          ).setOrigin(0,0).setDepth(1);
+        this.add.existing(this.Background2);
+
+        //Bar Background
+        this.BarBackground1 = new Phaser.GameObjects.Rectangle(
+            this, game.config.width/2, 
+            game.config.height/3, 
+            game.config.width/1.5, 
+            game.config.height/10, 
+            0xa9a9a9, 1, 
+        ).setOrigin(0.5,0.5).setDepth(3);
+        this.add.existing(this.BarBackground1);
+
+        this.BarBackground2 = new Phaser.GameObjects.Rectangle(
+            this, this.BarBackground1.x, 
+            this.BarBackground1.y, 
+            this.BarBackground1.width + 10, 
+            this.BarBackground1.height + 10, 
+            0x000000, 1, 
+        ).setOrigin(0.5,0.5).setDepth(2);
+        this.add.existing(this.BarBackground2);
+
+        //Loading Text
+        let textConfig = {
+            fontFamily: 'Courier',
+            backgroundColor: '#ddbf8e',
+            fontSize: '35px',
+            color: '#000000',
+            align: 'center',
+            padding: {
+                top: 10,
+                bottom: 10,
+            },
+        }
+        this.Text_Loading = this.add.text(
+            this.BarBackground1.x,
+            this.BarBackground1.y - this.BarBackground1.height/2 - 60, 
+            " L O A D I N G ! ", 
+            textConfig
+        ).setDepth(3).setOrigin(0.5, 0.5);
+        this.Text_Loading_Frame = new Phaser.GameObjects.Rectangle(
+            this, this.Text_Loading.x, 
+            this.Text_Loading.y, 
+            this.Text_Loading.width + 10, 
+            this.Text_Loading.height + 10, 
+            0x4b2e1e, 1, 
+        ).setOrigin(0.5,0.5).setDepth(2);
+        this.add.existing(this.Text_Loading_Frame);
+
+        // Actual Bar
+        this.Bar = new Phaser.GameObjects.Rectangle(
+            this, this.BarBackground1.x - this.BarBackground1.width/2, 
+            this.BarBackground1.y, 
+            0, this.BarBackground1.height, 
+            0x6ad91b, 1, 
+        ).setOrigin(0,0.5).setDepth(4);
+        this.add.existing(this.Bar);
+
+        // Update Text
+        textConfig.fontSize = "25px";
+        this.Text_Update = this.add.text(
+            this.BarBackground1.x,
+            this.BarBackground1.y + this.BarBackground1.height/2 + 60, 
+            " LOADING '' ", 
+            textConfig
+        ).setDepth(3).setOrigin(0.5, 0.5);
+        
+        this.Update_Background = new Phaser.GameObjects.Rectangle(
+            this, this.Text_Update.x, 
+            this.Text_Update.y, 
+            this.Text_Update.width + 10, 
+            this.Text_Update.height + 10, 
+            0x4b2e1e, 1, 
+        ).setOrigin(0.5, 0.5).setDepth(2);
+        this.add.existing(this.Update_Background);
 
         //=========================================================
         // Technical
         //=========================================================
         this.IsLoading = false;
+        this.Count = 0;
+        this.Max = 4;
     }
  
     update() {
@@ -23,15 +112,21 @@ class Preload extends Phaser.Scene {
             this.IsLoading = true;
             this.BeginLoad();
         }
+        this.Text_Update.setOrigin(0.5, 0.5);
+        this.Text_Update.x = game.config.width/2;
+
+        this.Update_Background.width = this.Text_Update.width + 10;
+        this.Update_Background.setOrigin(0.5, 0.5);
+        this.Update_Background.x = game.config.width/2;
+
     } 
 
     BeginLoad() {
-        console.log("Initiating Loading Process!");
         this.LoadImages();
     }
 
     LoadImages() {
-        console.log("Loading Images!");
+        this.Text_Update.setText(" Loading Images! ");
         // Room Backgrounds
         this.load.image('BG_Temp', './assets/Art/BG_Placeholder.png');
         this.load.image('BG_Main1', './assets/Art/BG_Main1.png');
@@ -62,13 +157,13 @@ class Preload extends Phaser.Scene {
 
         //Completion Event
         this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-            console.log("Image Loading Complete!");
+            this.UpdateBar();
             this.LoadSpritesheets();
         })
     }
 
     LoadSpritesheets() {
-        console.log("Loading Spritesheets!");
+        this.Text_Update.setText(" Loading Spritesheets! ");
         this.load.spritesheet('Player', './assets/Art/Player.png',
             {frameWidth: 70, frameHeight: 75, startFrame: 0, endFrame: 15}
         );
@@ -96,13 +191,13 @@ class Preload extends Phaser.Scene {
 
         //Completion Event
         this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-            console.log("Image Loading Complete!");
+            this.UpdateBar();
             this.LoadAudio();
         })
     }
 
     LoadAudio() {
-        console.log('Loading Audio!');
+        this.Text_Update.setText(" Loading Audio! ");
         
         //Sfx (Not Looped)
         this.load.audio('Sfx_Select', './assets/Audio/menu_option_click.wav');
@@ -114,13 +209,13 @@ class Preload extends Phaser.Scene {
 
         this.load.start();
         this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-            console.log("Audio Loading Complete!");
+            this.UpdateBar();
             this.LoadAnimations();
         })
     }
 
     LoadAnimations() {
-        console.log("Setting up animations!");
+        this.Text_Update.setText(" Loading Animations! ");
         this.anims.create({ //Player Up
             key: AnimationIDs.Player.Up, frameRate: 8, repeat: -1,
             frames: this.anims.generateFrameNumbers('Player', { start: 0, end: 3, first: 0}),
@@ -141,8 +236,28 @@ class Preload extends Phaser.Scene {
             key: AnimationIDs.Fire, frameRate: 10, repeat: -1,
             frames: this.anims.generateFrameNumbers('Fire', {start: 1, end: 6, first: 0}),
         });
+        setTimeout(() => {
+            this.UpdateBar();
+            this.CompleteLoading();
+        }, 1000);
+    }
 
-        console.log("Preload Complete!");
-        this.scene.start("Menu_Main");
+    CompleteLoading() {
+        this.Text_Update.setText(" Loading Complete! ");
+        setTimeout(() => {
+            let Delay = FadeOut(this, this.Blackscreen);
+            setTimeout(() => {
+                this.scene.start("Menu_Main");
+            }, Delay);
+        }, 500);
+    }
+
+    UpdateBar() {
+        this.Count++;
+        this.tweens.add({ //Updating bar
+            targets: this.Bar,
+            width: this.BarBackground1.width * (this.Count / this.Max),
+            duration: 200
+        });
     }
 }
