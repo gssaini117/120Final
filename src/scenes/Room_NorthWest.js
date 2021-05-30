@@ -65,12 +65,14 @@ class Room_NorthWest extends Phaser.Scene {
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
         //Background
-        this.background = this.add.tileSprite(
+        this.background = this.add.tileSprite( // Main
             0, 0, 1024, 576, 'BG_NorthWest1'
         ).setOrigin(0, 0).setDepth(0);
-        this.background2 = this.add.tileSprite( //Temp
+        let Alpha;
+        if(Obtained_Shard.NorthWest) {Alpha = 1} else {Alpha = 0.1};
+        this.background2 = this.add.tileSprite( // Path
             0, 0, 1024, 576, 'BG_NorthWest2'
-        ).setOrigin(0, 0).setDepth(1).setAlpha(0.01);
+        ).setOrigin(0, 0).setDepth(1).setAlpha(Alpha);
         //Shard
         if(!Obtained_Shard.NorthWest) {
             this.Objects.Shard = new Shard(this, 145, 130, 'Shard2', 0)
@@ -128,6 +130,7 @@ class Room_NorthWest extends Phaser.Scene {
                         Obtained_Shard.NorthWest = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        Scene.FadeInPath();
                 }
                 return;
             }
@@ -160,5 +163,13 @@ class Room_NorthWest extends Phaser.Scene {
             this, 0, 0, game.config.width, game.config.height, 0xff0000, 1, 
         ).setOrigin(0,0).setDepth(4).setAlpha(RedAlpha);
         this.add.existing(this.Redscreen);
+    }
+
+    FadeInPath() {
+        this.tweens.add({ //Alpha from 0 to 1
+            targets: this.background2,
+            alpha: 1,
+            duration: 500
+        });
     }
 }

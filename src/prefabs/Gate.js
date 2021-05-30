@@ -20,7 +20,7 @@ class Gate extends Phaser.GameObjects.Sprite {
                 this.y = Stats.y -20;   
                 break;
             case "Gate_Vertical":
-                this.x = Stats.x + 7;
+                this.x = Stats.x + 6;
                 this.y = Stats.y - 20;   
         }
 

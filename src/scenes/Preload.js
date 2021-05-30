@@ -77,9 +77,6 @@ class Preload extends Phaser.Scene {
         this.load.spritesheet('Fire', './assets/Art/fire.png',
             {frameWidth: 89, frameHeight: 90, startFrame: 0, endFrame: 8}
         );
-        this.load.spritesheet('Gate', './assets/Art/Temp_Gate.png',
-            {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 1}
-        );
         this.load.spritesheet('Gate_Center', './assets/Art/Gate_Center.png',
             {frameWidth: 300, frameHeight: 250, startFrame: 0, endFrame: 1}
         );
