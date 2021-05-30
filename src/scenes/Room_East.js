@@ -152,6 +152,7 @@ class Room_East extends Phaser.Scene {
         //=========================================================
         //Activation
         if(!this.Firing &&
+        !Obtained_Shard.East &&
         this.TIME - this.Active_Time >= this.FIRE_TRANSITION_DELAY) {
             this.Active_Time = this.TIME;
             this.Firing = !this.Firing;

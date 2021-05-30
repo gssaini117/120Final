@@ -10,8 +10,19 @@ class Gate extends Phaser.GameObjects.Sprite {
         
         // Adjusting Position
         let Stats = this.Hitbox.getStats();
-        this.x = Stats.x;
-        this.y = Stats.y;
+        switch(texture) {
+            case "Gate_Center":
+                this.x = Stats.x;
+                this.y = Stats.y -40;     
+                break;
+            case "Gate_Horizontal":
+                this.x = Stats.x;
+                this.y = Stats.y -20;   
+                break;
+            case "Gate_Vertical":
+                this.x = Stats.x + 7;
+                this.y = Stats.y - 20;   
+        }
 
         //Adding object to scene.
         scene.add.existing(this);

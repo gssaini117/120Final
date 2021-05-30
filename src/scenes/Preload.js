@@ -54,11 +54,6 @@ class Preload extends Phaser.Scene {
         this.load.image('Shard3', './assets/Art/Shard3.png');
         this.load.image('Shard4', './assets/Art/Shard4.png');
         this.load.image('Darkness', './assets/Art/Darkness.png');
-        this.load.image('Gate_Horz_Open', './assets/Art/Gate_Horizontal1.png');
-        this.load.image('Gate_Horz_Closed', './assets/Art/Gate_Horizontal2.png');
-        this.load.image('Gate_Vertical', './assets/Art/Gate_Vertical.png');
-        this.load.image('Gate_Center_Open', './assets/Art/Gate_Center1.png');
-        this.load.image('Gate_Center_Closed', './assets/Art/Gate_Center2.png');
         this.load.image('Rock', './assets/Art/Rock.png');
 
         //Begin Loading
@@ -84,6 +79,15 @@ class Preload extends Phaser.Scene {
         );
         this.load.spritesheet('Gate', './assets/Art/Temp_Gate.png',
             {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 1}
+        );
+        this.load.spritesheet('Gate_Center', './assets/Art/Gate_Center.png',
+            {frameWidth: 300, frameHeight: 250, startFrame: 0, endFrame: 1}
+        );
+        this.load.spritesheet('Gate_Horizontal', './assets/Art/Gate_Horizontal.png',
+            {frameWidth: 300, frameHeight: 250, startFrame: 0, endFrame: 1}
+        );
+        this.load.spritesheet('Gate_Vertical', './assets/Art/Gate_Vertical.png',
+            {frameWidth: 300, frameHeight: 250, startFrame: 0, endFrame: 1}
         );
         this.load.spritesheet('Button', './assets/Art/Temp_Button.png',
             {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 1}

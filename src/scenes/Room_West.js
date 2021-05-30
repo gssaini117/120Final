@@ -55,11 +55,11 @@ class Room_West extends Phaser.Scene {
 
         // Managing Gate Placement
         this.Gates = {
-            "TopR":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["TopR"]).setDepth(1),
-            "BotR":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["BotR"]).setDepth(1),
-            "TopL":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["TopL"]).setDepth(1),
-            "BotL":    new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["BotL"]).setDepth(1),
-            "Center":  new Gate(this, 0, 0, "Gate", 1, this.Hitboxes["Center"]).setDepth(1),
+            "TopR":    new Gate(this, 0, 0, "Gate_Horizontal", 1, this.Hitboxes["TopR"]).setDepth(1),
+            "BotR":    new Gate(this, 0, 0, "Gate_Vertical", 1, this.Hitboxes["BotR"]).setDepth(1),
+            "TopL":    new Gate(this, 0, 0, "Gate_Horizontal", 1, this.Hitboxes["TopL"]).setDepth(1),
+            "BotL":    new Gate(this, 0, 0, "Gate_Vertical", 1, this.Hitboxes["BotL"]).setDepth(1),
+            "Center":  new Gate(this, 0, 0, "Gate_Center", 1, this.Hitboxes["Center"]).setDepth(1),
         }
 
         // Managing Buttons
