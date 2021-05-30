@@ -38,6 +38,7 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_Main2', './assets/Art/BG_Main2.png');
         this.load.image('BG_NorthWest1', './assets/Art/BG_NorthWest1.png');
         this.load.image('BG_NorthWest2', './assets/Art/BG_NorthWest2.png');
+        this.load.image('BG_NorthEast1', './assets/Art/BG_NorthEast1.png');
         this.load.image('BG_East1', './assets/Art/BG_East1.png');
         this.load.image('BG_West1', './assets/Art/BG_West1.png');
         //Menus
@@ -47,8 +48,8 @@ class Preload extends Phaser.Scene {
         this.load.image('Menu_Credits', './assets/Art/Menu_Credits.png');
         this.load.image('Menu_HowTo', './assets/Art/Menu_HowTo.png');
         //Assets
-        //this.load.image('Door', './assets/Art/Temp_Door.png');
-        this.load.image('Door', './assets/Art/Transparent_Temp.png');
+        this.load.image('Door', './assets/Art/Temp_Door.png');
+        //this.load.image('Door', './assets/Art/Transparent_Temp.png');
         this.load.image('Shard1', './assets/Art/Shard1.png');
         this.load.image('Shard2', './assets/Art/Shard2.png');
         this.load.image('Shard3', './assets/Art/Shard3.png');

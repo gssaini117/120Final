@@ -15,25 +15,40 @@ class Room_NorthEast extends Phaser.Scene {
         // Technical
         //=========================================================
         // Defining keys.
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        Define_Keys(this);
 
         // Defining static Room Hitboxes.
-        let Dim = game.config;
         this.Hitboxes = {
             //Map Boundries
-            "Up":     new Boundry(Dim.width/2, 0, Dim.width, 0, "Top"),
-            "Down":   new Boundry(Dim.width/2, Dim.height, Dim.width, 0, "Bot"),
-            "Left":   new Boundry(0, Dim.height/2, 0, Dim.height, "Left"),
-            "Right":  new Boundry(Dim.width, Dim.height/2, 0, Dim.height, "Right")
+            "Up":       new Boundry(512, 0, 1024, 100, "Top"),
+            "Down1":    new Boundry(0, 576, 54, 60, "BotL"),
+            "Down2":    new Boundry(1024, 576, 854, 60, "BotR"),
+            "Left":     new Boundry(0, 100, 40, 416, "TopL"),
+            "Right":    new Boundry(1024, 100, 40, 416, "TopR"),
+            //Interior Boundries
+            "TopLeft":   new Boundry(141, 100, 32, 38, "TopL"),
+            "TopMid":    new Boundry(565, 100, 33, 90, "TopL"),
+            "TopRight":  new Boundry(836, 100, 33, 38, "TopL"),
+            "LeftIn":    new Boundry(40, 350, 378, 20, "BotL"),
+            "BotLeft":   new Boundry(170, 516, 34, 70, "BotL"),
+            "BotRight":  new Boundry(587, 516, 34, 190, "BotL"),
+            //Island Boundries
+            "Chair1":   new Boundry(444, 150, 140, 20, "TopR"),
+            "Chair2":   new Boundry(304, 170, 28, 72, "TopL"),
+            "Chair3":   new Boundry(444, 242, 280, 20, "TopR"),
+            "Dash":     new Boundry(278, 414, 200, 20, "TopL"),
+            "C1":       new Boundry(621, 394, 122, 20, "BotL"),
+            "C2":       new Boundry(714, 410, 29, 16, "BotL"),
+            "C3":       new Boundry(714, 430, 154, 20, "BotL"),
+            "C4":       new Boundry(868, 410, 36, 174, "BotR"),
+            "C5":       new Boundry(832, 256, 138, 20, "BotR"),
+            "C6":       new Boundry(694, 236, 32, 44, "BotL"),
         };
 
         // Defining interactable movement objects.
         this.Objects = {
             //Movers
-            "Main":    new Mover(this, 512, 540, "Door", 0, "Room_Main").setDepth(10)
+            "Main":    new Mover(this, 113, 540, "Door", 0, "Room_Main").setDepth(10)
         };
 
         // Comment the next line to make hitboxes invisible.
@@ -43,24 +58,26 @@ class Room_NorthEast extends Phaser.Scene {
         //=========================================================
         //Player
         this.Player = new Player(
-            this, game.config.width /2, game.config.height*3/4, 'Player', 4,
+            this, 113, 400, 'Player', 16,
             AnimationIDs.Player,
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
 
         //Background
         this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_Temp'
+            0, 0, 1024, 576, 'BG_NorthEast1'
         ).setOrigin(0, 0).setDepth(0);
 
         //Darkness
+        let Alpha;
+        if(Obtained_Shard.NorthEast) {Alpha = 0;} else {Alpha = 1;}
         this.Darkness = this.add.sprite(
             this.Player.x, this.Player.y, "Darkness"
-        ).setOrigin(0.5, 0.5).setDepth(10).setAlpha(0.5);
+        ).setOrigin(0.5, 0.5).setDepth(10).setAlpha(Alpha).setScale(1.4);
 
         //Shard
         if(!Obtained_Shard.NorthEast) {
-            this.Objects.Shard = new Shard(this, game.config.width/2, 36, 'Shard4', 0)
+            this.Objects.Shard = new Shard(this, 668, 410, 'Shard4', 0)
         }
 
         //=========================================================
@@ -78,9 +95,10 @@ class Room_NorthEast extends Phaser.Scene {
 
         //Checking Object Collision
         let Scene = this;
+        let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
-            Object.checkCollision(Scene.Player)) 
+            Object.checkCollision(Hitbox)) 
             {
                 switch(Object.getType()) {
                     case "Mover":
@@ -96,6 +114,7 @@ class Room_NorthEast extends Phaser.Scene {
                         Obtained_Shard.NorthEast = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        Scene.FadeDarkness();
                 }
                 return;
             }
@@ -103,5 +122,16 @@ class Room_NorthEast extends Phaser.Scene {
         //Dark Mist
         this.Darkness.x = this.Player.x;
         this.Darkness.y = this.Player.y;
+    }
+
+    FadeDarkness() {
+        this.tweens.add({ //Alpha from 0 to 1
+            targets: this.Darkness,
+            scaleX: 20,
+            scaleY: 20,
+            alpha: 0,
+            duration: 800
+        });
+
     }
 }
