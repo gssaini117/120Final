@@ -20,7 +20,7 @@ class Room_East extends Phaser.Scene {
         
         //Adding Audio
         this.Lava = this.sound.add('Sfx_Lava');
-        this.Lava_Config = {mute: false, volume: 0.2, loop: true, delay: 0};
+        this.Lava_Config = {mute: false, volume: 0.1, loop: true, delay: 0};
 
         //Fields used to manage fire behavior.
         this.TIME = 0;
@@ -204,6 +204,7 @@ class Room_East extends Phaser.Scene {
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
                         Scene.Lava.stop();
+                        UpdateMusic();
                         break;
                     case "Fire":
                         Scene.ResetRoom();

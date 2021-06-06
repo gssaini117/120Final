@@ -29,7 +29,7 @@ let keyH, keyC, keySPACE, keyESC, keyR;
 // Room Transition management
 let Prev_Room = "Room_Main";
 let Died = false; //Determines if the entry color is black or red.
-let isMoving = false; //Prevents repeated movement call.
+let isMoving = true; //Prevents repeated movement call.
 let RESET_TIME = 100; //Fields used to manage reset behavior.
 
 // Declaring shard management vars
@@ -90,6 +90,19 @@ function Debug_Hitbox(Scene, Hitboxes) {
       ).setDepth(100).setOrigin(0.5, 0.5);
       Scene.add.existing(Rect);
   };
+}
+//
+// Reset_Game()
+//
+// Function for resetting progress flags.
+// Should only ever be called in the main menu.
+function Reset_Game() {
+  console.log("Progress Reset");
+  Obtained_Shard.NorthEast = false;
+  Obtained_Shard.NorthWest = false;
+  Obtained_Shard.East = false;
+  Obtained_Shard.West = false;
+  Shard_Count = 0;
 }
 //
 // AdjustPos(Object, Origin[String])
@@ -161,45 +174,39 @@ function FadeIn(Scene, Blackscreen) {
 // GLOBAL AUDIO FUNCTIONS
 //===================================================================================
 // Manages audio behavior
-let CanPlay = false; // Halts recursive music.
+let isPlaying = false;
 let Music_Scene = null; // The scene which the music is playing from.
-let Curr_Scene = null; // The scene which players currently reside in.
-let Music_Config = {mute: false, volume: 0.1, loop: false, delay: 0};
-let MusicList = {
-  0: AudioIDs.Shard_0,
-  1: AudioIDs.Shard_1,
-  2: AudioIDs.Shard_2,
-  3: AudioIDs.Shard_3,
-  4: AudioIDs.Shard_4
-}
+let Music_Config = {mute: false, volume: 0, loop: true, delay: 0};
 //
 // PlayMusic(Scene[Phaser3 Scene])
 //
 // Initiates the recursive music process.
 function PlayMusic(Scene) {
-  Curr_Scene = Scene;
-  if(!CanPlay) {
-    CanPlay = true;
-    PlayMusic_Recursive(Scene);
+  if(isPlaying) {return;} // Doesn't play multiple times.
+  isPlaying = true;
+  Music_Scene = Scene; // Updates music scene (Should always be main room.)
+  Music_Scene.Music = {
+    0: Music_Scene.sound.add(AudioIDs.Shard_0),
+    1: Music_Scene.sound.add(AudioIDs.Shard_1),
+    2: Music_Scene.sound.add(AudioIDs.Shard_2),
+    3: Music_Scene.sound.add(AudioIDs.Shard_3),
+    4: Music_Scene.sound.add(AudioIDs.Shard_4)
   }
+  Music_Scene.Music[0].play(Music_Config);
+  Music_Scene.Music[1].play(Music_Config);
+  Music_Scene.Music[2].play(Music_Config);
+  Music_Scene.Music[3].play(Music_Config);
+  Music_Scene.Music[4].play(Music_Config);
+  Music_Scene.Music[Shard_Count].volume = 0.1;
 }
 //
-// PlayMusic_Recursive(Scene[Phaser3 Scene])
+// UpdateMusic()
 //
-// Plays audio recursively.
-// Stops when CanPlay is false;
-function PlayMusic_Recursive() {
-  if(!CanPlay) {return;} //Prevents replaying
-  // Disabling previous music
-  if(Music_Scene) {Music_Scene.Music.stop()}
-  // Playing new music
-  Music_Scene = Curr_Scene;
-  Curr_Scene.Music = Curr_Scene.sound.add(MusicList[Shard_Count]);
-  Curr_Scene.Music.play(Music_Config);
-  // Setup for next call
-  Curr_Scene.Music.on('complete', function() {
-    PlayMusic_Recursive();
-  });
+// Updates the soundtrack when the player collects a shard.
+// Should only ever be called if music is already playing.
+function UpdateMusic() {
+  Music_Scene.Music[Shard_Count].volume = 0.1;
+  Music_Scene.Music[Shard_Count-1].volume = 0;
 }
 //
 // StopMusic(boolean)
@@ -207,15 +214,24 @@ function PlayMusic_Recursive() {
 // doFade determines if the music fades away or stop instantly.
 // Stops the audio from playing, and ends the 
 function StopMusic(doFade = false) {
-  CanPlay = false;
+  isPlaying = false;
   if(doFade) {
-    Music_Scene.tweens.add({ //Alpha from 0 to 1
-      targets: Music_Scene.Music,
+    Music_Scene.tweens.add({
+      targets:  [
+        Music_Scene.Music[0],
+        Music_Scene.Music[1],
+        Music_Scene.Music[2],
+        Music_Scene.Music[3],
+        Music_Scene.Music[4]
+      ],
       volume: 0,
       duration: TRANSITION_TIME
     });
   } else {
-    Music_Scene.Music.stop();
-    return 0;
+    Music_Scene.Music[0].stop();
+    Music_Scene.Music[1].stop();
+    Music_Scene.Music[2].stop();
+    Music_Scene.Music[3].stop();
+    Music_Scene.Music[4].stop();
   }
 }

@@ -136,6 +136,7 @@ class Room_NorthWest extends Phaser.Scene {
                         Obtained_Shard.NorthWest = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        UpdateMusic();
                         Scene.FadeInPath();
                 }
                 return;

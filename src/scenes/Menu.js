@@ -20,6 +20,7 @@ class Menu_Main extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
         keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
     }
 
     update() {
@@ -34,6 +35,9 @@ class Menu_Main extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
             this.Select.play(this.Select_Config);
             this.scene.start('Menu_Credits');
+        }
+        if (Phaser.Input.Keyboard.JustDown(keyR)) {
+            Reset_Game();
         }
     }
 }

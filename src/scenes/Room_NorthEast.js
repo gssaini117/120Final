@@ -121,6 +121,7 @@ class Room_NorthEast extends Phaser.Scene {
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
                         Scene.FadeDarkness();
+                        UpdateMusic();
                 }
                 return;
             }

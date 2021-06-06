@@ -147,6 +147,7 @@ class Room_West extends Phaser.Scene {
                         Obtained_Shard.West = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        UpdateMusic();
                 }
                 return;
             }
