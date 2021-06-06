@@ -104,7 +104,7 @@ class Preload extends Phaser.Scene {
         //=========================================================
         this.IsLoading = false;
         this.Count = 0;
-        this.Max = 46; //Num + 1 (The 1 is for animations)
+        this.Max = 48; //Num + 1 (The 1 is for animations)
         
         let Scene = this;
         this.load.on('filecomplete', function(){
@@ -154,6 +154,8 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_NorthEast10', './assets/Art/BG_NorthEast10.png');
         this.load.image('BG_East1', './assets/Art/BG_East1.png');
         this.load.image('BG_West1', './assets/Art/BG_West1.png');
+        this.load.image('BG_West2', './assets/Art/BG_West2.png');
+        this.load.image('BG_West3', './assets/Art/BG_West3.png');
         //Menus
         this.load.image('Menu_Main', './assets/Art/Menu_Main.png');
         this.load.image('Menu_Ending1', './assets/Art/Menu_Ending1.png');

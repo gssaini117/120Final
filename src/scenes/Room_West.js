@@ -26,16 +26,16 @@ class Room_West extends Phaser.Scene {
             //Map Boundries
             "Top":     new Boundry(512, 0, 1024, 110, "Top"),
             "Down":    new Boundry(512, 576, 1024, 50, "Bot"),
-            "Left":    new Boundry(0, 110, 38, 416, "TopL"),
-            "Right1":  new Boundry(1024, 110, 38, 264, "TopR"),
+            "Left":    new Boundry(0, 110, 48, 416, "TopL"),
+            "Right1":  new Boundry(1024, 110, 48, 264, "TopR"),
             "Right2":  new Boundry(1024, 374, 0, 102, "TopR"),
-            "Right3":  new Boundry(1024, 476, 38, 50, "TopR"),
+            "Right3":  new Boundry(1024, 476, 48, 50, "TopR"),
             //Walls
-            "R1":      new Boundry(800, 110, 55, 264, "TopR"),
-            "R2":      new Boundry(800, 526, 55, 50, "BotR"),
+            "R1":      new Boundry(810, 110, 75, 264, "TopR"),
+            "R2":      new Boundry(810, 526, 75, 50, "BotR"),
             "R3":      new Boundry(745, 324, 126, 50, "BotR"),
-            "L1":      new Boundry(224, 110, 55, 264, "TopL"),
-            "L2":      new Boundry(224, 526, 55, 50, "BotL"),
+            "L1":      new Boundry(214, 110, 75, 264, "TopL"),
+            "L2":      new Boundry(214, 526, 75, 50, "BotL"),
             "L3":      new Boundry(279, 324, 126, 50, "BotL"),
             //Gates
             "TopR":    new Boundry(986, 200, 186, 50, "TopR"),
@@ -96,12 +96,12 @@ class Room_West extends Phaser.Scene {
             this, 950, 400, 'Player', 8,
             AnimationIDs.Player,
             this.Hitboxes
-        ).setOrigin(0.5, 0.5).setDepth(2);
+        ).setOrigin(0.5, 0.5).setDepth(3);
         
         //Background
-        this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_West1'
-        ).setOrigin(0, 0).setDepth(0);
+        this.background1 = this.add.tileSprite(0,0,1024,576,'BG_West1').setOrigin(0, 0).setDepth(0);
+        this.background2 = this.add.tileSprite(0,0,1024,576,'BG_West2').setOrigin(0, 0).setDepth(2);
+        this.background3 = this.add.tileSprite(0,0,1024,576,'BG_West3').setOrigin(0, 0).setDepth(4);
 
         //Shard
         if(!Obtained_Shard.West) {
@@ -123,12 +123,16 @@ class Room_West extends Phaser.Scene {
     //=================================================================================
     update() {
         this.Player.update();
+        let Scene = this;
+        let Hitbox = this.Player.getHitbox();
+        //=========================================================
+        // Depth Behavior
+        //=========================================================
+        if(Hitbox.y > 324) {this.background2.setDepth(2)} else {this.background2.setDepth(4)}
 
         //=========================================================
         // Player Collision Detection
         //=========================================================
-        let Scene = this;
-        let Hitbox = this.Player.getHitbox();
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
             Object.checkCollision(Hitbox)) 
