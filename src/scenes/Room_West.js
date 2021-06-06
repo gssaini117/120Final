@@ -84,6 +84,8 @@ class Room_West extends Phaser.Scene {
         this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
         this.Rumble = this.sound.add('Sfx_Rumble');
         this.Rumble_Config = {mute: false, volume: 1, loop: false, delay: 0};
+        this.PickUp = this.sound.add('Sfx_Pickup');
+        this.Drop = this.sound.add('Sfx_Set');
 
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
@@ -257,6 +259,7 @@ class Room_West extends Phaser.Scene {
             this.Rocks[ClosestKey].x = -50;
             this.Rocks[ClosestKey].y = -50;
             this.Rocks[ClosestKey].setAlpha(0); 
+            this.PickUp.play();
         }
     }
 
@@ -289,6 +292,7 @@ class Room_West extends Phaser.Scene {
             }
         })
         if(Success) {
+            this.Drop.play();
             this.Rocks[this.Held_Rock].x = Hitbox.x + Offset.x;
             this.Rocks[this.Held_Rock].y = Hitbox.y + Offset.y;
             this.Rocks[this.Held_Rock].setAlpha(1);

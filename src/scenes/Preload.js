@@ -104,7 +104,7 @@ class Preload extends Phaser.Scene {
         //=========================================================
         this.IsLoading = false;
         this.Count = 0;
-        this.Max = 49; //Num + 1 (The 1 is for animations)
+        this.Max = 51; //Num + 1 (The 1 is for animations)
         
         let Scene = this;
         this.load.on('filecomplete', function(){
@@ -222,6 +222,8 @@ class Preload extends Phaser.Scene {
         this.load.audio('Sfx_Walk', './assets/Audio/steps_sound.wav');
         this.load.audio('Sfx_Rumble', './assets/Audio/Rumble.mp3');
         this.load.audio('Sfx_Click', './assets/Audio/Reset.mp3');
+        this.load.audio('Sfx_Pickup', './assets/Audio/drop_rock.mp3');
+        this.load.audio('Sfx_Set', './assets/Audio/pick_up.mp3');
         //Sfx (Looped)
         this.load.audio('Sfx_Lava', './assets/Audio/fire_room.mp3');
         // Music

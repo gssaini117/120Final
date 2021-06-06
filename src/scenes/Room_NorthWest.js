@@ -75,7 +75,7 @@ class Room_NorthWest extends Phaser.Scene {
             0, 0, 1024, 576, 'BG_NorthWest1'
         ).setOrigin(0, 0).setDepth(0);
         let Alpha;
-        if(Obtained_Shard.NorthWest) {Alpha = 1} else {Alpha = 0.1};
+        if(Obtained_Shard.NorthWest) {Alpha = 1} else {Alpha = 0};
         this.background2 = this.add.tileSprite( // Path
             0, 0, 1024, 576, 'BG_NorthWest2'
         ).setOrigin(0, 0).setDepth(1).setAlpha(Alpha);
