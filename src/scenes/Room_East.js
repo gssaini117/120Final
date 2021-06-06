@@ -26,7 +26,7 @@ class Room_East extends Phaser.Scene {
         this.TIME = 0;
         this.On_Cooldown = false;
         this.FIRE_DURATION = 2000;
-        this.FIRE_TRANSITION_DELAY = 800;
+        this.FIRE_TRANSITION_DELAY = 1000;
         this.Active_Time = 0;
         this.Firing = false; //Manages fire delay
         this.FireCount = 0; //Manages pattern
@@ -127,7 +127,7 @@ class Room_East extends Phaser.Scene {
             isMoving = false;
         }, Delay);  
         //Playing Audio
-        this.Lava.play(this.Lava_Config);
+        if(!Obtained_Shard.East) {this.Lava.play(this.Lava_Config);}
     }
         
     //=================================================================================
@@ -203,6 +203,7 @@ class Room_East extends Phaser.Scene {
                         Obtained_Shard.East = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        Scene.Lava.stop();
                         break;
                     case "Fire":
                         Scene.ResetRoom();
