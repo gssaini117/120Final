@@ -26,6 +26,9 @@ let game = new Phaser.Game(config);
 let keyW, keyA, keyS, keyD;
 let keyH, keyC, keySPACE, keyESC, keyR;
 
+// Menu Blackscreen trigger
+let EnteredMenu = false;
+
 // Room Transition management
 let Prev_Room = "Room_Main";
 let Died = false; //Determines if the entry color is black or red.
