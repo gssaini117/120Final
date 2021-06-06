@@ -40,7 +40,9 @@ DEPTH 4:    Objects that are ALWAYS infront of the player.
 ROOM MAIN
 ============================================================
 DEPTH 0:    Base Room Background
-DEPTH 1:    Things behind player, all but south doors
-DEPTH 2:    Player
-DEPTH 3:    South door (If open)
-DEPTH 4:    Lower walls
+DEPTH 1:    All doors other than the southern one.
+DEPTH 2:    Room background 3
+DEPTH 3:    Pylon when behind the player.
+DEPTH 4:    Player
+DEPTH 5:    South door (If open), Pylon when infront of the player
+DEPTH 6:    Room background 2

@@ -104,7 +104,7 @@ class Preload extends Phaser.Scene {
         //=========================================================
         this.IsLoading = false;
         this.Count = 0;
-        this.Max = 51; //Num + 1 (The 1 is for animations)
+        this.Max = 52; //Num + 1 (The 1 is for animations)
         
         let Scene = this;
         this.load.on('filecomplete', function(){
@@ -140,6 +140,7 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_Temp', './assets/Art/BG_Placeholder.png');
         this.load.image('BG_Main1', './assets/Art/BG_Main1.png');
         this.load.image('BG_Main2', './assets/Art/BG_Main2.png');
+        this.load.image('BG_Main3', './assets/Art/BG_Main3.png');
         this.load.image('BG_NorthWest1', './assets/Art/BG_NorthWest1.png');
         this.load.image('BG_NorthWest2', './assets/Art/BG_NorthWest2.png');
         this.load.image('BG_NorthEast1', './assets/Art/BG_NorthEast1.png');
@@ -158,7 +159,6 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_West3', './assets/Art/BG_West3.png');
         //Menus
         this.load.image('Menu_Main', './assets/Art/Menu_Main.png');
-        //this.load.image('Menu_Main', './assets/Art/Menu_Main_New.png');
         this.load.image('Menu_Ending1', './assets/Art/Menu_Ending1.png');
         this.load.image('Menu_Ending2', './assets/Art/Menu_Ending2.png');
         this.load.image('Menu_Credits', './assets/Art/Menu_Credits.png');

@@ -46,11 +46,11 @@ class Room_Main extends Phaser.Scene {
         // Door sprites
         this.Doors = {
             NorthWest:  this.add.tileSprite(
-                233, 144, 300, 250, 'Gate_Horizontal'
-                ).setOrigin(0.5,1).setDepth(1).setFrame(1).setScale(0.56),
+                233, 174, 300, 250, 'Gate_Horizontal'
+                ).setOrigin(0.5,1).setDepth(1).setFrame(1),
             NorthEast:  this.add.tileSprite(
-                792, 144, 300, 250, 'Gate_Horizontal'
-                ).setOrigin(0.5,1).setDepth(1).setFrame(1).setScale(0.56),
+                792, 174, 300, 250, 'Gate_Horizontal'
+                ).setOrigin(0.5,1).setDepth(1).setFrame(1),
             East:       this.add.tileSprite(
                 1008, 300, 300, 250, 'Gate_Vertical'
                 ).setOrigin(0.5,0.5).setDepth(1).setFrame(1).setScale(0.8),
@@ -59,7 +59,7 @@ class Room_Main extends Phaser.Scene {
                 ).setOrigin(0.5,0.5).setDepth(1).setFrame(1).setScale(0.8),
             South:      this.add.tileSprite(
                 512,653,300,250,'Gate_Horizontal'
-                ).setOrigin(0.5, 1).setDepth(3).setFrame(1),
+                ).setOrigin(0.5, 1).setDepth(1).setFrame(1),
                 
         }
         this.add.existing(this.Doors.South);
@@ -71,6 +71,7 @@ class Room_Main extends Phaser.Scene {
             this.Objects.South = new Mover(this,512,516,"Door",0,"Menu_GameOver");
             this.Doors.South.setFrame(0);
             this.Hitboxes.South.setIsActive(false);
+            this.Doors.South.setDepth(5);
         }
         if(!Obtained_Shard.NorthEast) {
             this.Objects.NorthEast = new Mover(this, 791, 60, "Door", 0, "Room_NorthEast");
@@ -128,7 +129,10 @@ class Room_Main extends Phaser.Scene {
         ).setOrigin(0, 0).setDepth(0);
         this.background2 = this.add.tileSprite(
             0, 0, 1024, 576, 'BG_Main2'
-        ).setOrigin(0, 0).setDepth(4);
+        ).setOrigin(0, 0).setDepth(6);
+        this.background3 = this.add.tileSprite(
+            0, 0, 1024, 576, 'BG_Main3'
+        ).setOrigin(0, 0).setDepth(2);
 
         //Pylon
         console.log('Shard Count: ' + Shard_Count);
@@ -185,9 +189,9 @@ class Room_Main extends Phaser.Scene {
         });
 
         if(this.Player.y > 190) {
-            this.Pylon.setDepth(1);
-        } else {
             this.Pylon.setDepth(3);
+        } else {
+            this.Pylon.setDepth(5);
         }
     }
 
@@ -196,6 +200,6 @@ class Room_Main extends Phaser.Scene {
             this, PosX, PosY, 'Player', Frame,
             AnimationIDs.Player,
             this.Hitboxes
-        ).setDepth(2);
+        ).setDepth(4);
     }
 }
