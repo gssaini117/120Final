@@ -208,7 +208,7 @@ function PlayMusic(Scene) {
 // Updates the soundtrack when the player collects a shard.
 // Should only ever be called if music is already playing.
 function UpdateMusic() {
-  Music_Scene.Music[Shard_Count].volume = 0.1;
+  Music_Scene.Music[Shard_Count].volume = 0.3;
   Music_Scene.Music[Shard_Count-1].volume = 0;
 }
 //

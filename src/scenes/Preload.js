@@ -104,7 +104,7 @@ class Preload extends Phaser.Scene {
         //=========================================================
         this.IsLoading = false;
         this.Count = 0;
-        this.Max = 36; //Num + 1 (The 1 is for animations)
+        this.Max = 46; //Num + 1 (The 1 is for animations)
         
         let Scene = this;
         this.load.on('filecomplete', function(){
@@ -143,6 +143,15 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_NorthWest1', './assets/Art/BG_NorthWest1.png');
         this.load.image('BG_NorthWest2', './assets/Art/BG_NorthWest2.png');
         this.load.image('BG_NorthEast1', './assets/Art/BG_NorthEast1.png');
+        this.load.image('BG_NorthEast2', './assets/Art/BG_NorthEast2.png');
+        this.load.image('BG_NorthEast3', './assets/Art/BG_NorthEast3.png');
+        this.load.image('BG_NorthEast4', './assets/Art/BG_NorthEast4.png');
+        this.load.image('BG_NorthEast5', './assets/Art/BG_NorthEast5.png');
+        this.load.image('BG_NorthEast6', './assets/Art/BG_NorthEast6.png');
+        this.load.image('BG_NorthEast7', './assets/Art/BG_NorthEast7.png');
+        this.load.image('BG_NorthEast8', './assets/Art/BG_NorthEast8.png');
+        this.load.image('BG_NorthEast9', './assets/Art/BG_NorthEast9.png');
+        this.load.image('BG_NorthEast10', './assets/Art/BG_NorthEast10.png');
         this.load.image('BG_East1', './assets/Art/BG_East1.png');
         this.load.image('BG_West1', './assets/Art/BG_West1.png');
         //Menus
@@ -209,6 +218,7 @@ class Preload extends Phaser.Scene {
         //Sfx (Not Looped)
         this.load.audio('Sfx_Select', './assets/Audio/menu_option_click.wav');
         this.load.audio('Sfx_Walk', './assets/Audio/steps_sound.wav');
+        this.load.audio('Sfx_Rumble', './assets/Audio/Rumble.mp3');
         //Sfx (Looped)
         this.load.audio('Sfx_Lava', './assets/Audio/fire_room.mp3');
         // Music

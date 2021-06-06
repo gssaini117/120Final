@@ -18,10 +18,6 @@ class Room_East extends Phaser.Scene {
         // Defining keys.
         Define_Keys(this);
         
-        //Adding Audio
-        this.Lava = this.sound.add('Sfx_Lava');
-        this.Lava_Config = {mute: false, volume: 0.1, loop: true, delay: 0};
-
         //Fields used to manage fire behavior.
         this.TIME = 0;
         this.On_Cooldown = false;
@@ -89,6 +85,10 @@ class Room_East extends Phaser.Scene {
         // Adding audio
         this.Move = this.sound.add('Sfx_Walk');
         this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+        this.Rumble = this.sound.add('Sfx_Rumble');
+        this.Rumble_Config = {mute: false, volume: 1, loop: false, delay: 0};
+        this.Lava = this.sound.add('Sfx_Lava');
+        this.Lava_Config = {mute: false, volume: 0.1, loop: true, delay: 0};
 
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
@@ -204,6 +204,7 @@ class Room_East extends Phaser.Scene {
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
                         Scene.Lava.stop();
+                        Scene.Rumble.play(Scene.Rumble_Config);
                         UpdateMusic();
                         break;
                     case "Fire":

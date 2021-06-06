@@ -26,23 +26,23 @@ class Room_NorthEast extends Phaser.Scene {
             "Left":     new Boundry(0, 100, 40, 416, "TopL"),
             "Right":    new Boundry(1024, 100, 40, 416, "TopR"),
             //Interior Boundries
-            "TopLeft":   new Boundry(141, 100, 32, 38, "TopL"),
-            "TopMid":    new Boundry(565, 100, 33, 90, "TopL"),
-            "TopRight":  new Boundry(836, 100, 33, 38, "TopL"),
+            "TopLeft":   new Boundry(158, 100, 56, 38, "Top"),
+            "TopMid":    new Boundry(582, 100, 56, 90, "Top"),
+            "TopRight":  new Boundry(853, 100, 56, 38, "Top"),
             "LeftIn":    new Boundry(40, 350, 378, 20, "BotL"),
             "BotLeft":   new Boundry(170, 516, 34, 70, "BotL"),
-            "BotRight":  new Boundry(587, 516, 34, 190, "BotL"),
+            "BotRight":  new Boundry(604, 516, 54, 190, "Bot"),
             //Island Boundries
-            "Chair1":   new Boundry(444, 150, 140, 20, "TopR"),
-            "Chair2":   new Boundry(304, 170, 28, 72, "TopL"),
+            "Chair1":   new Boundry(444, 150, 153, 20, "TopR"),
+            "Chair2":   new Boundry(291, 170, 54, 72, "TopL"),
             "Chair3":   new Boundry(444, 242, 280, 20, "TopR"),
             "Dash":     new Boundry(278, 414, 200, 20, "TopL"),
-            "C1":       new Boundry(621, 394, 122, 20, "BotL"),
-            "C2":       new Boundry(714, 410, 29, 16, "BotL"),
-            "C3":       new Boundry(714, 430, 154, 20, "BotL"),
-            "C4":       new Boundry(868, 410, 36, 174, "BotR"),
-            "C5":       new Boundry(832, 256, 138, 20, "BotR"),
-            "C6":       new Boundry(694, 236, 32, 44, "BotL"),
+            "C1":       new Boundry(631, 394, 126, 20, "BotL"),
+            "C2":       new Boundry(714, 410, 43, 16, "BotL"),
+            "C3":       new Boundry(714, 430, 168, 20, "BotL"),
+            "C4":       new Boundry(882, 410, 64, 174, "BotR"),
+            "C5":       new Boundry(832, 256, 150, 20, "BotR"),
+            "C6":       new Boundry(682, 236, 56, 44, "BotL"),
         };
 
         // Defining interactable movement objects.
@@ -54,6 +54,8 @@ class Room_NorthEast extends Phaser.Scene {
         // Adding audio
         this.Move = this.sound.add('Sfx_Walk');
         this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+        this.Rumble = this.sound.add('Sfx_Rumble');
+        this.Rumble_Config = {mute: false, volume: 1, loop: false, delay: 0};
 
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
@@ -67,10 +69,19 @@ class Room_NorthEast extends Phaser.Scene {
             this.Hitboxes
         ).setOrigin(0.5, 0.5).setDepth(2);
 
-        //Background
-        this.background = this.add.tileSprite(
-            0, 0, 1024, 576, 'BG_NorthEast1'
-        ).setOrigin(0, 0).setDepth(0);
+        //Backgrounds
+        this.Backgrounds = {
+            1: this.add.tileSprite(0,0,1024,576,'BG_NorthEast1').setOrigin(0, 0).setDepth(0),
+            2: this.add.tileSprite(0,0,1024,576,'BG_NorthEast2').setOrigin(0, 0).setDepth(4),
+            3: this.add.tileSprite(0,0,1024,576,'BG_NorthEast3').setOrigin(0, 0).setDepth(3),
+            4: this.add.tileSprite(0,0,1024,576,'BG_NorthEast4').setOrigin(0, 0).setDepth(3),
+            5: this.add.tileSprite(0,0,1024,576,'BG_NorthEast5').setOrigin(0, 0).setDepth(3),
+            6: this.add.tileSprite(0,0,1024,576,'BG_NorthEast6').setOrigin(0, 0).setDepth(3),
+            7: this.add.tileSprite(0,0,1024,576,'BG_NorthEast7').setOrigin(0, 0).setDepth(3),
+            8: this.add.tileSprite(0,0,1024,576,'BG_NorthEast8').setOrigin(0, 0).setDepth(4),
+            9: this.add.tileSprite(0,0,1024,576,'BG_NorthEast9').setOrigin(0, 0).setDepth(3),
+            10:this.add.tileSprite(0,0,1024,576,'BG_NorthEast10').setOrigin(0, 0).setDepth(4),
+        }
 
         //Darkness
         let Alpha;
@@ -96,10 +107,26 @@ class Room_NorthEast extends Phaser.Scene {
 
     update() {
         this.Player.update();
-
-        //Checking Object Collision
         let Scene = this;
         let Hitbox = this.Player.getHitbox();
+        //=========================================================
+        // Wall Depth Behavior
+        //=========================================================
+        if(Hitbox.y > 434) {this.Backgrounds[3].setDepth(1)} else {this.Backgrounds[3].setDepth(3)}
+        if(Hitbox.y > 350) {this.Backgrounds[4].setDepth(1)} else {this.Backgrounds[4].setDepth(3)}
+        if(Hitbox.y > 242) {this.Backgrounds[5].setDepth(1)} else {this.Backgrounds[5].setDepth(3)}
+        if(Hitbox.y > 150) {this.Backgrounds[6].setDepth(1)} else {this.Backgrounds[6].setDepth(3)}
+        if((Hitbox.y > 430 && Hitbox.x > 714) ||
+        (Hitbox.y > 394 && Hitbox.x < 714)) {
+            this.Backgrounds[7].setDepth(1);
+        } else {
+            this.Backgrounds[7].setDepth(3);
+        }
+        if(Hitbox.y > 256) {this.Backgrounds[9].setDepth(1)} else {this.Backgrounds[9].setDepth(3)}
+
+        //=========================================================
+        // Object Collision
+        //=========================================================
         Object.values(this.Objects).forEach(function(Object){
             if(!isMoving && 
             Object.checkCollision(Hitbox)) 
@@ -120,13 +147,16 @@ class Room_NorthEast extends Phaser.Scene {
                         Obtained_Shard.NorthEast = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        Scene.Rumble.play(Scene.Rumble_Config);
                         Scene.FadeDarkness();
                         UpdateMusic();
                 }
                 return;
             }
         });
-        //Dark Mist
+        //=========================================================
+        // Dark Mist
+        //=========================================================
         this.Darkness.x = this.Player.x;
         this.Darkness.y = this.Player.y;
     }

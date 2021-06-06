@@ -26,3 +26,12 @@ DEPTH 2:    Objects that are behind the player.
 DEPTH 3:    Player.
 DEPTH 4:    Objects that are infront of the player.
 DEPTH 5:    Transition screens (Blackscreen, Redscreen).
+
+============================================================
+ROOM NORTHEAST
+============================================================
+DEPTH 0:    Base Room Background
+DEPTH 1:    Items behind player
+DEPTH 2:    Player
+DEPTH 3:    Objects that are infront of the player at the moment.
+DEPTH 4:    Objects that are ALWAYS infront of the player.

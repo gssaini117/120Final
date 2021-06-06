@@ -56,6 +56,8 @@ class Room_NorthWest extends Phaser.Scene {
         // Adding audio
         this.Move = this.sound.add('Sfx_Walk');
         this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+        this.Rumble = this.sound.add('Sfx_Rumble');
+        this.Rumble_Config = {mute: false, volume: 1, loop: false, delay: 0};
 
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
@@ -136,6 +138,7 @@ class Room_NorthWest extends Phaser.Scene {
                         Obtained_Shard.NorthWest = true;
                         Scene.Objects.Shard.destroy();
                         delete(Scene.Objects.Shard);
+                        Scene.Rumble.play(Scene.Rumble_Config);
                         UpdateMusic();
                         Scene.FadeInPath();
                 }
