@@ -16,10 +16,7 @@ class Room_Main extends Phaser.Scene {
         // Technical
         //=========================================================
         // Defining keys.
-        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        Define_Keys(this);
 
         // Defining static Room Hitboxes.
         this.Hitboxes = {
@@ -41,14 +38,23 @@ class Room_Main extends Phaser.Scene {
         };
         
         // Defining interactable movement objects.
-        this.Objects = {
-            //Movers
-            "NorthEast":    new Mover(this, 791, 60, "Door", 0, "Room_NorthEast").setDepth(10),
-            "NorthWest":    new Mover(this, 233, 60, "Door", 0, "Room_NorthWest").setDepth(10),
-            "East":         new Mover(this, 1004, 325, "Door", 0, "Room_East").setDepth(10),
-            "West":         new Mover(this, 20, 325, "Door", 0, "Room_West").setDepth(10),
-            "South":        new Mover(this, 512, 516, "Door", 0, "Menu_GameOver").setDepth(10)
-        };
+        this.Objects = {};
+        // Adding movers based on player progress
+        if(Shard_Count > 0) {
+            this.Objects.South = new Mover(this,512,516,"Door",0,"Menu_GameOver");
+        }
+        if(!Obtained_Shard.NorthEast) {
+            this.Objects.NorthEast = new Mover(this, 791, 60, "Door", 0, "Room_NorthEast");
+        }
+        if(!Obtained_Shard.NorthWest) {
+            this.Objects.NorthWest = new Mover(this, 233, 60, "Door", 0, "Room_NorthWest");
+        }
+        if(!Obtained_Shard.East) {
+            this.Objects.East = new Mover(this, 1004, 325, "Door", 0, "Room_East");
+        }
+        if(!Obtained_Shard.South) {
+            this.Objects.West = new Mover(this, 20, 325, "Door", 0, "Room_West");
+        }
 
         // Adding audio
         this.Move = this.sound.add('Sfx_Walk');

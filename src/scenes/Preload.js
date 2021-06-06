@@ -104,7 +104,7 @@ class Preload extends Phaser.Scene {
         //=========================================================
         this.IsLoading = false;
         this.Count = 0;
-        this.Max = 48; //Num + 1 (The 1 is for animations)
+        this.Max = 49; //Num + 1 (The 1 is for animations)
         
         let Scene = this;
         this.load.on('filecomplete', function(){
@@ -158,13 +158,13 @@ class Preload extends Phaser.Scene {
         this.load.image('BG_West3', './assets/Art/BG_West3.png');
         //Menus
         this.load.image('Menu_Main', './assets/Art/Menu_Main.png');
+        //this.load.image('Menu_Main', './assets/Art/Menu_Main_New.png');
         this.load.image('Menu_Ending1', './assets/Art/Menu_Ending1.png');
         this.load.image('Menu_Ending2', './assets/Art/Menu_Ending2.png');
         this.load.image('Menu_Credits', './assets/Art/Menu_Credits.png');
         this.load.image('Menu_HowTo', './assets/Art/Menu_HowTo.png');
         //Assets
-        this.load.image('Door', './assets/Art/Temp_Door.png');
-        //this.load.image('Door', './assets/Art/Transparent_Temp.png');
+        this.load.image('Door', './assets/Art/Transparent_Temp.png');
         this.load.image('Shard1', './assets/Art/Shard1.png');
         this.load.image('Shard2', './assets/Art/Shard2.png');
         this.load.image('Shard3', './assets/Art/Shard3.png');
@@ -190,7 +190,7 @@ class Preload extends Phaser.Scene {
             {frameWidth: 180, frameHeight: 192, startFrame: 0, endFrame: 4}
         );
         this.load.spritesheet('Fire', './assets/Art/fire.png',
-            {frameWidth: 89, frameHeight: 90, startFrame: 0, endFrame: 8}
+            {frameWidth: 80, frameHeight: 80, startFrame: 0, endFrame: 8}
         );
         this.load.spritesheet('Gate_Center', './assets/Art/Gate_Center.png',
             {frameWidth: 300, frameHeight: 250, startFrame: 0, endFrame: 1}
@@ -221,6 +221,7 @@ class Preload extends Phaser.Scene {
         this.load.audio('Sfx_Select', './assets/Audio/menu_option_click.wav');
         this.load.audio('Sfx_Walk', './assets/Audio/steps_sound.wav');
         this.load.audio('Sfx_Rumble', './assets/Audio/Rumble.mp3');
+        this.load.audio('Sfx_Click', './assets/Audio/Reset.mp3');
         //Sfx (Looped)
         this.load.audio('Sfx_Lava', './assets/Audio/fire_room.mp3');
         // Music

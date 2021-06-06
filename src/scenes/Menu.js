@@ -13,13 +13,36 @@ class Menu_Main extends Phaser.Scene {
     }
 
     create() {
+        //=========================================================
+        // Loading visuals
+        //=========================================================
+        // Background sprite
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'Menu_Main'
         ).setOrigin(0, 0).setDepth(0);
+        // Start Hitbox
+        this.Start = new Phaser.GameObjects.Rectangle(
+            this, 73, 100, 344, 107, 0xffffff, 1, 
+        ).setOrigin(0,0).setDepth(1).setAlpha(0.5);
+        this.add.existing(this.Start);
+        // Credits Hitbox
+        this.Credits = new Phaser.GameObjects.Rectangle(
+            this, 73, 246, 344, 107, 0xffffff, 1, 
+        ).setOrigin(0,0).setDepth(1).setAlpha(0.5);
+        this.add.existing(this.Credits);
+        // HowTo Hitbox
+        this.HowTo = new Phaser.GameObjects.Rectangle(
+            this, 73, 386, 344, 107, 0xffffff, 1, 
+        ).setOrigin(0,0).setDepth(1).setAlpha(0.5);
+        this.add.existing(this.HowTo);
 
+        //=========================================================
+        // Technical Config
+        //=========================================================
         // Sound Config
         this.Select = this.sound.add('Sfx_Select');
         this.Select_Config = {mute: false, volume: 0.5, loop: false, delay: 0};
+        this.Click = this.sound.add('Sfx_Click');
         
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -39,6 +62,11 @@ class Menu_Main extends Phaser.Scene {
         setTimeout(() => {
             this.Locked = false;
         }, Delay); 
+
+        //=========================================================
+        // Mouse Hover Behavior
+        //=========================================================
+        
     }
 
     update() {
@@ -61,6 +89,7 @@ class Menu_Main extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyR) &&
         !this.Locked) {
             Reset_Game();
+            this.Click.play();
         }
     }
 }
