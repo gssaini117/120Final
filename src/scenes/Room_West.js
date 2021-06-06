@@ -20,7 +20,6 @@ class Room_West extends Phaser.Scene {
         //=========================================================
         // Defining keys.
         Define_Keys(this);
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // Defining Room Hitboxes
         this.Hitboxes = {
@@ -80,6 +79,10 @@ class Room_West extends Phaser.Scene {
             '3':  this.add.tileSprite(131, 130, 150, 150, 'Rock').setOrigin(0.5, 0.5).setDepth(2)
         }
 
+        // Adding audio
+        this.Move = this.sound.add('Sfx_Walk');
+        this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
 
@@ -133,7 +136,9 @@ class Room_West extends Phaser.Scene {
                         isMoving = true;
                         Prev_Room = "Room_West";
                         let Delay = FadeOut(Scene, Scene.Blackscreen);
+                        Scene.Move.play(Scene.Move_Config);
                         setTimeout(() => {
+                            Scene.Move.stop();
                             Scene.scene.start(Object.getTarget());
                         }, Delay);      
                         break;

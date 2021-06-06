@@ -53,6 +53,10 @@ class Room_NorthWest extends Phaser.Scene {
             "Top5":     new Boundry(229, 187, 63, 29, "TopR"),
         };
 
+        // Adding audio
+        this.Move = this.sound.add('Sfx_Walk');
+        this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
         //=========================================================
@@ -118,7 +122,9 @@ class Room_NorthWest extends Phaser.Scene {
                         isMoving = true;
                         Prev_Room = "Room_NorthWest";
                         let Delay = FadeOut(Scene, Scene.Blackscreen);
+                        Scene.Move.play(Scene.Move_Config);
                         setTimeout(() => {
+                            Scene.Move.stop();
                             Scene.scene.start(Object.getTarget());
                         }, Delay);      
                         break;

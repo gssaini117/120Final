@@ -32,11 +32,6 @@ let Died = false; //Determines if the entry color is black or red.
 let isMoving = false; //Prevents repeated movement call.
 let RESET_TIME = 100; //Fields used to manage reset behavior.
 
-// Room Music management. Used to prevent overlapping music.
-let PlayingMusic = {
-
-};
-
 // Declaring shard management vars
 let Shard_Count = 0;
 let Obtained_Shard = {
@@ -58,8 +53,18 @@ let AnimationIDs = {
     "Fire": "Fire_Loop"
 };
 
+// Declaring MusicIDs
+// Convinient for referencing/changing audio names
+let AudioIDs = {
+  "Shard_0": "Music_0",
+  "Shard_1": "Music_1",
+  "Shard_2": "Music_2",
+  "Shard_3": "Music_3",
+  "Shard_4": "Music_4"
+};
+
 //===================================================================================
-// GLOBAL FUNCTIONS
+// GLOBAL TECHNICAL FUNCTIONS
 //===================================================================================
 //
 // Define_Keys(Scene[Phaser3 Scene])
@@ -70,6 +75,7 @@ function Define_Keys(Scene) {
   keyA = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
   keyS = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
   keyD = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+  keySPACE = Scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 }
 //
 // Debug_Hitbox(Scene[Phaser3 Scene], Hitboxes[Dictionary<String, Boundry>])
@@ -84,35 +90,6 @@ function Debug_Hitbox(Scene, Hitboxes) {
       ).setDepth(100).setOrigin(0.5, 0.5);
       Scene.add.existing(Rect);
   };
-}
-//
-// FadeOut(Scene[Phaser3 Scene], Blackscreen[Phaser3 Rectangle])
-//
-// Transition for moving inbetween rooms.
-// Blackscreen is a phaser3 rectangle object.
-// Returns the transition Time in milliseconds (Int).
-let TRANSITION_TIME = 800; // Delay length in milliseconds.
-function FadeOut(Scene, Blackscreen) {
-  Scene.tweens.add({ //Alpha from 0 to 1
-    targets: Blackscreen,
-    alpha: 1,
-    duration: TRANSITION_TIME
-  });
-  return TRANSITION_TIME;
-}
-//
-// FadeIn(Scene[Phaser3 Scene], Blackscreen[Phaser3 Rectangle])
-//
-// Transition for moving inbetween rooms.
-// Blackscreen is a phaser3 rectangle object.
-// Returns the transition Time in milliseconds (Int).
-function FadeIn(Scene, Blackscreen) {
-  Scene.tweens.add({ //Alpha from 0 to 1
-    targets: Blackscreen,
-    alpha: 0,
-    duration: TRANSITION_TIME
-  });
-  return TRANSITION_TIME;
 }
 //
 // AdjustPos(Object, Origin[String])
@@ -146,5 +123,99 @@ function adjustPos(Object, Origin) {
     case "BotL":
       Object.adjustPos(size.width/2, -size.height/2);
       break;
+  }
+}
+//===================================================================================
+// GLOBAL TRANSITION FUNCTIONS
+//===================================================================================
+//
+// FadeOut(Scene[Phaser3 Scene], Blackscreen[Phaser3 Rectangle])
+//
+// Transition for moving inbetween rooms.
+// Blackscreen is a phaser3 rectangle object.
+// Returns the transition Time in milliseconds (Int).
+let TRANSITION_TIME = 1000 // Delay length in milliseconds.
+function FadeOut(Scene, Blackscreen) {
+  Scene.tweens.add({ //Alpha from 0 to 1
+    targets: Blackscreen,
+    alpha: 1,
+    duration: TRANSITION_TIME
+  });
+  return TRANSITION_TIME;
+}
+//
+// FadeIn(Scene[Phaser3 Scene], Blackscreen[Phaser3 Rectangle])
+//
+// Transition for moving inbetween rooms.
+// Blackscreen is a phaser3 rectangle object.
+// Returns the transition Time in milliseconds (Int).
+function FadeIn(Scene, Blackscreen) {
+  Scene.tweens.add({ //Alpha from 0 to 1
+    targets: Blackscreen,
+    alpha: 0,
+    duration: TRANSITION_TIME
+  });
+  return TRANSITION_TIME;
+}
+//===================================================================================
+// GLOBAL AUDIO FUNCTIONS
+//===================================================================================
+// Manages audio behavior
+let CanPlay = false; // Halts recursive music.
+let Music_Scene = null; // The scene which the music is playing from.
+let Curr_Scene = null; // The scene which players currently reside in.
+let Music_Config = {mute: false, volume: 0.1, loop: false, delay: 0};
+let MusicList = {
+  0: AudioIDs.Shard_0,
+  1: AudioIDs.Shard_1,
+  2: AudioIDs.Shard_2,
+  3: AudioIDs.Shard_3,
+  4: AudioIDs.Shard_4
+}
+//
+// PlayMusic(Scene[Phaser3 Scene])
+//
+// Initiates the recursive music process.
+function PlayMusic(Scene) {
+  Curr_Scene = Scene;
+  if(!CanPlay) {
+    CanPlay = true;
+    PlayMusic_Recursive(Scene);
+  }
+}
+//
+// PlayMusic_Recursive(Scene[Phaser3 Scene])
+//
+// Plays audio recursively.
+// Stops when CanPlay is false;
+function PlayMusic_Recursive() {
+  if(!CanPlay) {return;} //Prevents replaying
+  // Disabling previous music
+  if(Music_Scene) {Music_Scene.Music.stop()}
+  // Playing new music
+  Music_Scene = Curr_Scene;
+  Curr_Scene.Music = Curr_Scene.sound.add(MusicList[Shard_Count]);
+  Curr_Scene.Music.play(Music_Config);
+  // Setup for next call
+  Curr_Scene.Music.on('complete', function() {
+    PlayMusic_Recursive();
+  });
+}
+//
+// StopMusic(boolean)
+//
+// doFade determines if the music fades away or stop instantly.
+// Stops the audio from playing, and ends the 
+function StopMusic(doFade = false) {
+  CanPlay = false;
+  if(doFade) {
+    Music_Scene.tweens.add({ //Alpha from 0 to 1
+      targets: Music_Scene.Music,
+      volume: 0,
+      duration: TRANSITION_TIME
+    });
+  } else {
+    Music_Scene.Music.stop();
+    return 0;
   }
 }

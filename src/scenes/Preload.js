@@ -104,21 +104,30 @@ class Preload extends Phaser.Scene {
         //=========================================================
         this.IsLoading = false;
         this.Count = 0;
-        this.Max = 4;
+        this.Max = 36; //Num + 1 (The 1 is for animations)
+        
+        let Scene = this;
+        this.load.on('filecomplete', function(){
+            Scene.Count++;
+        });
     }
  
     update() {
+        //Begin loading
         if(!this.IsLoading) {
             this.IsLoading = true;
             this.BeginLoad();
         }
+        //Updating loading bar size
+        this.UpdateBar();
+
+        //Updating loading bar position
         this.Text_Update.setOrigin(0.5, 0.5);
         this.Text_Update.x = game.config.width/2;
 
         this.Update_Background.width = this.Text_Update.width + 10;
         this.Update_Background.setOrigin(0.5, 0.5);
         this.Update_Background.x = game.config.width/2;
-
     } 
 
     BeginLoad() {
@@ -157,7 +166,6 @@ class Preload extends Phaser.Scene {
 
         //Completion Event
         this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-            this.UpdateBar();
             this.LoadSpritesheets();
         })
     }
@@ -183,7 +191,7 @@ class Preload extends Phaser.Scene {
             {frameWidth: 300, frameHeight: 250, startFrame: 0, endFrame: 1}
         );
         this.load.spritesheet('Button', './assets/Art/Temp_Button.png',
-            {frameWidth: 64, frameHeight: 64, startFrame: 0, endFrame: 1}
+            {frameWidth: 90, frameHeight: 90, startFrame: 0, endFrame: 1}
         );
 
         //Begin Loading
@@ -191,7 +199,6 @@ class Preload extends Phaser.Scene {
 
         //Completion Event
         this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-            this.UpdateBar();
             this.LoadAudio();
         })
     }
@@ -205,11 +212,15 @@ class Preload extends Phaser.Scene {
         //Sfx (Looped)
         this.load.audio('Sfx_Lava', './assets/Audio/fire_room.mp3');
         // Music
-        // None atm
+        this.load.audio('Music_0', './assets/Audio/1_Behold_Wonderment.mp3');
+        this.load.audio('Music_1', './assets/Audio/2_Morbid_Curiosity.mp3');
+        this.load.audio('Music_2', './assets/Audio/3_SuddenChills.mp3');
+        this.load.audio('Music_3', './assets/Audio/4_PointOfNoReturn.mp3');
+        this.load.audio('Music_4', './assets/Audio/5_SheAwakens.mp3');
 
         this.load.start();
+
         this.load.once(Phaser.Loader.Events.COMPLETE, () => {
-            this.UpdateBar();
             this.LoadAnimations();
         })
     }
@@ -237,7 +248,7 @@ class Preload extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('Fire', {start: 1, end: 6, first: 0}),
         });
         setTimeout(() => {
-            this.UpdateBar();
+            this.Count++;
             this.CompleteLoading();
         }, 1000);
     }
@@ -253,7 +264,6 @@ class Preload extends Phaser.Scene {
     }
 
     UpdateBar() {
-        this.Count++;
         this.tweens.add({ //Updating bar
             targets: this.Bar,
             width: this.BarBackground1.width * (this.Count / this.Max),

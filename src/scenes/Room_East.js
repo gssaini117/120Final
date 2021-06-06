@@ -86,6 +86,10 @@ class Room_East extends Phaser.Scene {
             "Fire12-3":  new Fire(this, 852, 347, "Fire", 0, "Fire_Loop").setDepth(1),
         };
 
+        // Adding audio
+        this.Move = this.sound.add('Sfx_Walk');
+        this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
 
@@ -187,8 +191,10 @@ class Room_East extends Phaser.Scene {
                         isMoving = true;
                         Prev_Room = "Room_East";
                         let Delay = FadeOut(Scene, Scene.Blackscreen);
+                        Scene.Move.play(Scene.Move_Config);
                         setTimeout(() => {
                             Scene.Lava.stop();
+                            Scene.Move.stop();
                             Scene.scene.start(Object.getTarget());
                         }, Delay);      
                         break;

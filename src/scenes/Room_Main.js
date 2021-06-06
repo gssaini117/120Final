@@ -20,7 +20,6 @@ class Room_Main extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Defining static Room Hitboxes.
         this.Hitboxes = {
@@ -50,6 +49,10 @@ class Room_Main extends Phaser.Scene {
             "West":         new Mover(this, 20, 325, "Door", 0, "Room_West").setDepth(10),
             "South":        new Mover(this, 512, 516, "Door", 0, "Menu_GameOver").setDepth(10)
         };
+
+        // Adding audio
+        this.Move = this.sound.add('Sfx_Walk');
+        this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
 
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
@@ -91,6 +94,7 @@ class Room_Main extends Phaser.Scene {
         // Starting Game
         //=========================================================
         let Delay = FadeIn(this, this.Blackscreen);
+        PlayMusic(this);
         setTimeout(() => {
             //Unlocks player movement
             isMoving = false;
@@ -102,9 +106,6 @@ class Room_Main extends Phaser.Scene {
     //=================================================================================
     update() {
         this.Player.update();
-        if(Phaser.Input.Keyboard.JustDown(keyR)) {
-            this.scene.start("Room_Main")
-        }
 
         //=========================================================
         // Object Collision Detection
@@ -118,8 +119,11 @@ class Room_Main extends Phaser.Scene {
                 switch(Object.getType()) {
                     case "Mover":
                         isMoving = true;
-                        let Delay = FadeOut(Scene, Scene.Blackscreen)
+                        let Delay = FadeOut(Scene, Scene.Blackscreen);
+                        Scene.Move.play(Scene.Move_Config);
+                        if(Object.getTarget() == "Menu_GameOver") {StopMusic(true)};
                         setTimeout(() => {
+                            Scene.Move.stop();
                             Scene.scene.start(Object.getTarget());
                         }, Delay);       
                 }

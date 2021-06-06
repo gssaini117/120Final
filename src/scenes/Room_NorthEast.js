@@ -51,6 +51,10 @@ class Room_NorthEast extends Phaser.Scene {
             "Main":    new Mover(this, 113, 540, "Door", 0, "Room_Main").setDepth(10)
         };
 
+        // Adding audio
+        this.Move = this.sound.add('Sfx_Walk');
+        this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
         //=========================================================
@@ -105,7 +109,9 @@ class Room_NorthEast extends Phaser.Scene {
                         isMoving = true;
                         Prev_Room = "Room_NorthEast";
                         let Delay = FadeOut(Scene, Scene.Blackscreen);
+                        Scene.Move.play(Scene.Move_Config);
                         setTimeout(() => {
+                            Scene.Move.stop();
                             Scene.scene.start(Object.getTarget());
                         }, Delay);      
                         break;
