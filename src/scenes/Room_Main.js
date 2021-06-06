@@ -153,7 +153,7 @@ class Room_Main extends Phaser.Scene {
                         StopMusic(true);
                         this.scene.start("Menu_GameOver");
                     }, Delay)
-                }, 5000)
+                }, 10000)
             }
         }, Delay);  
     }
