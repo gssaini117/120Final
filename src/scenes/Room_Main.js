@@ -35,25 +35,62 @@ class Room_Main extends Phaser.Scene {
             "DownR2": new Boundry(1024, 526, 40, 160, "BotR"),
             //Objects (Static)
             "Pylon":  new Boundry(512, 205, 100, 25, "Center"),
+            //Doors (Changeable)
+            "NorthEast": new Boundry(739.5, 0, 108.5, 105, "TopL"),
+            "NorthWest": new Boundry(176, 0, 108.5, 105, "TopL"),
+            "East":      new Boundry(1024, 285, 40, 81, "TopR"),
+            "West":      new Boundry(0, 285, 40, 81, "TopL"),
+            "South":     new Boundry(512, 576, 112, 50, "Bot"),
         };
         
+        // Door sprites
+        this.Doors = {
+            NorthWest:  this.add.tileSprite(
+                233, 144, 300, 250, 'Gate_Horizontal'
+                ).setOrigin(0.5,1).setDepth(1).setFrame(1).setScale(0.56),
+            NorthEast:  this.add.tileSprite(
+                792, 144, 300, 250, 'Gate_Horizontal'
+                ).setOrigin(0.5,1).setDepth(1).setFrame(1).setScale(0.56),
+            East:       this.add.tileSprite(
+                1008, 300, 300, 250, 'Gate_Vertical'
+                ).setOrigin(0.5,0.5).setDepth(1).setFrame(1).setScale(0.8),
+            West:       this.add.tileSprite(
+                25, 300, 300, 250, 'Gate_Vertical'
+                ).setOrigin(0.5,0.5).setDepth(1).setFrame(1).setScale(0.8),
+            South:      this.add.tileSprite(
+                512,653,300,250,'Gate_Horizontal'
+                ).setOrigin(0.5, 1).setDepth(3).setFrame(1),
+                
+        }
+        this.add.existing(this.Doors.South);
+
         // Defining interactable movement objects.
         this.Objects = {};
         // Adding movers based on player progress
-        if(Shard_Count > 0) {
+        if(Shard_Count > 0 && Shard_Count < 4) {
             this.Objects.South = new Mover(this,512,516,"Door",0,"Menu_GameOver");
+            this.Doors.South.setFrame(0);
+            this.Hitboxes.South.setIsActive(false);
         }
         if(!Obtained_Shard.NorthEast) {
             this.Objects.NorthEast = new Mover(this, 791, 60, "Door", 0, "Room_NorthEast");
+            this.Doors.NorthEast.setFrame(0);
+            this.Hitboxes.NorthEast.setIsActive(false);
         }
         if(!Obtained_Shard.NorthWest) {
             this.Objects.NorthWest = new Mover(this, 233, 60, "Door", 0, "Room_NorthWest");
+            this.Doors.NorthWest.setFrame(0);
+            this.Hitboxes.NorthWest.setIsActive(false);
         }
         if(!Obtained_Shard.East) {
             this.Objects.East = new Mover(this, 1004, 325, "Door", 0, "Room_East");
+            this.Doors.East.setFrame(0);
+            this.Hitboxes.East.setIsActive(false);
         }
-        if(!Obtained_Shard.South) {
+        if(!Obtained_Shard.West) {
             this.Objects.West = new Mover(this, 20, 325, "Door", 0, "Room_West");
+            this.Doors.West.setFrame(0);
+            this.Hitboxes.West.setIsActive(false);
         }
 
         // Adding audio
@@ -86,10 +123,10 @@ class Room_Main extends Phaser.Scene {
         Prev_Room = "Room_Main"
         
         //Background
-        this.background = this.add.tileSprite(
+        this.background1 = this.add.tileSprite(
             0, 0, 1024, 576, 'BG_Main1'
         ).setOrigin(0, 0).setDepth(0);
-        this.background = this.add.tileSprite(
+        this.background2 = this.add.tileSprite(
             0, 0, 1024, 576, 'BG_Main2'
         ).setOrigin(0, 0).setDepth(4);
 
@@ -104,6 +141,16 @@ class Room_Main extends Phaser.Scene {
         setTimeout(() => {
             //Unlocks player movement
             isMoving = false;
+            if(Shard_Count == 4) {
+                setTimeout(() => {
+                    Delay = FadeOut(this, this.Blackscreen);
+                    setTimeout(() => {
+                        isMoving = true;
+                        StopMusic(true);
+                        this.scene.start("Menu_GameOver");
+                    }, Delay)
+                }, 5000)
+            }
         }, Delay);  
     }
 

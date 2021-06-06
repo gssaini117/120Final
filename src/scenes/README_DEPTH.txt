@@ -35,3 +35,12 @@ DEPTH 1:    Items behind player
 DEPTH 2:    Player
 DEPTH 3:    Objects that are infront of the player at the moment.
 DEPTH 4:    Objects that are ALWAYS infront of the player.
+
+============================================================
+ROOM MAIN
+============================================================
+DEPTH 0:    Base Room Background
+DEPTH 1:    Things behind player, all but south doors
+DEPTH 2:    Player
+DEPTH 3:    South door (If open)
+DEPTH 4:    Lower walls
