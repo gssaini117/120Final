@@ -59,7 +59,7 @@ class Room_Main extends Phaser.Scene {
                 ).setOrigin(0.5,0.5).setDepth(1).setFrame(1).setScale(0.8),
             South:      this.add.tileSprite(
                 512,653,300,250,'Gate_Horizontal'
-                ).setOrigin(0.5, 1).setDepth(1).setFrame(1),
+                ).setOrigin(0.5, 1).setDepth(5).setFrame(1),
                 
         }
         this.add.existing(this.Doors.South);
