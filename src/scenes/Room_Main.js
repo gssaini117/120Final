@@ -71,7 +71,7 @@ class Room_Main extends Phaser.Scene {
             this.Objects.South = new Mover(this,512,516,"Door",0,"Menu_GameOver");
             this.Doors.South.setFrame(0);
             this.Hitboxes.South.setIsActive(false);
-            this.Doors.South.setDepth(5);
+            this.Doors.South.setDepth(2);
         }
         if(!Obtained_Shard.NorthEast) {
             this.Objects.NorthEast = new Mover(this, 791, 60, "Door", 0, "Room_NorthEast");
