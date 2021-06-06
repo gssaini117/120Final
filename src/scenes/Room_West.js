@@ -21,6 +21,15 @@ class Room_West extends Phaser.Scene {
         // Defining keys.
         Define_Keys(this);
 
+        // Adding audio
+        this.Move = this.sound.add('Sfx_Walk');
+        this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
+        this.Rumble = this.sound.add('Sfx_Rumble');
+        this.Rumble_Config = {mute: false, volume: 1, loop: false, delay: 0};
+        this.PickUp = this.sound.add('Sfx_Pickup');
+        this.Drop = this.sound.add('Sfx_Set');
+        this.Sfx_Button = this.sound.add('Sfx_Click');
+        
         // Defining Room Hitboxes
         this.Hitboxes = {
             //Map Boundries
@@ -63,12 +72,12 @@ class Room_West extends Phaser.Scene {
 
         // Managing Buttons
         this.Buttons = {
-            "Right":        new Button(this, 893, 490, 'Button', 0, 'Center').setDepth(1),
-            "RightMid":     new Button(this, 650, 490, 'Button', 0, 'Center').setDepth(1),
-            "LeftMid":      new Button(this, 374, 490, 'Button', 0, 'Center').setDepth(1),
-            "Left":         new Button(this, 131, 490, 'Button', 0, 'Center').setDepth(1),
-            "LeftUpper":    new Button(this, 131, 310, 'Button', 0, 'Center').setDepth(1),
-            "Center":       new Button(this, 512, 160, 'Button', 0, 'Center').setDepth(1),
+            "Right":        new Button(this, 893, 490, 'Button', 0, 'Center', false).setDepth(1),
+            "RightMid":     new Button(this, 650, 490, 'Button', 0, 'Center', false).setDepth(1),
+            "LeftMid":      new Button(this, 374, 490, 'Button', 0, 'Center', false).setDepth(1),
+            "Left":         new Button(this, 131, 490, 'Button', 0, 'Center', true).setDepth(1),
+            "LeftUpper":    new Button(this, 131, 310, 'Button', 0, 'Center', false).setDepth(1),
+            "Center":       new Button(this, 512, 160, 'Button', 0, 'Center', false).setDepth(1),
         }
 
         // Managing Rocks
@@ -78,14 +87,6 @@ class Room_West extends Phaser.Scene {
             '2':  this.add.tileSprite(131, 490, 150, 150, 'Rock').setOrigin(0.5, 0.5).setDepth(2),
             '3':  this.add.tileSprite(131, 130, 150, 150, 'Rock').setOrigin(0.5, 0.5).setDepth(2)
         }
-
-        // Adding audio
-        this.Move = this.sound.add('Sfx_Walk');
-        this.Move_Config = {mute: false, volume: 1, loop: false, delay: 0};
-        this.Rumble = this.sound.add('Sfx_Rumble');
-        this.Rumble_Config = {mute: false, volume: 1, loop: false, delay: 0};
-        this.PickUp = this.sound.add('Sfx_Pickup');
-        this.Drop = this.sound.add('Sfx_Set');
 
         // Comment the next line to make hitboxes invisible.
         // Debug_Hitbox(this, this.Hitboxes);
