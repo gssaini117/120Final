@@ -200,7 +200,7 @@ function PlayMusic(Scene) {
   Music_Scene.Music[2].play(Music_Config);
   Music_Scene.Music[3].play(Music_Config);
   Music_Scene.Music[4].play(Music_Config);
-  Music_Scene.Music[Shard_Count].volume = 0.1;
+  Music_Scene.Music[Shard_Count].volume = 0.3;
 }
 //
 // UpdateMusic()
