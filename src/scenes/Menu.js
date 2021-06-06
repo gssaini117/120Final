@@ -20,21 +20,20 @@ class Menu_Main extends Phaser.Scene {
         this.background = this.add.tileSprite(
             0, 0, 1024, 576, 'Menu_Main'
         ).setOrigin(0, 0).setDepth(0);
-        // Start Hitbox
-        this.Start = new Phaser.GameObjects.Rectangle(
-            this, 73, 100, 344, 107, 0xffffff, 1, 
-        ).setOrigin(0,0).setDepth(1).setAlpha(0.5);
-        this.add.existing(this.Start);
-        // Credits Hitbox
-        this.Credits = new Phaser.GameObjects.Rectangle(
-            this, 73, 246, 344, 107, 0xffffff, 1, 
-        ).setOrigin(0,0).setDepth(1).setAlpha(0.5);
-        this.add.existing(this.Credits);
-        // HowTo Hitbox
-        this.HowTo = new Phaser.GameObjects.Rectangle(
-            this, 73, 386, 344, 107, 0xffffff, 1, 
-        ).setOrigin(0,0).setDepth(1).setAlpha(0.5);
-        this.add.existing(this.HowTo);
+        //=========================================================
+        // Setting up mouse hitboxes
+        //=========================================================
+        this.Hitboxes = {
+            "Start":    new Boundry(73, 100, 344, 107, "TopL"),
+            "Credits":  new Boundry(73, 246, 344, 107, "TopL"),
+            "HowTo":    new Boundry(73, 386, 344, 107, "TopL"),
+        }
+        this.add.existing(this.Hitboxes.Start);
+        this.add.existing(this.Hitboxes.Credits);
+        this.add.existing(this.Hitboxes.HowTo);
+
+        // Uncomment next line to view hitboxes
+        // Debug_Hitbox(this, this.Hitboxes);
 
         //=========================================================
         // Technical Config
@@ -45,9 +44,6 @@ class Menu_Main extends Phaser.Scene {
         this.Click = this.sound.add('Sfx_Click');
         
         // define keys
-        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        keyH = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.H);
-        keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         // Locks player inputs
@@ -66,26 +62,36 @@ class Menu_Main extends Phaser.Scene {
         //=========================================================
         // Mouse Hover Behavior
         //=========================================================
-        
+        let Scene = this;
+        this.input.on('pointerdown', function(pointer){
+            let MousePos = {
+                'x': pointer.x,
+                'y': pointer.y,
+                'width': 10,
+                'height': 10,
+            };
+            Object.keys(Scene.Hitboxes).forEach(function(Key){
+                let Object = Scene.Hitboxes[Key];
+                if(!Scene.Locked && 
+                Object.checkCollision(MousePos)) 
+                {
+                    Scene.Select.play(Scene.Select_Config);
+                    switch(Key) {
+                        case "Start":
+                            Scene.scene.start('Room_Main');
+                            break;
+                        case "Credits":
+                            Scene.scene.start('Menu_Credits');
+                            break;
+                        case "HowTo":
+                            Scene.scene.start('Menu_HowTo');
+                    }
+                }
+            });
+         });
     }
 
     update() {
-        if (Phaser.Input.Keyboard.JustDown(keySPACE) &&
-        !this.Locked) {
-            this.Select.play(this.Select_Config);
-            EnteredMenu = false;
-            this.scene.start('Room_Main');
-        }
-        if (Phaser.Input.Keyboard.JustDown(keyH) &&
-        !this.Locked) {
-            this.Select.play(this.Select_Config);
-            this.scene.start('Menu_HowTo');
-        }
-        if (Phaser.Input.Keyboard.JustDown(keyC) &&
-        !this.Locked) {
-            this.Select.play(this.Select_Config);
-            this.scene.start('Menu_Credits');
-        }
         if (Phaser.Input.Keyboard.JustDown(keyR) &&
         !this.Locked) {
             Reset_Game();
