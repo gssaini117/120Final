@@ -25,21 +25,21 @@ class Room_Main extends Phaser.Scene {
             "TopD1":  new Boundry(176, 0, 109, 0, "TopL"),
             "TopD2":  new Boundry(848, 0, 109, 0, "TopR"),
             "TopR1":  new Boundry(0, 0, 176, 105, "TopL"),
-            "TopR2":  new Boundry(0, 105, 40, 180, "TopL"),
+            "TopR2":  new Boundry(0, 105, 52, 180, "TopL"),
             "TopL1":  new Boundry(1024, 0, 176, 105, "TopR"),
-            "TopL2":  new Boundry(1024, 105, 40, 180, "TopR"),
+            "TopL2":  new Boundry(1024, 105, 52, 180, "TopR"),
             "TopD":   new Boundry(512, 576, 108, 0, "Bot"),
             "DownL1": new Boundry(0, 576, 456, 50, "BotL"),
-            "DownL2": new Boundry(0, 526, 40, 160, "BotL"),
+            "DownL2": new Boundry(0, 526, 52, 160, "BotL"),
             "DownR1": new Boundry(1024, 576, 456, 50, "BotR"),
-            "DownR2": new Boundry(1024, 526, 40, 160, "BotR"),
+            "DownR2": new Boundry(1024, 526, 52, 160, "BotR"),
             //Objects (Static)
             "Pylon":  new Boundry(512, 205, 100, 25, "Center"),
             //Doors (Changeable)
             "NorthEast": new Boundry(739.5, 0, 108.5, 105, "TopL"),
             "NorthWest": new Boundry(176, 0, 108.5, 105, "TopL"),
-            "East":      new Boundry(1024, 285, 40, 81, "TopR"),
-            "West":      new Boundry(0, 285, 40, 81, "TopL"),
+            "East":      new Boundry(1024, 285, 52, 81, "TopR"),
+            "West":      new Boundry(0, 285, 52, 81, "TopL"),
             "South":     new Boundry(512, 576, 112, 50, "Bot"),
         };
         
@@ -52,10 +52,10 @@ class Room_Main extends Phaser.Scene {
                 792, 174, 300, 250, 'Gate_Horizontal'
                 ).setOrigin(0.5,1).setDepth(1).setFrame(1),
             East:       this.add.tileSprite(
-                1008, 300, 300, 250, 'Gate_Vertical'
+                1010, 270, 300, 250, 'Gate_Vertical'
                 ).setOrigin(0.5,0.5).setDepth(1).setFrame(1).setScale(0.8),
             West:       this.add.tileSprite(
-                25, 300, 300, 250, 'Gate_Vertical'
+                27, 270, 300, 250, 'Gate_Vertical'
                 ).setOrigin(0.5,0.5).setDepth(1).setFrame(1).setScale(0.8),
             South:      this.add.tileSprite(
                 512,653,300,250,'Gate_Horizontal'
@@ -71,7 +71,7 @@ class Room_Main extends Phaser.Scene {
             this.Objects.South = new Mover(this,512,516,"Door",0,"Menu_GameOver");
             this.Doors.South.setFrame(0);
             this.Hitboxes.South.setIsActive(false);
-            this.Doors.South.setDepth(5);
+            this.Doors.South.setDepth(2);
         }
         if(!Obtained_Shard.NorthEast) {
             this.Objects.NorthEast = new Mover(this, 791, 60, "Door", 0, "Room_NorthEast");
@@ -85,12 +85,12 @@ class Room_Main extends Phaser.Scene {
         }
         if(!Obtained_Shard.East) {
             this.Objects.East = new Mover(this, 1004, 325, "Door", 0, "Room_East");
-            this.Doors.East.setFrame(0);
+            this.Doors.East.y = 344;
             this.Hitboxes.East.setIsActive(false);
         }
         if(!Obtained_Shard.West) {
             this.Objects.West = new Mover(this, 20, 325, "Door", 0, "Room_West");
-            this.Doors.West.setFrame(0);
+            this.Doors.West.y = 344;
             this.Hitboxes.West.setIsActive(false);
         }
 
@@ -148,9 +148,9 @@ class Room_Main extends Phaser.Scene {
             if(Shard_Count == 4) {
                 setTimeout(() => {
                     Delay = FadeOut(this, this.Blackscreen);
+                    StopMusic(true);
                     setTimeout(() => {
                         isMoving = true;
-                        StopMusic(true);
                         this.scene.start("Menu_GameOver");
                     }, Delay)
                 }, 10000)
